@@ -1,5 +1,6 @@
 require("config.lazy")
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd([[colorscheme tokyonight]])
+require("config.autocmds")
 require("config.options")
 require("config.keymaps")
 require("scripts.clipboard")

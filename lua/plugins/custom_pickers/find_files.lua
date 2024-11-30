@@ -1,0 +1,58 @@
+local M = {}
+
+function M.entry_maker(opts)
+    opts = opts or {}
+    local make_entry = require('telescope.make_entry')
+    local entry_display = require('telescope.pickers.entry_display')
+    local utils = require('telescope.utils')
+    local telescope = require('telescope')
+
+     -- Load the FZF sorter
+    local fzf_sorter = telescope.extensions.fzf.native_fzf_sorter()
+
+    -- Get the default file maker
+    local plain_file_maker = make_entry.gen_from_file(opts)
+
+    local make_display = function(entry)
+        -- Get icon and its highlight
+        local icon, icon_hl = utils.get_devicons(entry.name)
+        
+        local displayer = entry_display.create({
+            separator = " ",
+            items = {
+                { width = vim.fn.strdisplaywidth(icon) },  -- icon width
+                { width = nil },                           -- filename
+                { remaining = true },                      -- path
+            },
+        })
+        
+        -- Transform the path for display only with normal order
+        local display_path = utils.transform_path({
+            path_display = { shorten = { len = 3, exclude = { -1, -2} } }  -- Removed exclude to keep normal order
+        }, entry.path)
+        
+        -- Remove everything after the last slash (if exists)
+        display_path = display_path:match("(.+)\\[^\\]*$") or ""
+        
+        return displayer({
+            { icon, icon_hl },
+            { display_path, "TelescopeResultsComment" },  -- Using built-in gray highlight group
+            entry.name,
+        })
+    end
+    
+    -- Return the entry maker function
+    return function(entry)
+        -- First get the default entry properties
+        local file_entry = plain_file_maker(entry)
+        if file_entry == nil then return nil end
+
+        -- Add our custom display while keeping all original entry data
+        file_entry.name = vim.fn.fnamemodify(entry, ":t")
+        file_entry.display = make_display
+
+        return file_entry
+    end
+end
+
+return M

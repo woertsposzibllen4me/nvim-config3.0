@@ -30,13 +30,7 @@ end
 
 vim.keymap.set("n", "<leader>ya", 'ggVG"+y', { noremap = true, silent = true, desc = "Copy file to system clipboard" })
 
-
-vim.keymap.set(
-  "n",
-  "<leader>yA",
-  append_file_to_system_register,
-  { desc = "Append file content to system clipboard" }
-)
+vim.keymap.set("n", "<leader>yA", append_file_to_system_register, { desc = "Append file content to system clipboard" })
 
 vim.keymap.set(
   "n",
