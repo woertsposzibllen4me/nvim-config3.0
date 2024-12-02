@@ -4,7 +4,6 @@ return {
   config = function()
     local telescope = require("telescope")
     local builtin = require("telescope.builtin")
-    local custom_find_files = require("plugins.custom_pickers.find_files")
 
     -- Configure telescope
     telescope.setup({
@@ -27,10 +26,20 @@ return {
     )
 
     -- Custom find_files binding
+    local custom_find_files = require("plugins.custom_pickers.find_files")
     vim.keymap.set("n", "<Space><Space>", function()
       builtin.find_files({
         entry_maker = custom_find_files.entry_maker(),
       })
     end, { noremap = true, silent = true, desc = "Find files (custom)" })
+
+    -- Custom live_grep binding
+    local custom_grep = require("plugins.custom_pickers.live_grep")
+    vim.keymap.set("n", "<leader>/", function()
+      builtin.live_grep({
+        entry_maker = custom_grep.entry_maker(),
+        layout_strategy = "vertical",
+      })
+    end, { noremap = true, silent = true, desc = "Live grep (custom)" })
   end,
 }

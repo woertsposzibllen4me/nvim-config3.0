@@ -5,10 +5,9 @@ function M.entry_maker(opts)
   local make_entry = require("telescope.make_entry")
   local entry_display = require("telescope.pickers.entry_display")
   local utils = require("telescope.utils")
-  local telescope = require("telescope")
 
   -- Load the FZF sorter
-  local fzf_sorter = telescope.extensions.fzf.native_fzf_sorter()
+  require("telescope").extensions.fzf.native_fzf_sorter()
 
   -- Get the default file maker
   local plain_file_maker = make_entry.gen_from_file(opts)
@@ -20,15 +19,15 @@ function M.entry_maker(opts)
     local displayer = entry_display.create({
       separator = " ",
       items = {
-        { width = vim.fn.strdisplaywidth(icon) }, -- icon width
-        { width = nil }, -- filename
-        { remaining = true }, -- path
+        { width = vim.fn.strdisplaywidth(icon) },
+        { width = nil },
+        { remaining = true },
       },
     })
 
     -- Transform the path for display only with normal order
     local display_path = utils.transform_path({
-      path_display = { shorten = { len = 3, exclude = { -1, -2 } } }, -- Removed exclude to keep normal order
+      path_display = { shorten = { len = 3, exclude = { -1, -2, -3 } } }, -- Removed exclude to keep normal order
     }, entry.path)
 
     -- Remove everything after the last slash (if exists)
@@ -36,8 +35,8 @@ function M.entry_maker(opts)
 
     return displayer({
       { icon, icon_hl },
-      { display_path, "TelescopeResultsComment" }, -- Using built-in gray highlight group
       entry.name,
+      { display_path, "TelescopeResultsComment" }, -- Using built-in gray highlight group
     })
   end
 
