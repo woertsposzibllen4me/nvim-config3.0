@@ -4,7 +4,6 @@ vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
 vim.opt.wrap = true
 vim.opt.scrolloff = 12
 
-
 vim.g.indent_blankline_show_current_context = false
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -19,5 +18,11 @@ vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
 
 vim.opt.number = true -- Print line number
 vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.fillchars:append { eob = ' ' }
+vim.opt.fillchars:append({ eob = " " })
+vim.opt.spell = true
+vim.opt.spelllang = { "en_us" }
 
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.smartindent = true
+vim.opt.termguicolors = true

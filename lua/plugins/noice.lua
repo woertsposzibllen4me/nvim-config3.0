@@ -1,4 +1,5 @@
 return {
+
   "folke/noice.nvim",
   event = "VeryLazy",
   opts = {
@@ -11,7 +12,7 @@ return {
       opts = {
         stages = "fade",
         timeout = 3000,
-        fps = 30,
+        fps = 60,
         render = "default",
         -- background_colour = "#000000",
       },

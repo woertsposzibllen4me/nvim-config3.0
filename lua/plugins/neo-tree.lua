@@ -21,6 +21,7 @@ return {
           if not opened and filetype ~= "dashboard" and filetype ~= "" then
             opened = true
             vim.cmd("Neotree show")
+            vim.cmd("set spell")
           end
         end,
       })

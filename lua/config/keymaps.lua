@@ -1,5 +1,6 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
+-- t
 
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
@@ -20,10 +21,12 @@ map("n", "U", "<C-r>")
 -- save with C-S
 map("n", "<C-s>", ":w<CR>", { silent = true })
 
--- Navigation
+-- Center after most code navigation commands
 map("n", "G", "Gzz", opts)
 map("n", "<C-d>", "<C-d>zz", opts)
 map("n", "<C-u>", "<C-u>zz", opts)
+map("n", "<C-O>", "<C-O>zz", opts)
+map("n", "<C-I>", "<C-I>zz", opts)
 map("n", "{", "{zz", opts)
 map("n", "}", "}zz", opts)
 map("n", "n", "nzz", opts)
@@ -63,3 +66,7 @@ map("i", "<C-h>", "<C-w>", { noremap = true })
 
 -- Disable hl with esc
 map("n", "<esc>", "<cmd>noh<cr>")
+
+-- lsp stuff
+map("n", "gd", vim.lsp.buf.definition, {})
+map("n", "K", vim.lsp.buf.hover, {})
