@@ -19,7 +19,7 @@ vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
 vim.opt.number = true -- Print line number
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.fillchars:append({ eob = " " })
-vim.opt.spell = true
+-- vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 
 vim.opt.smartcase = true

@@ -65,7 +65,7 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
 -- Ensure it is enabled and activates highlighting of spelling errors.
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.opt.spell = true
+    -- vim.opt.spell = true
     vim.opt.spelllang = "en"
 
     vim.api.nvim_set_hl(0, "SpellBad", {

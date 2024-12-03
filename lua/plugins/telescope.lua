@@ -7,6 +7,16 @@ return {
 
     -- Configure telescope
     telescope.setup({
+      defaults = {
+        mappings = {
+          i = {
+            ["<C-e>"] = require("telescope.actions").to_fuzzy_refine,
+          },
+          n = {
+            ["<C-e>"] = require("telescope.actions").to_fuzzy_refine,
+          },
+        },
+      },
       extensions = {
         fzf = {
           fuzzy = true, -- Enable fuzzy matching
@@ -27,7 +37,7 @@ return {
 
     -- Custom find_files binding
     local custom_find_files = require("plugins.custom_pickers.find_files")
-    vim.keymap.set("n", "<Space><Space>", function()
+    vim.keymap.set("n", "<leader><leader>", function()
       builtin.find_files({
         entry_maker = custom_find_files.entry_maker(),
       })

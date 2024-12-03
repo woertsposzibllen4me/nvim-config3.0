@@ -42,15 +42,6 @@ map("n", "<leader>ll", "<cmd>Lazy<cr>", { noremap = true, silent = true, desc = 
 -- Buffer picking
 map("n", "gb", "<cmd>BufferLinePick<CR>", { noremap = true, silent = true, desc = "Pick buffer" })
 
--- Movement inside snippets slots
-map({ "i", "s" }, "<A-n>", function()
-  return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>" or "<Tab>"
-end, { expr = true, silent = true })
-
-map({ "i", "s" }, "<A-p>", function()
-  return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>" or "<S-Tab>"
-end, { expr = true, silent = true })
-
 -- Map <Enter> to insert a new line below and return to the original line
 map("n", "<Enter>", "o<Esc>k", { noremap = true, silent = true })
 
