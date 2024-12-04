@@ -1,6 +1,5 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
--- t
 
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
@@ -37,10 +36,12 @@ map("n", "%", "%zz", opts)
 map("n", "``", "``zz", opts)
 
 -- Lazy
-map("n", "<leader>ll", "<cmd>Lazy<cr>", { noremap = true, silent = true, desc = "Lazy" })
-
--- Buffer picking
-map("n", "gb", "<cmd>BufferLinePick<CR>", { noremap = true, silent = true, desc = "Pick buffer" })
+require("which-key").add({
+  "<leader>L",
+  "<cmd>Lazy<cr>",
+  desc = "Lazy",
+  icon = "󰒲",
+})
 
 -- Map <Enter> to insert a new line below and return to the original line
 map("n", "<Enter>", "o<Esc>k", { noremap = true, silent = true })
@@ -59,5 +60,6 @@ map("i", "<C-h>", "<C-w>", { noremap = true })
 map("n", "<esc>", "<cmd>noh<cr>")
 
 -- lsp stuff
-map("n", "gd", vim.lsp.buf.definition, {})
 map("n", "K", vim.lsp.buf.hover, {})
+map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Telescope Goto Definition" })
+map("n", "gr", require("telescope.builtin").lsp_references, { desc = "Telescope Goto References" })

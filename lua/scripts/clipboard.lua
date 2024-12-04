@@ -28,13 +28,22 @@ function append_empty_reg_to_system_reg()
   vim.notify(notification_message, vim.log.levels.INFO, { title = "Register Update" })
 end
 
-vim.keymap.set("n", "<leader>ya", 'ggVG"+y', { noremap = true, silent = true, desc = "Copy file to system clipboard" })
-
-vim.keymap.set("n", "<leader>yA", append_file_to_system_register, { desc = "Append file content to system clipboard" })
+vim.keymap.set(
+  "n",
+  "<leader>ya",
+  'ggVG"+y',
+  { noremap = true, silent = true, desc = "Copy file content to system clipboard" }
+)
 
 vim.keymap.set(
   "n",
-  "<leader>+",
-  append_empty_reg_to_system_reg,
-  { noremap = true, silent = true, desc = 'Append " register to system clipboard' }
+  "<leader>yA",
+  append_file_to_system_register,
+  { noremap = true, silent = true, desc = "Append file content to system clipboard" }
 )
+
+local wk = require("which-key")
+
+wk.add({
+  { "<leader>+", append_empty_reg_to_system_reg, desc = "Append unnamed reg to system clipboard", icon = "󰆏" },
+})

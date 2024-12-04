@@ -1,10 +1,43 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
+  keys = {
+    {
+      "<leader>sf",
+      "<cmd>Telescope find_files<cr>",
+      desc = "Find files (default)",
+    },
+    {
+      "<leader><leader>",
+      function()
+        require("telescope.builtin").find_files({
+          entry_maker = require("plugins.custom_pickers.find_files").entry_maker(),
+        })
+      end,
+      desc = "Find files (custom)",
+    },
+    {
+      "<leader>sr",
+      function()
+        require("telescope.builtin").oldfiles({
+          entry_maker = require("plugins.custom_pickers.find_files").entry_maker(),
+        })
+      end,
+      desc = "Recent files (custom)",
+    },
+    {
+      "<leader>/",
+      function()
+        require("telescope.builtin").live_grep({
+          entry_maker = require("plugins.custom_pickers.live_grep").entry_maker(),
+          layout_strategy = "vertical",
+        })
+      end,
+      desc = "Live grep (custom)",
+    },
+  },
   config = function()
     local telescope = require("telescope")
-    local builtin = require("telescope.builtin")
-
     -- Configure telescope
     telescope.setup({
       defaults = {
@@ -19,37 +52,17 @@ return {
       },
       extensions = {
         fzf = {
-          fuzzy = true, -- Enable fuzzy matching
-          override_generic_sorter = true, -- Override the generic sorter
-          override_file_sorter = true, -- Override the file sorter
-          case_mode = "smart_case", -- "smart_case" | "ignore_case" | "respect_case"
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "smart_case",
         },
       },
     })
 
-    -- Default find_files binding
-    vim.keymap.set(
-      "n",
-      "<Space>sf",
-      "<cmd>Telescope find_files<cr>",
-      { noremap = true, silent = true, desc = "Find files (default)" }
-    )
-
-    -- Custom find_files binding
-    local custom_find_files = require("plugins.custom_pickers.find_files")
-    vim.keymap.set("n", "<leader><leader>", function()
-      builtin.find_files({
-        entry_maker = custom_find_files.entry_maker(),
-      })
-    end, { noremap = true, silent = true, desc = "Find files (custom)" })
-
-    -- Custom live_grep binding
-    local custom_grep = require("plugins.custom_pickers.live_grep")
-    vim.keymap.set("n", "<leader>/", function()
-      builtin.live_grep({
-        entry_maker = custom_grep.entry_maker(),
-        layout_strategy = "vertical",
-      })
-    end, { noremap = true, silent = true, desc = "Live grep (custom)" })
+    -- Set up which-key group with icon for all telescope commands
+    require("which-key").add({
+      { "<leader>s", group = " Search" },
+    })
   end,
 }
