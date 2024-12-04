@@ -36,6 +36,22 @@ return {
             enabled = true,
           },
         },
+        window = {
+          mappings = {
+            ["s"] = "none", -- unbind to be able to use flash
+            ["S"] = "open_vsplit",
+            ["<leader>Y"] = function(state)
+              local node = state.tree:get_node()
+              if node then
+                local filepath = node:get_id()
+                -- Get the filename without extension
+                local filename = vim.fn.fnamemodify(filepath, ":t:r")
+                vim.fn.setreg("+", filename)
+                vim.notify("Yanked to clipboard: " .. filename)
+              end
+            end,
+          },
+        },
       })
     end,
   },
