@@ -2,6 +2,8 @@ return {
   {
     "abecodes/tabout.nvim",
     -- lazy = false, -- Will break nvim cmp if true for some reason, ( NOTE: maybe that was fixed ? Testing ...)
+    event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
+    priority = 1000, -- High prio to be sure this loads before other plugin with that same event
     config = function()
       require("tabout").setup({
         tabkey = "<S-Tab>", -- key to trigger tabout, set to an empty string to disable
@@ -24,14 +26,6 @@ return {
         exclude = {}, -- tabout will ignore these filetypes
       })
     end,
-    -- dependencies = { -- These are optional
-    --   "nvim-treesitter/nvim-treesitter",
-    --   "L3MON4D3/LuaSnip",
-    --   "hrsh7th/nvim-cmp",
-    -- },
-    opt = true, -- Set this to true if the plugin is optional
-    event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
-    priority = 1000, -- High prio to be sure this loads before other plugin with that same event
   },
   {
     "L3MON4D3/LuaSnip",

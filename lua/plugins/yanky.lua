@@ -3,7 +3,6 @@ return {
   "gbprod/yanky.nvim",
   recommended = true,
   desc = "Better Yank/Paste",
-  event = "BufReadPre",
   opts = {
     highlight = { timer = 150 },
   },
