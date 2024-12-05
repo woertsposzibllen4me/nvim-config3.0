@@ -10,7 +10,22 @@ return {
     { "<C-n>", desc = "Select next word" },
   },
   config = function()
-    -- Ubind keys to fix conflict with idk what, causing an empty line to be inserted
+    -- Hack around issue with conflicting insert mode <BS> mapping
+    -- between this plugin and nvim-autopairs
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "visual_multi_start",
+      callback = function()
+        pcall(vim.keymap.del, "i", "<BS>", { buffer = 0 })
+      end,
+    })
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "visual_multi_exit",
+      callback = function()
+        require("nvim-autopairs").force_attach()
+      end,
+    })
+
+    -- Fixes conflict with treesitter-textobjects bindings
     vim.g.VM_maps = {
       ["Goto Next"] = "]v",
       ["Goto Prev"] = "[v",

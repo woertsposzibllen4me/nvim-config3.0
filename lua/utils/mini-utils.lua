@@ -14,7 +14,7 @@ function M.ai_indent(ai_type)
     end
   end
 
-  local ret = {} ---@type (Mini.ai.region | {indent: number})[]
+  local ret = {}
 
   for i = 1, #indents do
     if i == 1 or indents[i - 1].indent < indents[i].indent then

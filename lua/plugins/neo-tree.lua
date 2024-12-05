@@ -6,7 +6,7 @@ return {
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-
+    event = "VeryLazy",
     config = function()
       vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
         desc = "Toggle Neo-tree",
@@ -21,7 +21,6 @@ return {
           if not opened and filetype ~= "dashboard" and filetype ~= "" then
             opened = true
             vim.cmd("Neotree show")
-            vim.cmd("set spell")
           end
         end,
       })

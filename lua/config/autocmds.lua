@@ -55,12 +55,12 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Rebind enter in the cmd window
-vim.api.nvim_create_autocmd("CmdwinEnter", {
-  callback = function()
-    vim.keymap.set("n", "<cr>", "<cr>", { buffer = true })
-  end,
-})
+-- -- Rebind Enter in the cmd window
+-- vim.api.nvim_create_autocmd("CmdwinEnter", {
+--   callback = function()
+--     vim.keymap.set("n", "<cr>", "<cr>", { buffer = true })
+--   end,
+-- })
 
 -- Ensure it is enabled and activates highlighting of spelling errors.
 vim.api.nvim_create_autocmd("VimEnter", {

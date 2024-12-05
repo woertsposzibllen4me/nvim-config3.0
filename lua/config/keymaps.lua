@@ -43,12 +43,6 @@ require("which-key").add({
   icon = "󰒲",
 })
 
--- Map <Enter> to insert a new line below and return to the original line
-map("n", "<Enter>", "o<Esc>k", { noremap = true, silent = true })
-
--- Map <A-Enter> to insert a new line above and return to the original line (uses a custom char to allow binding)
-map("n", "<A-Enter>", "O<Esc>j", { noremap = true, silent = true })
-
 -- Rebind macro key cause mistakes are made too often lol
 map("n", "q", "", { noremap = true })
 map("n", "Q", "q", { noremap = true })
@@ -63,3 +57,28 @@ map("n", "<esc>", "<cmd>noh<cr>")
 map("n", "K", vim.lsp.buf.hover, {})
 map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Telescope Goto Definition" })
 map("n", "gr", require("telescope.builtin").lsp_references, { desc = "Telescope Goto References" })
+
+-- Window management
+require("which-key").add({
+  "<leader>wm",
+  "<cmd>wincmd _<cr><cmd>wincmd |<cr>",
+  desc = "Maximize window size",
+})
+
+require("which-key").add({
+  "<leader>w=",
+  "<cmd>wincmd =<cr>",
+  desc = "Reset window size",
+})
+
+require("which-key").add({
+  "<leader>wo",
+  "<cmd>only<cr><cmd>Neotree<cr><cmd>wincmd l<cr>",
+  desc = "Close others (and opens Neotree)",
+})
+
+require("which-key").add({
+  "<leader>wq",
+  "<cmd>quit<cr>",
+  desc = "Close window",
+})

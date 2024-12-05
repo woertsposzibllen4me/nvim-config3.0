@@ -53,18 +53,26 @@ return {
 
           -- Navigation in diff view
           set_tab_keymap("n", "<C-j>", function()
-            gs.next_hunk()
+            if vim.wo.diff then
+              vim.cmd.normal({ "[c", bang = true })
+            else
+              gs.prev_hunk()
+            end
             vim.cmd("normal! zz")
           end, { desc = "Next change in diff" })
 
           set_tab_keymap("n", "<C-k>", function()
-            gs.prev_hunk()
+            if vim.wo.diff then
+              vim.cmd.normal({ "]c", bang = true })
+            else
+              gs.next_hunk()
+            end
             vim.cmd("normal! zz")
           end, { desc = "Previous change in diff" })
         end
 
         -- Hunk navigation
-        map("n", "]h", function()
+        map("n", "]g", function()
           if vim.wo.diff then
             vim.cmd.normal({ "]c", bang = true })
           else
@@ -73,7 +81,7 @@ return {
           vim.cmd("normal! zz")
         end, "Next Hunk")
 
-        map("n", "[h", function()
+        map("n", "[g", function()
           if vim.wo.diff then
             vim.cmd.normal({ "[c", bang = true })
           else
@@ -83,11 +91,11 @@ return {
         end, "Prev Hunk")
 
         -- Jump to first/last hunk
-        map("n", "]H", function()
+        map("n", "]G", function()
           gs.nav_hunk("last")
         end, "Last Hunk")
 
-        map("n", "[H", function()
+        map("n", "[G", function()
           gs.nav_hunk("first")
         end, "First Hunk")
 

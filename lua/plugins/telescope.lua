@@ -62,7 +62,7 @@ return {
 
     -- Set up which-key group with icon for all telescope commands
     require("which-key").add({
-      { "<leader>s", group = " Search" },
+      { "<leader>s", group = "Search" },
     })
   end,
 }

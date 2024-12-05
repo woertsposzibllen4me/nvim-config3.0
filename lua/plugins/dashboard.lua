@@ -11,8 +11,6 @@ return {
       "",
       "",
       "",
-      "",
-      "",
       "                                                                              ",
       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
       "                                                                              ",
@@ -24,7 +22,6 @@ return {
       "       ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝    ",
       "                                                                              ",
       "                                                                              ",
-      "",
       "",
       "",
       "",
@@ -50,7 +47,7 @@ return {
               })
             end,
             desc = " Find File",
-            icon = " ",
+            icon = "",
             key = "f",
           },
           {
@@ -61,7 +58,7 @@ return {
               })
             end,
             desc = " Find Word",
-            icon = " ",
+            icon = "",
             key = "/",
           },
           {
@@ -71,13 +68,13 @@ return {
               })
             end,
             desc = " Recent Files",
-            icon = " ",
+            icon = "",
             key = "r",
           },
           {
             action = 'lua require("persistence").load() vim.cmd("Neotree")',
             desc = " Restore Session",
-            icon = " ",
+            icon = "",
             key = "s",
           },
           {
@@ -85,8 +82,16 @@ return {
               vim.cmd("Lazy") -- opens the lazy.nvim plugin manager
             end,
             desc = " Open Lazy",
-            icon = " ",
+            icon = "󰒲",
             key = "l",
+          },
+          {
+            action = function()
+              vim.cmd("quit")
+            end,
+            desc = "Quit Neovim",
+            icon = "󰗼 ", -- or you could use "󰩈 " or " "
+            key = "q",
           },
         },
         footer = function()

@@ -5,18 +5,16 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    -- Snippets
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
   },
+  event = { "InsertEnter", "CmdlineEnter" },
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-
-    -- Load friendly-snippets
-    require("luasnip.loaders.from_vscode").lazy_load()
-
+    -- Load snippets configuration
+    require("plugins.plugin_configs.snippets_config")
     -- Basic completion setup
     cmp.setup({
       snippet = {
@@ -25,14 +23,28 @@ return {
         end,
       },
       mapping = {
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-p>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+          else
+            fallback()
+          end
+        end),
+        ["<C-n>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          else
+            fallback()
+          end
+        end),
         ["<C-f>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.close(),
         ["<CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         }),
+      },
+      completion = {
+        completeopt = "menu,menuone,noselect",
       },
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
@@ -63,14 +75,5 @@ return {
         { name = "buffer" },
       },
     })
-
-    -- Movement inside snippets slots
-    vim.keymap.set({ "i", "s" }, "<A-n>", function()
-      return luasnip.jumpable(1) and "<Plug>luasnip-jump-next" or "<Tab>"
-    end, { expr = true, silent = true })
-
-    vim.keymap.set({ "i", "s" }, "<A-p>", function()
-      return luasnip.jumpable(-1) and "<Plug>luasnip-jump-prev" or "<S-Tab>"
-    end, { expr = true, silent = true })
   end,
 }
