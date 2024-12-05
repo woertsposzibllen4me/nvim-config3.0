@@ -36,6 +36,7 @@ return {
       { "<leader>x", group = "Diagnostics" },
       { "<leader>w", group = "Windows" },
       { "<leader>d", group = "DadBod UI" },
+      { "<leader>c", group = "QuickFix" },
     })
   end,
 }

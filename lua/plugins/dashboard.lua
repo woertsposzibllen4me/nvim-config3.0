@@ -89,9 +89,15 @@ return {
             action = function()
               vim.cmd("quit")
             end,
-            desc = "Quit Neovim",
-            icon = "󰗼 ", -- or you could use "󰩈 " or " "
+            desc = " Quit Neovim",
+            icon = "󰗼",
             key = "q",
+          },
+          {
+            action = require("scripts.delete_temp_shadas").Delete_shada_temp_files,
+            desc = " Delete Shada Temp Files",
+            icon = "󱕖",
+            key = "d",
           },
         },
         footer = function()

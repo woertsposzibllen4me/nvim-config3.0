@@ -31,7 +31,7 @@ return {
       })
 
       require("neo-tree").setup({
-        popup_border_style = "single",
+        -- popup_border_style = "single",
         close_if_last_window = true,
         enable_git_status = true,
         enable_diagnostics = true,
@@ -43,6 +43,7 @@ return {
         window = {
           mappings = {
             ["s"] = "none", -- unbind to be able to use flash
+            ["<space>"] = "none", -- unbind to be able to use leader key
             ["S"] = "open_vsplit",
             ["<leader>Y"] = function(state)
               local node = state.tree:get_node()
