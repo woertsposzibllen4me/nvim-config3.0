@@ -22,7 +22,7 @@ return {
     wk.setup(opts)
     wk.add({
       { "<leader>g", group = "Git" },
-      { "<leader>gh", group = "Git hunks operations" },
+      { "<leader>gh", group = "Hunks operations" },
       { "<leader>q", group = "Quit" },
       { "<leader>n", group = "Notifications" },
       {
