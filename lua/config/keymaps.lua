@@ -1,6 +1,10 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 
+-- Add empty line below/above in normal mode with Enter
+map("n", "<CR>", "o<ESC>", { noremap = true, desc = "Add empty line below" })
+map("n", "<M-CR>", "O<ESC>", { noremap = true, desc = "Add empty line above" })
+
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
