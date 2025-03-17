@@ -43,15 +43,15 @@ return {
   },
   config = function()
     local telescope = require("telescope")
+    local actions = require("telescope.actions")
     -- Configure telescope
     telescope.setup({
-      defaults = {
-        mappings = {
-          i = {
-            ["<C-e>"] = require("telescope.actions").to_fuzzy_refine,
-          },
-          n = {
-            ["<C-e>"] = require("telescope.actions").to_fuzzy_refine,
+      pickers = {
+        live_grep = {
+          mappings = {
+            i = {
+              ["<C-e>"] = actions.to_fuzzy_refine,
+            },
           },
         },
       },
