@@ -8,6 +8,11 @@ return {
       desc = "Find files (default)",
     },
     {
+      "<leader>sg",
+      "<cmd>Telescope live_grep<cr>",
+      desc = "Live grep (default)",
+    },
+    {
       "<leader><leader>",
       function()
         require("telescope.builtin").find_files({
@@ -59,6 +64,8 @@ return {
         },
       },
     })
+
+    telescope.load_extension("fzf")
 
     -- Set up which-key group with icon for all telescope commands
     require("which-key").add({
