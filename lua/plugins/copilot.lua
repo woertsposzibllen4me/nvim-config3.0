@@ -12,7 +12,7 @@ return {
         debounce = 50,
         keymap = {
           accept = false,
-          accept_word = "<Right>", -- originally was "<M-l>" but changed after my own override of m-l with "Right" from ahk
+          accept_word = "<Right>", -- originally was "<M-l>" but changed after my own override of "<M-l>" with "Right" from ahk
           accept_line = "<M-;>",
           next = "<M-]>",
           prev = "<M-[>",
