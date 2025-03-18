@@ -14,22 +14,6 @@ return {
         noremap = true,
       })
 
-      local opened = false
-      vim.api.nvim_create_autocmd("BufEnter", {
-        callback = function()
-          -- Check if we're in a Firenvim instance
-          if vim.g.started_by_firenvim then
-            return
-          end
-
-          local filetype = vim.bo.filetype
-          if not opened and filetype ~= "dashboard" and filetype ~= "" then
-            opened = true
-            vim.cmd("Neotree show")
-          end
-        end,
-      })
-
       require("neo-tree").setup({
         -- popup_border_style = "single",
         close_if_last_window = true,
