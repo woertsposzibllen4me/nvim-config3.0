@@ -88,7 +88,13 @@ return {
         end, { "c" }),
         ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.confirm({ select = true })
+            local entry = cmp.get_selected_entry()
+            if entry then
+              cmp.confirm({ select = false })
+            else
+              cmp.close()
+              fallback()
+            end
           else
             fallback()
           end
@@ -121,7 +127,13 @@ return {
         end, { "c" }),
         ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.confirm({ select = true })
+            local entry = cmp.get_selected_entry()
+            if entry then
+              cmp.confirm({ select = false })
+            else
+              cmp.close()
+              fallback()
+            end
           else
             fallback()
           end
