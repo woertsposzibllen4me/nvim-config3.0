@@ -29,18 +29,32 @@ return {
             ["s"] = "none", -- unbind to be able to use flash
             ["<space>"] = "none", -- unbind to be able to use leader key
             ["S"] = "open_vsplit",
-            ["<leader>Y"] = function(state)
+            ["Y"] = function(state)
               local node = state.tree:get_node()
               if node then
                 local filepath = node:get_id()
                 -- Get the filename without extension
                 local filename = vim.fn.fnamemodify(filepath, ":t:r")
                 vim.fn.setreg("+", filename)
-                vim.notify("Yanked to clipboard: " .. filename)
+                vim.notify("Yanked: " .. '"' .. filename .. '"' .. " to clipboard")
               end
             end,
           },
         },
+      })
+
+      -- Automatically open Neotree when opening a file
+      local opened = false
+      vim.api.nvim_create_autocmd("BufEnter", {
+        callback = function()
+          local filetype = vim.bo.filetype
+          if not opened and filetype ~= "dashboard" and filetype ~= "" then
+            opened = true
+            vim.defer_fn(function() -- needs tiny delay to avoid TeleScope error
+              vim.cmd("Neotree show")
+            end, 10)
+          end
+        end,
       })
     end,
   },
