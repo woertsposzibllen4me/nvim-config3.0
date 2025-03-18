@@ -52,7 +52,7 @@ return {
           end, { desc = "Close diff tab" })
 
           -- Navigation in diff view
-          set_tab_keymap("n", "<C-j>", function()
+          set_tab_keymap("n", "<C-k>", function()
             if vim.wo.diff then
               vim.cmd.normal({ "[c", bang = true })
             else
@@ -61,7 +61,7 @@ return {
             vim.cmd("normal! zz")
           end, { desc = "Next change in diff" })
 
-          set_tab_keymap("n", "<C-k>", function()
+          set_tab_keymap("n", "<C-j>", function()
             if vim.wo.diff then
               vim.cmd.normal({ "]c", bang = true })
             else
