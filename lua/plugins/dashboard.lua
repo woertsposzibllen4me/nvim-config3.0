@@ -1,6 +1,7 @@
 return {
   "nvimdev/dashboard-nvim",
   event = "VimEnter",
+  enabled = true,
   config = function()
     local custom_header = {
       "",
