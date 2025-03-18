@@ -97,12 +97,10 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
     if filename == "" then
       filename = "[No Name]"
     end
-
     local dir = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
     local title = string.format(" nvim - %s (%s)", filename, dir)
-
     vim.opt.title = true
     vim.opt.titlestring = title
-    io.write(string.format("\027]2;%s\007", title))
+    vim.cmd("redraw")
   end,
 })
