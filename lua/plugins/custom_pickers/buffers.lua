@@ -15,41 +15,42 @@ function M.entry_maker(opts)
   local make_display = function(entry)
     -- Get icon and its highlight
     local icon, icon_hl = utils.get_devicons(entry.filename or "")
+    local bufnr_str = tostring(entry.bufnr)
+    local bufnr_width = vim.fn.strdisplaywidth(bufnr_str)
 
     local displayer = entry_display.create({
       separator = " ",
       items = {
-        { width = vim.fn.strdisplaywidth(icon) },
-        { width = opts.bufnr_width or 4 },
-        { width = nil },
-        { remaining = true },
+        { width = bufnr_width }, -- for buffer number
+        { width = 4 }, -- for buffer indicator/flag
+        { width = vim.fn.strdisplaywidth(icon) }, -- file icon
+        { width = nil }, -- filename
+        { remaining = true }, -- path
       },
     })
 
     -- Get just the filename
     local name = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
+    local filename = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
 
     -- Get the path for display, similar to find_files
     local display_path = ""
     if entry.filename then
+      local path = vim.fn.fnamemodify(entry.filename, ":h")
+
       display_path = utils.transform_path({
         path_display = { shorten = { len = 3, exclude = { -1, -2, -3 } } },
-      }, vim.fn.fnamemodify(entry.filename, ":h"))
-
-      -- Remove everything after the last slash (if exists) to match find_files format
-      display_path = display_path:match("(.+)\\[^\\]*$") or display_path
+      }, path)
     end
 
-    local indicators = {}
-    if entry.indicator and entry.indicator ~= " " then
-      table.insert(indicators, { entry.indicator, "TelescopeResultsSpecialComment" })
-    end
+    local indicator = entry.indicator or " "
 
     -- Final display
     return displayer({
-      { entry.bufnr, "TelescopeResultsNumber" },
+      { bufnr_str, "TelescopeResultsNumber" },
+      { indicator, "TelescopeResultsComment" },
       { icon, icon_hl },
-      name,
+      filename,
       { display_path, "TelescopeResultsComment" },
     })
   end
