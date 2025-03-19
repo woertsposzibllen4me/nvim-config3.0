@@ -6,7 +6,6 @@ return {
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-    event = "VeryLazy",
     config = function()
       vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
         desc = "Toggle Neo-tree",
@@ -43,16 +42,20 @@ return {
         },
       })
 
-      -- Automatically open Neotree when opening a file
-      local opened = false
+      local neo_tree_opened = false
+
       vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
+          if neo_tree_opened then
+            return
+          end
+
           local filetype = vim.bo.filetype
-          if not opened and filetype ~= "dashboard" and filetype ~= "" then
-            opened = true
-            vim.defer_fn(function() -- needs tiny delay to avoid TeleScope error
+          if filetype ~= "dashboard" and filetype ~= "" then
+            neo_tree_opened = true
+            vim.defer_fn(function() -- necessary to avoid entering top of buffer after live grepping at startup
               vim.cmd("Neotree show")
-            end, 10)
+            end, 0)
           end
         end,
       })
