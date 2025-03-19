@@ -11,6 +11,10 @@ map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
 map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
 map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
 
+-- lateral movement with H and L
+map("n", "H", "10zh", { desc = "Move cursor 10 spaces to the left" })
+map("n", "L", "10zl", { desc = "Move cursor 10 spaces to the right" })
+
 -- leader q to quit
 map("n", "<leader>qq", ":qa<CR>", { desc = "Quit all", silent = true })
 
@@ -79,10 +83,4 @@ require("which-key").add({
   "<leader>wo",
   "<cmd>only<cr><cmd>Neotree<cr><cmd>wincmd l<cr>",
   desc = "Close others (and opens Neotree)",
-})
-
-require("which-key").add({
-  "<leader>wq",
-  "<cmd>quit<cr>",
-  desc = "Close window",
 })
