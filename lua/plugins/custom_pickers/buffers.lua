@@ -6,14 +6,10 @@ function M.entry_maker(opts)
   local entry_display = require("telescope.pickers.entry_display")
   local utils = require("telescope.utils")
 
-  -- Load the FZF sorter
   require("telescope").extensions.fzf.native_fzf_sorter()
-
-  -- Get the default buffer maker
   local plain_buffer_maker = make_entry.gen_from_buffer(opts)
 
   local make_display = function(entry)
-    -- Get icon and its highlight
     local icon, icon_hl = utils.get_devicons(entry.filename or "")
     local bufnr_str = tostring(entry.bufnr)
     local bufnr_width = vim.fn.strdisplaywidth(bufnr_str)
@@ -29,11 +25,8 @@ function M.entry_maker(opts)
       },
     })
 
-    -- Get just the filename
-    local name = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
     local filename = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
 
-    -- Get the path for display, similar to find_files
     local display_path = ""
     if entry.filename then
       local path = vim.fn.fnamemodify(entry.filename, ":h")
@@ -45,7 +38,6 @@ function M.entry_maker(opts)
 
     local indicator = entry.indicator or " "
 
-    -- Final display
     return displayer({
       { bufnr_str, "TelescopeResultsNumber" },
       { indicator, "TelescopeResultsComment" },
@@ -55,14 +47,11 @@ function M.entry_maker(opts)
     })
   end
 
-  -- Return the entry maker function
   return function(entry)
-    -- First get the default entry properties
     local buffer_entry = plain_buffer_maker(entry)
     if buffer_entry == nil then
       return nil
     end
-
     -- Add our custom display while keeping all original entry data
     buffer_entry.display = make_display
     return buffer_entry
