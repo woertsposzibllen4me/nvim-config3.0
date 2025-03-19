@@ -13,6 +13,11 @@ return {
       desc = "Live grep (default)",
     },
     {
+      "<leader>sB",
+      "<cmd>Telescope buffers<cr>",
+      desc = "Buffers (default)",
+    },
+    {
       "<leader><leader>",
       function()
         require("telescope.builtin").find_files({
@@ -29,6 +34,15 @@ return {
         })
       end,
       desc = "Recent files (custom)",
+    },
+    {
+      "<leader>sb",
+      function()
+        require("telescope.builtin").buffers({
+          entry_maker = require("plugins.custom_pickers.buffers").entry_maker(),
+        })
+      end,
+      desc = "Buffers (custom)",
     },
     {
       "<leader>/",
