@@ -26,16 +26,20 @@ function M.entry_maker(opts)
     })
 
     -- Transform the path for display only with normal order
-    local display_path = utils.transform_path({
-      path_display = { shorten = { len = 3, exclude = { -1, -2, -3 } } }, -- Removed exclude to keep normal order
-    }, entry.path)
+    local name = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
 
-    -- Remove everything after the last slash (if exists)
-    display_path = display_path:match("(.+)\\[^\\]*$") or ""
+    local display_path = ""
+    if entry.filename then
+      local path = vim.fn.fnamemodify(entry.filename, ":h")
+
+      display_path = utils.transform_path({
+        path_display = { shorten = { len = 3, exclude = { -1, -2, -3 } } },
+      }, path)
+    end
 
     return displayer({
       { icon, icon_hl },
-      entry.name,
+      name,
       { display_path, "TelescopeResultsComment" }, -- Using built-in gray highlight group
     })
   end
