@@ -18,10 +18,6 @@ map("n", "L", "10zl", { desc = "Move cursor 10 spaces to the right" })
 -- leader q to quit
 map("n", "<leader>qq", ":qa<CR>", { desc = "Quit all", silent = true })
 
--- override OG lazygit with our custom solution
-map("n", "<leader>gg", [[<Cmd>lua StartLazygit()<CR>]], { noremap = true, silent = true })
-map("n", "<leader>gl", [[<Cmd>lua OpenLazygitLogs()<CR>]], { noremap = true, silent = true })
-
 -- undo on U
 map("n", "U", "<C-r>")
 

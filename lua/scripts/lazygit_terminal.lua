@@ -56,6 +56,7 @@ function M.float_term(cmd, opts)
   vim.fn.termopen(cmd, {
     cwd = opts.cwd,
     on_exit = function()
+      vim.cmd("checktime")
       vim.cmd("bdelete!")
     end,
   })
@@ -109,6 +110,7 @@ function M.LazygitEdit(original_buffer)
   end
   vim.fn.chansend(channel_id, "\15") -- \15 is <c-o>
   vim.cmd("close")
+  vim.cmd("checktime")
   local relative_filepath = getRelativeFilepath(5, 50)
   if not relative_filepath then
     notify_error("Clipboard is empty or invalid.")
@@ -163,5 +165,6 @@ end
 -- Make specific functions available globally
 _G.OpenLazygitLogs = M.OpenLazygitLogs
 _G.StartLazygit = M.StartLazygit
--- test
+vim.api.nvim_set_keymap("n", "<leader>gg", [[<Cmd>lua StartLazygit()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>gl", [[<Cmd>lua OpenLazygitLogs()<CR>]], { noremap = true, silent = true })
 return M
