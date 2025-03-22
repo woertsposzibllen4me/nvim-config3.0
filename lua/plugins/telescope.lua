@@ -26,7 +26,7 @@ return {
       "<leader><leader>",
       function()
         require("telescope.builtin").find_files({
-          entry_maker = require("lua.plugins.custom_pickers.custom_find_files").entry_maker(),
+          entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
         })
       end,
       desc = "Find files (custom)",
@@ -35,16 +35,16 @@ return {
       "<leader>sr",
       function()
         require("telescope.builtin").oldfiles({
-          entry_maker = require("lua.plugins.custom_pickers.custom_find_files").entry_maker(),
+          entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
         })
       end,
       desc = "Recent files (custom)",
     },
     {
-      "<leader>sb",
+      "<leader>`",
       function()
         require("telescope.builtin").buffers({
-          entry_maker = require("lua.plugins.custom_pickers.custom_buffers").entry_maker(),
+          entry_maker = require("plugins.custom_pickers.custom_buffers").entry_maker(),
         })
       end,
       desc = "Buffers (custom)",
