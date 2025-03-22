@@ -54,17 +54,34 @@ return {
         event_handlers = {
           { event = events.FILE_MOVED, handler = on_move },
           { event = events.FILE_RENAMED, handler = on_move },
+          {
+            event = "neo_tree_popup_input_ready",
+            ---@param args { bufnr: integer, winid: integer }
+            handler = function(args)
+              -- map <esc> to enter normal mode (by default closes prompt)
+              -- don't forget `opts.buffer` to specify the buffer of the popup.
+              vim.keymap.set("i", "<esc>", vim.cmd.stopinsert, { noremap = true, buffer = args.bufnr })
+            end,
+          },
+          {
+            event = "neo_tree_popup_input_ready",
+            handler = function(args)
+              -- Map <CR> in normal mode to confirm/save the input
+              vim.keymap.set("n", "<CR>", function()
+                vim.cmd.startinsert()
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
+              end, { buffer = args.bufnr, noremap = true })
+            end,
+          },
         },
       })
 
       local neo_tree_opened = false
-
       vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
           if neo_tree_opened then
             return
           end
-
           local filetype = vim.bo.filetype
           if filetype ~= "dashboard" and filetype ~= "" then
             neo_tree_opened = true
