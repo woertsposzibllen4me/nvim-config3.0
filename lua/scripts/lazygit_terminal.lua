@@ -54,6 +54,10 @@ function M.float_term(cmd, opts)
   -- Store the window ID in the buffer for later reference
   vim.api.nvim_buf_set_var(buf, "float_term_win", float)
 
+  -- Fix Whichkey delay from waiting for bracket keys combinations
+  vim.api.nvim_buf_set_keymap(buf, "t", "]", "]", { noremap = true, nowait = true })
+  vim.api.nvim_buf_set_keymap(buf, "t", "[", "[", { noremap = true, nowait = true })
+
   -- Create terminal
   vim.fn.termopen(cmd, {
     cwd = opts.cwd,
