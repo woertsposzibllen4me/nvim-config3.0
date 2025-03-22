@@ -30,8 +30,8 @@ return {
     }
 
     local builtin = require("telescope.builtin")
-    local custom_find_files = require("plugins.custom_pickers.find_files")
-    local custom_grep = require("plugins.custom_pickers.live_grep")
+    local custom_find_files = require("lua.plugins.custom_pickers.custom_find_files")
+    local custom_grep = require("plugins.custom_pickers.custom_live_grep")
 
     require("dashboard").setup({
       theme = "doom",
