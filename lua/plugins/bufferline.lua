@@ -7,6 +7,7 @@ return {
     require("bufferline").setup({
       options = {
         mode = "tabs",
+        max_name_length = 30,
         name_formatter = function(tab)
           -- Check if tab has custom name
           if vim.t[tab.tabnr] and vim.t[tab.tabnr].custom_tabname then
