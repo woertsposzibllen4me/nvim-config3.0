@@ -39,7 +39,9 @@ function M.float_term(cmd, opts)
     ctrl_hjkl = false,
   }, opts or {})
 
-  local float = vim.api.nvim_open_win(0, true, {
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  local float = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
     width = math.floor(vim.o.columns * opts.size.width),
     height = math.floor(vim.o.lines * opts.size.height),
@@ -49,20 +51,38 @@ function M.float_term(cmd, opts)
     border = "rounded",
   })
 
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_win_set_buf(float, buf)
+  -- Store the window ID in the buffer for later reference
+  vim.api.nvim_buf_set_var(buf, "float_term_win", float)
 
   -- Create terminal
   vim.fn.termopen(cmd, {
     cwd = opts.cwd,
     on_exit = function()
-      vim.cmd("checktime")
-      if package.loaded["neo-tree"] then
-        pcall(function()
-          require("neo-tree.sources.manager").refresh()
-        end)
-      end
-      vim.cmd("bdelete!")
+      vim.schedule(function()
+        -- Check if the buffer still exists before trying to close it
+        if vim.api.nvim_buf_is_valid(buf) then
+          -- Check if the window still exists
+          local win_valid = pcall(vim.api.nvim_win_get_buf, float)
+
+          -- Refresh file and directory views
+          vim.cmd("checktime")
+          if package.loaded["neo-tree"] then
+            pcall(function()
+              require("neo-tree.sources.manager").refresh()
+            end)
+          end
+
+          -- Force close the window if it's still valid
+          if win_valid then
+            vim.api.nvim_win_close(float, true)
+          end
+
+          -- Force delete the buffer
+          if vim.api.nvim_buf_is_valid(buf) then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end
+      end)
     end,
   })
 
@@ -142,7 +162,7 @@ function M.get_git_root()
 end
 
 -- Function to open Lazygit logs
-function M.OpenLazygitLogs()
+function M.StartLazygitLogs()
   local term = M.float_term({ "lazygit", "log" }, { cwd = M.get_git_root() })
   return term
 end
@@ -168,8 +188,10 @@ function M.StartLazygit()
 end
 
 -- Make specific functions available globally
-_G.OpenLazygitLogs = M.OpenLazygitLogs
+_G.StartLazygitLogs = M.StartLazygitLogs
 _G.StartLazygit = M.StartLazygit
+
 vim.api.nvim_set_keymap("n", "<leader>gg", [[<Cmd>lua StartLazygit()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>gl", [[<Cmd>lua OpenLazygitLogs()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>gl", [[<Cmd>lua StartLazygitLogs()<CR>]], { noremap = true, silent = true })
+
 return M
