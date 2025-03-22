@@ -20,6 +20,9 @@ vim.keymap.set("n", "<leader>S", function()
 
     -- Return to normal mode and restore cursor position
     vim.api.nvim_win_set_cursor(0, cursor_pos)
+
+    -- save the file
+    vim.cmd("write")
   end
 end, { desc = "Swap true/false keywords" })
 require("which-key").add({
