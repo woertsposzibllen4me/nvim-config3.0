@@ -57,6 +57,11 @@ function M.float_term(cmd, opts)
     cwd = opts.cwd,
     on_exit = function()
       vim.cmd("checktime")
+      if package.loaded["neo-tree"] then
+        pcall(function()
+          require("neo-tree.sources.manager").refresh()
+        end)
+      end
       vim.cmd("bdelete!")
     end,
   })
