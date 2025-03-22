@@ -1,6 +1,7 @@
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
+  enabled = true,
   opts = {
     -- noice options here
   },
@@ -8,9 +9,10 @@ return {
     "MunifTanjim/nui.nvim",
     {
       "rcarriga/nvim-notify",
+      enabled = false, -- has many small redrawing issues with neo-tree renaming
       opts = {
         stages = "static",
-        timeout = 2000,
+        timeout = 2500,
         fps = 60,
         render = "default",
         -- background_colour = "#000000",
