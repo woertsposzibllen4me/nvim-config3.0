@@ -88,6 +88,14 @@ return {
           },
           {
             action = function()
+              vim.cmd("lua StartLazygit()") -- opens the lazygit plugin
+            end,
+            desc = " Open LazyGit",
+            icon = "󰊢",
+            key = "g",
+          },
+          {
+            action = function()
               vim.cmd("quit")
             end,
             desc = " Quit Neovim",
