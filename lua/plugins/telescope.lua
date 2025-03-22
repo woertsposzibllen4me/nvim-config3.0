@@ -3,12 +3,12 @@ return {
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
   keys = {
     {
-      "<leader>sf",
+      "<leader>sF",
       "<cmd>Telescope find_files<cr>",
       desc = "Find files (default)",
     },
     {
-      "<leader>sg",
+      "<leader>sG",
       "<cmd>Telescope live_grep<cr>",
       desc = "Live grep (default)",
     },
@@ -16,6 +16,11 @@ return {
       "<leader>sB",
       "<cmd>Telescope buffers<cr>",
       desc = "Buffers (default)",
+    },
+    {
+      "<leader>sR",
+      "<cmd>Telescope oldfiles<cr>",
+      desc = "Recent files (default)",
     },
     {
       "<leader><leader>",
