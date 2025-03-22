@@ -5,6 +5,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
+      "folke/snacks.nvim", -- for rename support
     },
     config = function()
       vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
@@ -12,6 +13,16 @@ return {
         silent = true,
         noremap = true,
       })
+
+      local events = require("neo-tree.events")
+
+      local function on_move(data)
+        if Snacks and Snacks.rename and Snacks.rename.on_rename_file then
+          Snacks.rename.on_rename_file(data.source, data.destination)
+        else
+          vim.notify("Snacks rename module not initialized", vim.log.levels.WARN)
+        end
+      end
 
       require("neo-tree").setup({
         -- popup_border_style = "single",
@@ -39,6 +50,10 @@ return {
               end
             end,
           },
+        },
+        event_handlers = {
+          { event = events.FILE_MOVED, handler = on_move },
+          { event = events.FILE_RENAMED, handler = on_move },
         },
       })
 
