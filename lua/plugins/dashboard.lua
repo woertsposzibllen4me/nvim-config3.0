@@ -33,6 +33,15 @@ return {
     local custom_find_files = require("plugins.custom_pickers.custom_find_files")
     local custom_grep = require("plugins.custom_pickers.custom_live_grep")
 
+    -- Add an autocmd to rename the buffer when dashboard's filetype is set
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "dashboard",
+      callback = function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.api.nvim_buf_set_name(bufnr, "Dashboard")
+      end,
+    })
+
     require("dashboard").setup({
       theme = "doom",
       hide = {
