@@ -55,6 +55,7 @@ return {
       })
 
       lspconfig.powershell_es.setup({
+        cmd = { "powershell_es", "--stdio" },
         settings = {
           powershell = {
             scriptAnalysis = { enable = true },
