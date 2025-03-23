@@ -37,7 +37,7 @@ map("n", "N", "Nzz", opts)
 map("n", "*", "*zz", opts)
 map("n", "#", "#zz", opts)
 map("n", "%", "%zz", opts)
-map("n", "``", "``zz", opts)
+-- map("n", "``", "``zz", opts)
 
 -- Lazy
 require("which-key").add({
