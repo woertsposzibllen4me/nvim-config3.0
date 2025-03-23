@@ -1,9 +1,16 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 
--- Add empty line below/above in normal mode with Enter
-map("n", "<CR>", "o<ESC>", { noremap = true, desc = "Add empty line below" })
-map("n", "<M-CR>", "O<ESC>", { noremap = true, desc = "Add empty line above" })
+-- Add empty line below/above in normal mode with Enter, only in regular file buffers
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.buftype == "" then
+      vim.keymap.set("n", "<CR>", "o<ESC>", { buffer = 0, noremap = true, desc = "Add empty line below" })
+      vim.keymap.set("n", "<M-CR>", "O<ESC>", { buffer = 0, noremap = true, desc = "Add empty line above" })
+    end
+  end,
+})
 
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })

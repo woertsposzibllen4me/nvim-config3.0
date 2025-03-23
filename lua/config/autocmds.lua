@@ -13,11 +13,25 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
   end,
 })
 
--- Allow quitting command line windows with q
+-- Better, floating, cmdline window
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = "*",
   callback = function()
+    -- Allow quitting cmdline window with q
     vim.api.nvim_buf_set_keymap(0, "n", "q", ":q<CR>", { noremap = true })
+    -- Configure window to be floating
+    local win_id = vim.api.nvim_get_current_win()
+    local width = 90
+    vim.api.nvim_win_set_config(win_id, {
+      relative = "editor",
+      width = width,
+      height = 15,
+      col = math.floor((vim.o.columns - width) / 2 - 1),
+      row = math.floor(vim.o.lines * 0.55),
+      border = "rounded",
+      title = " Cmdline ",
+      title_pos = "center",
+    })
   end,
 })
 
@@ -54,13 +68,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.textwidth = 88 -- Set textwidth to 88 for Python files (matching Black's default)
   end,
 })
-
--- -- Rebind Enter in the cmd window
--- vim.api.nvim_create_autocmd("CmdwinEnter", {
---   callback = function()
---     vim.keymap.set("n", "<cr>", "<cr>", { buffer = true })
---   end,
--- })
 
 -- Ensure it is enabled and activates highlighting of spelling errors.
 vim.api.nvim_create_autocmd("VimEnter", {
