@@ -8,7 +8,7 @@ return {
       desc = "Find files (default)",
     },
     {
-      "<leader>sG",
+      "<leader>sL",
       "<cmd>Telescope live_grep<cr>",
       desc = "Live grep (default)",
     },
@@ -21,6 +21,11 @@ return {
       "<leader>sR",
       "<cmd>Telescope oldfiles<cr>",
       desc = "Recent files (default)",
+    },
+    {
+      "<leader>sG",
+      "<cmd>Telescope git_status<cr>",
+      desc = "Git status (default)",
     },
     {
       "<leader><leader>",
@@ -58,6 +63,15 @@ return {
         })
       end,
       desc = "Live grep (custom)",
+    },
+    {
+      "<leader>sg",
+      function()
+        require("telescope.builtin").git_status({
+          entry_maker = require("plugins.custom_pickers.custom_git_status").entry_maker(),
+        })
+      end,
+      desc = "Git status (custom)",
     },
   },
   config = function()
