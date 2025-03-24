@@ -135,6 +135,16 @@ return {
         end,
       },
     })
+
+    -- Reset jump list when exiting dashboard (seems to crash snacks jumps picker otherwise)
+    vim.api.nvim_create_autocmd("BufLeave", {
+      callback = function()
+        local filetype = vim.bo.filetype
+        if filetype == "dashboard" then
+          vim.cmd("clearjumps")
+        end
+      end,
+    })
   end,
   dependencies = { "nvim-tree/nvim-web-devicons" },
 }
