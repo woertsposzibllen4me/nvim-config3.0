@@ -59,8 +59,8 @@ require("which-key").add({
 })
 
 -- Rebind macro key cause mistakes are made too often lol
-map("n", "q", "", { noremap = true })
-map("n", "Q", "q", { noremap = true })
+map("n", "q", "", { noremap = true, desc = "Quit most things" })
+map("n", "Q", "q", { noremap = true, desc = "Record macro" })
 
 -- Delete whole word with ctrl+backspace (interpreted as <C-h> in terminal)
 map("i", "<C-h>", "<C-w>", { noremap = true })
@@ -82,13 +82,13 @@ require("which-key").add({
 })
 
 require("which-key").add({
-  "<leader>w=",
+  "<leader>wr",
   "<cmd>wincmd =<cr>",
   desc = "Reset window size",
 })
 
 require("which-key").add({
   "<leader>wo",
-  "<cmd>only<cr><cmd>Neotree<cr><cmd>wincmd l<cr>",
+  "<cmd>only<cr><cmd>Neotree show<cr>",
   desc = "Close others (and opens Neotree)",
 })
