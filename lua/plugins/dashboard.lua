@@ -29,7 +29,10 @@ return {
       "",
     }
 
-    local builtin = require("telescope.builtin")
+    local ok, builtin = pcall(require, "telescope.builtin")
+    if not ok then
+      builtin = nil
+    end
     local custom_find_files = require("plugins.custom_pickers.custom_find_files")
     local custom_grep = require("plugins.custom_pickers.custom_live_grep")
 
@@ -82,7 +85,7 @@ return {
             key = "r",
           },
           {
-            action = 'lua require("persistence").load() vim.cmd("Neotree")',
+            action = 'lua require("persistence").load()',
             desc = " Restore Session",
             icon = "",
             key = "s",
