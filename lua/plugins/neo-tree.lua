@@ -76,6 +76,7 @@ return {
         },
       })
 
+      -- Open neo-tree automatically when first entering a (filetype) buffer
       local neo_tree_opened = false
       vim.api.nvim_create_autocmd("BufEnter", {
         callback = function()
@@ -83,12 +84,20 @@ return {
             return
           end
           local filetype = vim.bo.filetype
-          if filetype ~= "dashboard" and filetype ~= "" then
+          local buftype = vim.bo.buftype
+          if filetype ~= "dashboard" and filetype ~= "" and buftype == "" then
             neo_tree_opened = true
-            vim.defer_fn(function() -- necessary to avoid entering top of buffer after live grepping at startup
+            vim.defer_fn(function() -- defer 0 necessary to avoid bugs
               vim.cmd("Neotree show")
             end, 0)
           end
+        end,
+      })
+
+      -- Close Neo-tree when quitting Neovim to avoid issues with persisting sessions
+      vim.api.nvim_create_autocmd("QuitPre", {
+        callback = function()
+          vim.cmd("Neotree close")
         end,
       })
     end,
