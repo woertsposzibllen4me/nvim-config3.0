@@ -12,6 +12,10 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- better indenting
+map("v", "<", "<gv")
+map("v", ">", ">gv")
+
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
