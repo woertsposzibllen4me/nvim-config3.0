@@ -25,14 +25,14 @@ return {
       mapping = {
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
         end),
         ["<Down>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
@@ -60,14 +60,14 @@ return {
         ["<Tab>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "c" }),
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
         end, { "c" }),
         ["<Down>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
@@ -99,14 +99,14 @@ return {
         ["<Tab>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "c" }),
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
         end, { "c" }),
         ["<Down>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
