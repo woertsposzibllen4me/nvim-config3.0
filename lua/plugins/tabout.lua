@@ -1,7 +1,7 @@
 return {
   {
     "abecodes/tabout.nvim",
-    -- lazy = false, -- Will break nvim cmp if true for some reason, ( NOTE: maybe that was fixed ? Testing ...)
+    -- lazy = false, -- Will break nvim cmp if true for some reason,
     event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
     priority = 1000, -- High prio to be sure this loads before other plugin with that same event
     config = function()
