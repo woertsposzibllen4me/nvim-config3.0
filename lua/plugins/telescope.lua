@@ -1,6 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
+  enabled = false,
   keys = {
     {
       "<leader>sF",
@@ -35,6 +36,17 @@ return {
         })
       end,
       desc = "Find files (custom)",
+    },
+    {
+      "<leader>sf",
+      function()
+        local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+        require("telescope.builtin").find_files({
+          cwd = lazy_path,
+          -- entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
+        })
+      end,
+      desc = "Find lazy files (custom)",
     },
     {
       "<leader>sr",
