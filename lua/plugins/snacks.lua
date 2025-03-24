@@ -11,7 +11,7 @@ return {
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     -- input = { enabled = true },
-    -- notifier = { enabled = true },
+    notifier = { enabled = true },
     -- quickfile = { enabled = true },
     -- scope = { enabled = true },
     -- scroll = { enabled = true },
@@ -50,6 +50,8 @@ return {
   },
   -- stylua: ignore
  keys = {
+   -- Notifier
+    {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
    -- Words
     { "]r", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" },},
     { "[r", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
