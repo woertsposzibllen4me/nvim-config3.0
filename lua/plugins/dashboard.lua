@@ -1,6 +1,6 @@
 return {
   "nvimdev/dashboard-nvim",
-  event = "VimEnter",
+  -- event = "VimEnter",
   enabled = true,
   config = function()
     local custom_header = {
@@ -92,7 +92,7 @@ return {
           },
           {
             action = function()
-              vim.cmd("Lazy") -- opens the lazy.nvim plugin manager
+              vim.cmd("Lazy")
             end,
             desc = " Open Lazy",
             icon = "󰒲",
@@ -100,7 +100,7 @@ return {
           },
           {
             action = function()
-              vim.cmd("lua StartLazygit()") -- opens the lazygit plugin
+              vim.cmd("lua StartLazygit()")
             end,
             desc = " Open LazyGit",
             icon = "󰊢",
