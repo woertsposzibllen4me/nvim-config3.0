@@ -1,11 +1,9 @@
 local M = {}
-
 function M.entry_maker(opts)
   opts = opts or {}
   local make_entry = require("telescope.make_entry")
   local entry_display = require("telescope.pickers.entry_display")
   local utils = require("telescope.utils")
-
   require("telescope").extensions.fzf.native_fzf_sorter()
   local plain_file_maker = make_entry.gen_from_file(opts)
 
@@ -19,9 +17,7 @@ function M.entry_maker(opts)
         { remaining = true },
       },
     })
-
     local name = entry.filename and vim.fn.fnamemodify(entry.filename, ":t") or "[No Name]"
-
     local display_path = ""
     if entry.filename then
       local path = vim.fn.fnamemodify(entry.filename, ":h")
@@ -29,7 +25,6 @@ function M.entry_maker(opts)
         path_display = { shorten = { len = 3, exclude = { -1, -2, -3 } } },
       }, path)
     end
-
     return displayer({
       { icon, icon_hl },
       name,
