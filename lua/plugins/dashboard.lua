@@ -29,12 +29,21 @@ return {
       "",
     }
 
-    local ok, builtin = pcall(require, "telescope.builtin")
-    if not ok then
-      builtin = nil
-    end
-    local custom_find_files = require("plugins.custom_pickers.custom_find_files")
-    local custom_grep = require("plugins.custom_pickers.custom_live_grep")
+    local snacks = _G.Snacks
+      or setmetatable({}, {
+        __index = function(_, key)
+          return setmetatable({}, {
+            __index = function(_, subkey)
+              return function()
+                vim.notify("Snacks not available: " .. key .. "." .. subkey, vim.log.levels.INFO)
+              end
+            end,
+            __call = function()
+              vim.notify("Snacks not available: " .. key, vim.log.levels.INFO)
+            end,
+          })
+        end,
+      })
 
     -- Add an autocmd to rename the buffer when dashboard's filetype is set
     vim.api.nvim_create_autocmd("FileType", {
@@ -55,33 +64,26 @@ return {
         center = {
           {
             action = function()
-              builtin.find_files({
-                entry_maker = custom_find_files.entry_maker(),
-              })
+              snacks.picker.files()
             end,
             desc = " Find File",
-            icon = "",
+            icon = "󰈞",
             key = "f",
           },
           {
             action = function()
-              builtin.live_grep({
-                entry_maker = custom_grep.entry_maker(),
-                layout_strategy = "vertical",
-              })
+              snacks.picker.grep()
             end,
             desc = " Find Word",
-            icon = "",
+            icon = "",
             key = "/",
           },
           {
             action = function()
-              builtin.oldfiles({
-                entry_maker = custom_find_files.entry_maker(),
-              })
+              snacks.picker.recent()
             end,
             desc = " Recent Files",
-            icon = "",
+            icon = "",
             key = "r",
           },
           {

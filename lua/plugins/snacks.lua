@@ -38,11 +38,25 @@ return {
           layout = "grep_vertical",
         },
       },
+      actions = {
+        insert_absolute_path = function(picker)
+          require("scripts.snacks_path_insert").insert_absolute_path(picker)
+        end,
+        insert_relative_path = function(picker)
+          require("scripts.snacks_path_insert").insert_relative_path(picker)
+        end,
+        insert_python_import_path = function(picker)
+          require("scripts.snacks_path_insert").insert_python_import_path(picker)
+        end,
+      },
       win = {
         input = {
           keys = {
             ["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
             ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+            ["-"] = { "insert_relative_path", mode = { "n" } },
+            ["="] = { "insert_absolute_path", mode = { "n" } },
+            ["<bs>"] = { "insert_python_import_path", mode = { "n" } },
           },
         },
       },
@@ -60,7 +74,7 @@ return {
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-    -- { "<leader>E", function() Snacks.explorer() end, desc = "File Explorer" },
+    { "<leader>E", function() Snacks.explorer() end, desc = "File Explorer" },
     -- { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     -- { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
     -- { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
@@ -97,6 +111,7 @@ return {
     { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+    { "zp", function() Snacks.picker.spelling() end, desc = "Spelling Picker" },
     -- LSP
     { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
     { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
