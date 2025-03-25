@@ -3,6 +3,7 @@ vim.opt.undofile = true
 vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
 vim.opt.wrap = true
 vim.opt.scrolloff = 12
+vim.opt.sessionoptions:remove("blank") -- Don't save empty windows in session (can cause issues with neo-tree)
 
 vim.g.indent_blankline_show_current_context = false
 vim.opt.splitright = true

@@ -93,13 +93,6 @@ return {
           end
         end,
       })
-
-      -- Close Neo-tree when quitting Neovim to avoid issues with persisting sessions
-      vim.api.nvim_create_autocmd("QuitPre", {
-        callback = function()
-          vim.cmd("Neotree close")
-        end,
-      })
     end,
   },
 }
