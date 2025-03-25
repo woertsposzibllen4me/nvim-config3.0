@@ -29,12 +29,12 @@ vim.opt.ignorecase = true
 vim.opt.smartindent = true
 vim.opt.termguicolors = true
 
--- Global settings (2 spaces)
+-- Global settings (tab = 2 spaces)
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
--- Python-specific settings (4 spaces)
+-- Python-specific settings (tab = 4 spaces)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
   callback = function()

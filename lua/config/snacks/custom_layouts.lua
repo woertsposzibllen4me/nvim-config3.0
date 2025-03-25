@@ -2,11 +2,11 @@ return {
   grep_vertical = {
     layout = {
       box = "vertical",
-      width = 0.6,
+      width = 0.65,
       min_width = 100,
       height = 0.9,
       border = "none",
-      { win = "preview", title = "{preview}", height = 0.3, border = "rounded" }, -- Preview at top
+      { win = "preview", title = "{preview}", height = 0.5, border = "rounded" }, -- Preview at top
       {
         box = "vertical",
         border = "rounded",
