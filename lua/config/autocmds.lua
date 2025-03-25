@@ -104,8 +104,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
     if filename == "" then
       filename = "[No Name]"
     end
-    local dir = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-    local title = string.format(" nvim - %s (%s)", filename, dir)
+    local title = string.format(" nvim - %s ", filename)
     vim.opt.title = true
     vim.opt.titlestring = title
     vim.cmd("redraw")
