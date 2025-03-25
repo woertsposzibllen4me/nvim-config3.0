@@ -55,7 +55,16 @@ return {
       })
 
       lspconfig.powershell_es.setup({
-        cmd = { "powershell_es", "--stdio" },
+        cmd = {
+          "pwsh",
+          "-NoLogo",
+          "-NoProfile",
+          "-Command",
+          "&'"
+            .. vim.fn.stdpath("data")
+            .. "/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1'",
+          "-Stdio",
+        },
         settings = {
           powershell = {
             scriptAnalysis = { enable = true },
