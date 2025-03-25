@@ -64,6 +64,14 @@ return {
         center = {
           {
             action = function()
+              snacks.picker.smart()
+            end,
+            desc = " Smart Find",
+            icon = "󰧑",
+            key = "s",
+          },
+          {
+            action = function()
               snacks.picker.files()
             end,
             desc = " Find File",
@@ -90,7 +98,7 @@ return {
             action = 'lua require("persistence").load()',
             desc = " Restore Session",
             icon = "",
-            key = "s",
+            key = "S",
           },
           {
             action = function()
