@@ -12,8 +12,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- lateral movement with H and L except in neo-tree
     if vim.bo.buftype ~= "neo-tree" then
-      map("n", "H", "10zh", { desc = "Move cursor 10 spaces to the left" })
-      map("n", "L", "10zl", { desc = "Move cursor 10 spaces to the right" })
+      map("n", "H", "15zh", { desc = "Move cursor 10 spaces to the left" })
+      map("n", "L", "15zl", { desc = "Move cursor 10 spaces to the right" })
     end
   end,
 })
