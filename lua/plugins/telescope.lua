@@ -1,7 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
-  enabled = true,
+  enabled = false,
   event = "VeryLazy",
   _keys = { -- Disabled for now in favor of snack pickers
     {

@@ -1,5 +1,6 @@
 return {
   "subnut/nvim-ghost.nvim",
+  enabled = false,
   config = function()
     -- Create the autocommand group if it doesn't exist
     vim.api.nvim_create_augroup("nvim_ghost_user_autocommands", { clear = true })
