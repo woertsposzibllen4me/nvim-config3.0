@@ -1,7 +1,14 @@
 return {
   {
+    "jonahgoldwastaken/copilot-status.nvim",
+    dependencies = { "zbirenbaum/copilot.lua" },
+    config = function()
+      require("copilot_status").setup({})
+    end,
+  },
+  {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", "jonahgoldwastaken/copilot-status.nvim", "zbirenbaum/copilot.lua" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- Get default config first
       local lualine = require("lualine")
@@ -18,7 +25,6 @@ return {
         no_harpoon = "Harpoon not loaded",
       })
 
-      require("copilot_status").setup({})
       table.insert(config.sections.lualine_x, 3, {
         function()
           return require("copilot_status").status_string()
@@ -28,10 +34,7 @@ return {
         end,
       })
 
-      -- Set global status
       config.options.globalstatus = true
-
-      -- Apply the modified config
       lualine.setup(config)
     end,
   },
