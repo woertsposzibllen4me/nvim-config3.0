@@ -2,26 +2,26 @@ return {
   {
     "williamboman/mason.nvim",
     config = function()
-      require("mason").setup()
+      require("mason").setup({
+        ensure_installed = {
+          -- lsp servers
+          "basedpyright",
+          "pylint",
+          "ruff",
+          "python-lsp-server",
+          "powershell-editor-services",
+          "lua-language-server",
+          -- formatters
+          "taplo",
+          "stylua",
+        },
+      })
     end,
-    opts = {
-      ensure_installed = {
-        "basedpyright",
-        "powershell-editor-services",
-        "ruff",
-        "pylint",
-        "lua-language-server",
-        "python-lsp-server",
-        "taplo", -- TOML formatter
-      },
-    },
   },
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls" },
-      })
+      require("mason-lspconfig").setup()
     end,
   },
   {
@@ -128,11 +128,20 @@ return {
         ["powershell"] = { "powershell_es" },
         ["python"] = { "ruff_format" },
         ["yaml"] = { "prettier" },
+        ["toml"] = { "taplo" },
+        ["lua"] = { "stylua" },
       },
       formatters = {
         ruff_format = {
           args = { "--line-length", "88" },
         },
+        stylua = {
+          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+        },
+      },
+      format_on_save = {
+        timer = 500,
+        lsp_fallback = true,
       },
     },
   },
