@@ -1,13 +1,19 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 
--- Add empty line below/above in normal mode with Enter, only in regular file buffers
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
+    -- Add empty line below/above in normal mode with Enter in regular file buffers
     if vim.bo.buftype == "" then
-      vim.keymap.set("n", "<CR>", "o<ESC>", { buffer = 0, noremap = true, desc = "Add empty line below" })
-      vim.keymap.set("n", "<M-CR>", "O<ESC>", { buffer = 0, noremap = true, desc = "Add empty line above" })
+      map("n", "<CR>", "o<ESC>", { buffer = 0, noremap = true, desc = "Add empty line below" })
+      map("n", "<M-CR>", "O<ESC>", { buffer = 0, noremap = true, desc = "Add empty line above" })
+    end
+
+    -- lateral movement with H and L except in neo-tree
+    if vim.bo.buftype ~= "neo-tree" then
+      map("n", "H", "10zh", { desc = "Move cursor 10 spaces to the left" })
+      map("n", "L", "10zl", { desc = "Move cursor 10 spaces to the right" })
     end
   end,
 })
@@ -21,10 +27,6 @@ map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
 map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
 map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
-
--- lateral movement with H and L
-map("n", "H", "10zh", { desc = "Move cursor 10 spaces to the left" })
-map("n", "L", "10zl", { desc = "Move cursor 10 spaces to the right" })
 
 -- leader q to quit
 map("n", "<leader>qq", ":qa<CR>", { desc = "Quit all", silent = true })
