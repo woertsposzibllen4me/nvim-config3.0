@@ -11,8 +11,8 @@ return {
         hide_during_completion = true,
         debounce = 50,
         keymap = {
-          accept = false,
-          accept_word = "<Right>", -- originally was "<M-l>" but changed after my own override of "<M-l>" with "Right" from ahk
+          accept = false, -- set contextually
+          accept_word = false,
           accept_line = "<M-;>",
           next = "<M-]>",
           prev = "<M-[>",
@@ -28,6 +28,17 @@ return {
           },
         },
       },
+    })
+
+    -- Bind right to accept word if visible in insert mode ( originally was "<M-l>" but changed after my own override of "<M-l>" with "Right" from ahk )
+    vim.keymap.set("i", "<Right>", function()
+      if require("copilot.suggestion").is_visible() then
+        require("copilot.suggestion").accept_word()
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Right>", true, false, true), "n", false)
+      end
+    end, {
+      silent = true,
     })
 
     -- Keep tab default behavior in insert mode
