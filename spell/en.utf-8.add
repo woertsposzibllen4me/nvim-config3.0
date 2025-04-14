@@ -30,3 +30,16 @@ configs
 https
 ahk
 getCompletions
+neo
+filetype
+popup
+param
+args
+winid
+pwsh
+Whichkey
+string
+config
+mouse4
+prio
+zz
