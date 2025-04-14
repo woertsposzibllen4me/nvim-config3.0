@@ -34,21 +34,20 @@ return {
             enabled = true,
           },
         },
+        commands = {
+          copy_selector = require("modules.neo-tree.copy_selector").copy_selected_path,
+          close_towards_up = require("modules.neo-tree.node_toggler").navigate_up,
+          open_towards_down = require("modules.neo-tree.node_toggler").navigate_down,
+        },
         window = {
           mappings = {
             ["s"] = "none", -- unbind to be able to use flash
             ["<space>"] = "none", -- unbind to be able to use leader key
             ["S"] = "open_vsplit",
-            ["Y"] = function(state)
-              local node = state.tree:get_node()
-              if node then
-                local filepath = node:get_id()
-                -- Get the filename without extension
-                local filename = vim.fn.fnamemodify(filepath, ":t:r")
-                vim.fn.setreg("+", filename)
-                vim.notify("Yanked: " .. '"' .. filename .. '"' .. " to clipboard")
-              end
-            end,
+            ["L"] = "focus_preview",
+            ["Y"] = "copy_selector",
+            ["h"] = "close_towards_up", -- Navigate to parent directory / Close current directory
+            ["l"] = "open_towards_down", -- Open current directory / Navigate to first child
           },
         },
         event_handlers = {

@@ -22,12 +22,14 @@ local function live_grep_neotree_dir()
   -- Create a title for the picker
   local title = "Grep in: " .. vim.fn.fnamemodify(path, ":~:.")
 
-  -- Use Telescope to live_grep in the selected directory with a custom title
-  require("telescope.builtin").live_grep({
-    search_dirs = { path },
-    prompt_title = title,
-    entry_maker = require("plugins.custom_pickers.live_grep").entry_maker(),
-    layout_strategy = "vertical",
+  -- Use Snacks grep picker
+  Snacks.picker.grep({
+    title = title,
+    dirs = { path },
+    live = true,
+    regex = true,
+    format = "file",
+    show_empty = true,
   })
 end
 
