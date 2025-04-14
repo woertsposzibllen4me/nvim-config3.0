@@ -17,6 +17,7 @@ return {
     },
         -- stylua: ignore
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank Text" },
+    { "Y", "<Plug>(YankyYank)$", mode = { "n", "x" }, desc = "Yank Text to End of Line" },
     { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put Text After Cursor" },
     { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put Text Before Cursor" },
     { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put Text After Selection" },
