@@ -3,7 +3,7 @@ return {
   keys = {
     { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
   },
-  cmd = { "DiffviewOpen", "DiffviewClose" },
+  cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewLog" },
   config = function()
     -- Create autocmd to disable ugly cursorline in Diffview
     vim.api.nvim_create_autocmd("FileType", {
