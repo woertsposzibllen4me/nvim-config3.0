@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
   end,
 })
 
--- Better, floating, cmdline window
+-- Better, floating, command line window
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = "*",
   callback = function()
