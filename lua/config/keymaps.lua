@@ -4,12 +4,6 @@ local map = vim.keymap.set
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
-    -- Add empty line below/above in normal mode with Enter in regular file buffers
-    if vim.bo.buftype == "" then
-      map("n", "<CR>", "o<ESC>", { buffer = 0, noremap = true, desc = "Add empty line below" })
-      map("n", "<M-CR>", "O<ESC>", { buffer = 0, noremap = true, desc = "Add empty line above" })
-    end
-
     -- lateral movement with H and L except in neo-tree
     if vim.bo.buftype ~= "neo-tree" then
       map("n", "H", "15zh", { desc = "Move cursor 10 spaces to the left" })
