@@ -79,7 +79,9 @@ return {
           else
             gs.next_hunk()
           end
-          vim.cmd("normal! zz")
+          vim.defer_fn(function()
+            vim.cmd("normal! zz")
+          end, 5)
         end, "Next Hunk")
 
         map("n", "[g", function()
@@ -88,7 +90,9 @@ return {
           else
             gs.prev_hunk()
           end
-          vim.cmd("normal! zz")
+          vim.defer_fn(function()
+            vim.cmd("normal! zz")
+          end, 5)
         end, "Prev Hunk")
 
         -- Jump to first/last hunk
