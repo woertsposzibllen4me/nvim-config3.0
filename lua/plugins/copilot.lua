@@ -51,5 +51,16 @@ return {
     end, {
       silent = true,
     })
+
+    -- Force tab insert with S-Tab when suggestion is visible
+    vim.keymap.set("i", "<S-Tab>", function()
+      if require("copilot.suggestion").is_visible() then
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true), "n", false)
+      end
+    end, {
+      silent = true,
+    })
   end,
 }
