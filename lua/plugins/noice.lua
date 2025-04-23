@@ -2,7 +2,13 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   enabled = true,
-  opts = {},
+  opts = {
+    lsp = {
+      signature = {
+        enabled = false,
+      },
+    },
+  },
   keys = {
     {
       "<leader>na",

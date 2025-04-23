@@ -29,12 +29,35 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "ray-x/lsp_signature.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+      local function custom_attach(client, bufnr)
+        require("lsp_signature").on_attach({
+          bind = true,
+          -- use_lspsaga = true,
+          floating_window = true,
+          fix_pos = true,
+          hint_enable = false,
+          hi_parameter = "MatchParen",
+          toggle_key = "<c-s>",
+          toggle_key_flip_floatwin_setting = true, -- toggle key will enable|disable floating_window flag
+          handler_opts = {
+            border = "rounded",
+          },
+          -- max_height = 12,
+          -- max_width = 80,
+        }, bufnr)
+      end
 
       -- Configure each LSP server
       lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        on_attach = custom_attach,
         settings = {
           Lua = {
             runtime = {
@@ -55,6 +78,8 @@ return {
       })
 
       lspconfig.powershell_es.setup({
+        capabilities = capabilities,
+        on_attach = custom_attach,
         cmd = {
           "pwsh",
           "-NoLogo",
@@ -74,13 +99,18 @@ return {
       })
 
       lspconfig.pylsp.setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          custom_attach(client, bufnr)
+          require("plugins.lsp_settings.pylsp").on_attach(client, bufnr)
+        end,
         enabled = true,
         autostart = true,
         settings = require("plugins.lsp_settings.pylsp").settings,
-        on_attach = require("plugins.lsp_settings.pylsp").on_attach,
       })
 
       lspconfig.pyright.setup({
+        capabilities = capabilities,
         enabled = false, -- Using basedpyright instead right now
         autostart = true,
         settings = {
@@ -94,7 +124,8 @@ return {
             },
           },
         },
-        on_attach = function(client, _)
+        on_attach = function(client, bufnr)
+          custom_attach(client, bufnr)
           client.server_capabilities.signatureHelpProvider = false
           client.server_capabilities.referencesProvider = true
           client.server_capabilities.renameProvider = false -- cannot rename module imports
@@ -103,11 +134,15 @@ return {
       })
 
       lspconfig.ruff.setup({
+        capabilities = capabilities,
+        on_attach = custom_attach,
         enabled = true,
         autostart = true,
       })
 
       lspconfig.basedpyright.setup({
+        capabilities = capabilities,
+        on_attach = custom_attach,
         enabled = true,
         settings = {
           python = {
@@ -118,7 +153,38 @@ return {
         },
       })
 
-      lspconfig.yamlls.setup({})
+      lspconfig.yamlls.setup({
+        capabilities = capabilities,
+        on_attach = custom_attach,
+      })
+
+      -- AutoHotkey v2 LSP setup
+      local ahk2_configs = {
+        autostart = true,
+        cmd = {
+          "node",
+          vim.fn.expand("~/myfiles/programs/vscode-autohotkey2-lsp/server/dist/server.js"),
+          "--stdio",
+        },
+        filetypes = { "ahk", "autohotkey", "ah2" },
+        init_options = {
+          locale = "en-us",
+          InterpreterPath = "C:/Program Files/AutoHotkey/v2/AutoHotkey.exe",
+        },
+        single_file_support = true,
+        flags = { debounce_text_changes = 500 },
+        capabilities = capabilities,
+        on_attach = custom_attach,
+      }
+
+      -- Register the custom AHK2 LSP configuration
+      local configs = require("lspconfig.configs")
+      if not configs.ahk2 then
+        configs.ahk2 = { default_config = ahk2_configs }
+      end
+
+      -- Set up the AHK2 LSP
+      lspconfig.ahk2.setup({})
     end,
   },
   {
