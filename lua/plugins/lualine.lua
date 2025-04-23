@@ -1,6 +1,6 @@
 return {
   {
-    "jonahgoldwastaken/copilot-status.nvim",
+    "farazdagi/copilot-status.nvim",
     dependencies = { "zbirenbaum/copilot.lua" },
     event = "BufReadPost",
     enabled = true,
