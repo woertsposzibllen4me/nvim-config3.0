@@ -17,4 +17,19 @@ return {
       },
     },
   },
+  midscreen_dropdown = {
+    preview = false,
+    layout = {
+      backdrop = false,
+      row = 0.4,
+      width = 0.4,
+      min_width = 80,
+      height = 0.4,
+      border = "none",
+      box = "vertical",
+      { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
+      { win = "list", border = "hpad" },
+      { win = "preview", title = "{preview}", border = "rounded" },
+    },
+  },
 }

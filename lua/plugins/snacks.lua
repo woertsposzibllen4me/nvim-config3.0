@@ -37,6 +37,12 @@ return {
         jumps = {
           layout = "grep_vertical",
         },
+        command_history = {
+          layout = "midscreen_dropdown",
+        },
+        search_history = {
+          layout = "midscreen_dropdown",
+        },
       },
       actions = {
         insert_absolute_path = function(picker)
@@ -74,6 +80,7 @@ return {
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
+    { "<leader>s:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>E", function() Snacks.explorer() end, desc = "File Explorer" },
     -- { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     -- { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
