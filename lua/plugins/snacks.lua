@@ -54,6 +54,9 @@ return {
         insert_python_import_path = function(picker)
           require("scripts.snacks_path_insert").insert_python_import_path(picker)
         end,
+        clip_full_path = function(picker)
+          require("scripts.snacks_path_insert").clip_full_path(picker)
+        end,
       },
       win = {
         input = {
@@ -63,6 +66,7 @@ return {
             ["-"] = { "insert_relative_path", mode = { "n" } },
             ["="] = { "insert_absolute_path", mode = { "n" } },
             ["<bs>"] = { "insert_python_import_path", mode = { "n" } },
+            ["+"] = { "clip_full_path", mode = { "n" } },
           },
         },
       },

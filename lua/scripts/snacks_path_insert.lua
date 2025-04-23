@@ -41,6 +41,29 @@ local function insert_path(picker, use_relative, as_python_import)
   vim.api.nvim_put({ path }, "", false, true)
 end
 
+-- Function to copy full path to clipboard
+M.clip_full_path = function(picker)
+  local item = picker:current()
+  if item == nil then
+    vim.notify("No selection", vim.log.levels.WARN)
+    return
+  end
+  local path = item.file
+  if path == nil then
+    vim.notify("No path", vim.log.levels.WARN)
+    return
+  end
+
+  -- Convert path format (using absolute path)
+  path = vim.fn.fnamemodify(path, ":p")
+  path = path:gsub("\\", "/")
+
+  -- Copy to clipboard and close picker
+  vim.fn.setreg("+", path)
+  vim.notify("Full path copied to clipboard" .. path, vim.log.levels.INFO)
+  picker:close()
+end
+
 -- Register custom actions with Snacks
 M.insert_absolute_path = function(picker)
   insert_path(picker, false, false)
