@@ -19,33 +19,33 @@ return {
         view = {
           ["q"] = actions.close,
           ["<C-j>"] = function()
-            -- Store current cursor position
             local cur_pos = vim.api.nvim_win_get_cursor(0)
-
-            -- Try to go to next change
             vim.cmd("normal! ]c")
-
-            -- Get new cursor position
             local new_pos = vim.api.nvim_win_get_cursor(0)
 
-            -- If cursor hasn't moved, we're at the last change
             if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
-              actions.select_next_entry()
+              local last_change_pos = vim.api.nvim_win_get_cursor(0)
+              vim.cmd("normal! G")
+              local eof_pos = vim.api.nvim_win_get_cursor(0)
+
+              if last_change_pos[1] == eof_pos[1] and last_change_pos[2] == eof_pos[2] then
+                actions.select_next_entry()
+              end
             end
           end,
           ["<C-k>"] = function()
-            -- Store current cursor position
             local cur_pos = vim.api.nvim_win_get_cursor(0)
-
-            -- Try to go to previous change
             vim.cmd("normal! [c")
-
-            -- Get new cursor position
             local new_pos = vim.api.nvim_win_get_cursor(0)
 
-            -- If cursor hasn't moved, we're at the first change
             if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
-              actions.select_prev_entry()
+              local first_change_pos = vim.api.nvim_win_get_cursor(0)
+              vim.cmd("normal! gg")
+              local bof_pos = vim.api.nvim_win_get_cursor(0)
+
+              if first_change_pos[1] == bof_pos[1] and first_change_pos[2] == bof_pos[2] then
+                actions.select_prev_entry()
+              end
             end
           end,
         },
