@@ -151,7 +151,7 @@ return {
       callback = function()
         local filetype = vim.bo.filetype
         if filetype == "dashboard" then
-          vim.cmd("clearjumps")
+          -- vim.cmd("clearjumps")
         end
       end,
     })
