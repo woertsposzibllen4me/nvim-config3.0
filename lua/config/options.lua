@@ -1,6 +1,8 @@
 vim.opt.clipboard = ""
 vim.opt.undofile = true
-vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
+if vim.fn.has("win32") == 1 then
+  vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
+end
 vim.opt.wrap = true
 vim.opt.scrolloff = 12
 vim.opt.sessionoptions:remove("blank") -- Don't save empty windows in session (can cause issues with neo-tree)
