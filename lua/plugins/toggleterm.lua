@@ -13,7 +13,7 @@ return {
       vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
       vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
       vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
-      vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], opts)
+      vim.keymap.set("t", "<C-w>", [[<C-\><C-n>]], opts)
 
       -- Resize mappings
       vim.keymap.set("t", "<C-Up>", [[<Cmd>resize +2<CR>]], opts)
