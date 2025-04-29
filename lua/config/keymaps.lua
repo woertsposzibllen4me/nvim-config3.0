@@ -86,6 +86,10 @@ require("which-key").add({
 
 require("which-key").add({
   "<leader>wo",
-  "<cmd>only<cr><cmd>Neotree show<cr>",
+  function()
+    vim.cmd("Neotree close")
+    vim.cmd("only")
+    vim.cmd("Neotree show")
+  end,
   desc = "Close others (and opens Neotree)",
 })
