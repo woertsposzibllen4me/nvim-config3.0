@@ -45,8 +45,8 @@ return {
         end,
       },
     }
-    ------------------------------------------------------------------------------------------------
 
+    -- Add bufresize event handlers if the plugin is loaded
     if _G.Bufresize then
       local handlers = {
         {

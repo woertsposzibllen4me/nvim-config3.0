@@ -10,6 +10,7 @@ return {
     "rafamadriz/friendly-snippets",
   },
   event = { "InsertEnter", "CmdlineEnter" },
+  enabled = true,
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")

@@ -1,7 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = "BufReadPre",
-  commit = "ee7e50dfbdf49e3acfa416fd3ad3abbdb658582c", -- Locked for now due to Windows issues  TODO: Check upstream
+  commit = "3c76f7fabac723aa682365ef782f88a83ccdb4ac", -- Locked for now due to Windows issues  TODO: Check upstream
   config = function()
     require("gitsigns").setup({
 
