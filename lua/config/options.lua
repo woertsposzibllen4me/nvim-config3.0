@@ -2,6 +2,7 @@ vim.opt.clipboard = ""
 vim.opt.undofile = true
 if vim.fn.has("win32") == 1 then
   vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
+  vim.opt.shell = "pwsh"
 end
 vim.opt.wrap = true
 vim.opt.scrolloff = 12
