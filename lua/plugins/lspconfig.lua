@@ -65,7 +65,24 @@ return {
       lspconfig.lua_ls.setup({
         enabled = true,
         capabilities = capabilities,
-        on_attach = custom_attach,
+        on_attach = function(client, bufnr)
+          -- Turn off document highlighting in insert mode to prevent visual mess with copilot ghost text
+          local orig_highlighting = client.server_capabilities.documentHighlightProvider
+          vim.api.nvim_create_autocmd("InsertEnter", {
+            buffer = bufnr,
+            callback = function()
+              client.server_capabilities.documentHighlightProvider = false
+            end,
+          })
+
+          vim.api.nvim_create_autocmd("InsertLeave", {
+            buffer = bufnr,
+            callback = function()
+              client.server_capabilities.documentHighlightProvider = orig_highlighting
+            end,
+          })
+          custom_attach(client, bufnr)
+        end,
         settings = {
           Lua = {
             runtime = {
