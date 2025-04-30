@@ -22,6 +22,21 @@ return {
       formatters = { file = { truncate = 80, filename_first = true } },
       layouts = require("config.snacks.custom_layouts"),
       sources = {
+        lsp_definitions = {
+          jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.
+        },
+        lsp_declarations = {
+          jump = { reuse_win = false },
+        },
+        lsp_implementations = {
+          jump = { reuse_win = false },
+        },
+        lsp_references = {
+          jump = { reuse_win = false },
+        },
+        lsp_type_definitions = {
+          jump = { reuse_win = false },
+        },
         grep = {
           layout = "grep_vertical",
         },
