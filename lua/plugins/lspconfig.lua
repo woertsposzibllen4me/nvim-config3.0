@@ -29,12 +29,19 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "ray-x/lsp_signature.nvim",
+      { "ray-x/lsp_signature.nvim", enabled = true },
     },
+    enabled = true,
     config = function()
       local lspconfig = require("lspconfig")
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      if has_cmp then
+        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+      else
+        -- Fallback if cmp_nvim_lsp is not available
+        capabilities = vim.lsp.protocol.make_client_capabilities()
+      end
 
       local function custom_attach(client, bufnr)
         require("lsp_signature").on_attach({
@@ -56,6 +63,7 @@ return {
 
       -- Configure each LSP server
       lspconfig.lua_ls.setup({
+        enabled = true,
         capabilities = capabilities,
         on_attach = custom_attach,
         settings = {
