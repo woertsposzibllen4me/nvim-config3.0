@@ -6,7 +6,7 @@ return {
       scroll_down = "<c-d>",
       scroll_up = "<c-u>",
     },
-    delay = 400, -- delay in milliseconds
+    delay = 250, -- delay in milliseconds
   },
   keys = {
     {
