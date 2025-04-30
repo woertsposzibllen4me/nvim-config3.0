@@ -48,7 +48,7 @@ function M.ai_comment(ai_type)
 
   -- Find consecutive comment nodes to form blocks
   local comment_blocks = {}
-  local current_block = nil
+  local current_block = nil -- same line
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
   -- Helper function to get a node's range
@@ -60,11 +60,85 @@ function M.ai_comment(ai_type)
     }
   end
 
-  -- Helper function to check if a node is on the next line of another node
+  -- Helper function to check if there's non-comment code on a line
+  local function has_non_comment_content(bufnr, row)
+    local parser = vim.treesitter.get_parser(bufnr)
+    local tree = parser:parse()[1]
+    local root = tree:root()
+
+    -- Get line text
+    local line_text = vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false)[1]
+    if not line_text or line_text == "" then
+      return false
+    end
+
+    -- We need to check all nodes manually
+    local has_code = false
+
+    local function check_node(node)
+      if not node then
+        return
+      end
+
+      -- Check if node overlaps with our line
+      local s_row, _, e_row, _ = node:range()
+      if s_row <= row and e_row >= row then
+        if node:named() then
+          local type = node:type()
+          if type ~= "comment" and type ~= "line_comment" and type ~= "block_comment" then
+            has_code = true
+            print("Debug - Found non-comment code: ", type, node:type())
+            return
+          end
+        end
+
+        -- Check children
+        for i = 0, node:child_count() - 1 do
+          check_node(node:child(i))
+          if has_code then
+            return
+          end
+        end
+      end
+    end
+
+    check_node(root)
+    return has_code
+  end
+
+  -- Modified is_consecutive function
   local function is_consecutive(node1, node2)
-    local _, _, end_row1, _ = node1:range()
-    local start_row2, _, _, _ = node2:range()
-    return start_row2 == end_row1 + 1
+    local start_row1, start_col1, end_row1, _ = node1:range()
+    local start_row2, _, _, _ = node2:range() -- Fixed syntax error with asterisk
+
+    -- Debug output
+    print("Debug - full node info: ", node1, node2)
+    print("Debug - Node1 position:", start_row1, start_col1, end_row1)
+    print("Debug - Node2 position:", start_row2)
+
+    -- Check if nodes are on consecutive lines
+    if start_row2 ~= end_row1 + 1 then
+      print("Debug - Not consecutive: different lines")
+      return false
+    end
+
+    -- Check if there's non-comment code on the line of node1
+    -- This is a more reliable way to detect same-line comments
+    if has_non_comment_content(0, start_row1) then -- 0 for current buffer
+      print("Debug - Line contains code besides comment, treating as separate block")
+      return false
+    end
+
+    -- For additional information, can still check line text as before
+    local line_text = lines[start_row1 + 1] -- Adjust index if needed
+    if line_text then
+      print("Debug - Line text:", line_text)
+      print("Debug - Substring before comment:", line_text:sub(1, start_col1))
+      print("Debug - Has text before comment:", line_text:sub(1, start_col1):match("[^%s]") ~= nil)
+    end
+
+    print("Debug - Considering nodes consecutive")
+    return true
   end
 
   -- Group consecutive comment nodes into blocks
@@ -99,23 +173,23 @@ function M.ai_comment(ai_type)
 
   -- Expand "a" textobject to include surrounding blank lines
   if ai_type == "a" then
-    for i, block in ipairs(comment_blocks) do
-      -- Check for blank line before block and include it
-      local start_line = block.from.line
-      while start_line > 1 and lines[start_line - 1]:match("^%s*$") do
-        start_line = start_line - 1
-      end
-
-      -- Check for blank line after block and include it
-      local end_line = block.to.line
-      while end_line < #lines and lines[end_line + 1]:match("^%s*$") do
-        end_line = end_line + 1
-      end
-
-      block.from.line = start_line
-      block.to.line = end_line
-      block.to.col = lines[end_line] and #lines[end_line] or 0
-    end
+    -- for i, block in ipairs(comment_blocks) do
+    --   -- Check for blank line before block and include it
+    --   local start_line = block.from.line
+    --   while start_line > 1 and lines[start_line - 1]:match("^%s*$") do
+    --     start_line = start_line - 1
+    --   end
+    --
+    --   -- Check for blank line after block and include it
+    --   local end_line = block.to.line
+    --   while end_line < #lines and lines[end_line + 1]:match("^%s*$") do
+    --     end_line = end_line + 1
+    --   end
+    --
+    --   block.from.line = start_line
+    --   block.to.line = end_line
+    --   block.to.col = lines[end_line] and #lines[end_line] or 0
+    -- end
   end
 
   -- Find which block the cursor is in
