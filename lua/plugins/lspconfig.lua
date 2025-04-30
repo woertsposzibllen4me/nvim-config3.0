@@ -33,6 +33,21 @@ return {
     },
     enabled = true,
     config = function()
+      vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx, _)
+        if result == nil or vim.tbl_isempty(result) then
+          return nil
+        end
+
+        -- Use current window for jumps
+        vim.cmd("norm! m'") -- Set jumplist mark
+        local target = result[1].targetUri or result[1].uri
+        local line = result[1].targetRange and result[1].targetRange.start.line or result[1].range.start.line
+
+        vim.api.nvim_win_set_buf(0, vim.uri_to_bufnr(target))
+        vim.api.nvim_win_set_cursor(0, { line + 1, 0 })
+        vim.cmd("norm! zz")
+      end
+
       local lspconfig = require("lspconfig")
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
