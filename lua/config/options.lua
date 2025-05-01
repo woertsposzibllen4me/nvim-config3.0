@@ -1,12 +1,15 @@
-vim.opt.clipboard = ""
-vim.opt.undofile = true
 if vim.fn.has("win32") == 1 then
   vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
-  vim.opt.shell = "pwsh"
+  vim.opt.shell = vim.fn.executable("pwsh") == 1 and "pwsh.exe" or "powershell"
 end
+
+vim.opt.undofile = true
+vim.opt.clipboard = ""
+
 vim.opt.wrap = true
 vim.opt.scrolloff = 12
 vim.opt.sessionoptions:remove("blank") -- Don't save empty windows in session (can cause issues with neo-tree)
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-TermCursor"
 
 vim.g.indent_blankline_show_current_context = false
 vim.opt.splitright = true
