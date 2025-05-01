@@ -2,26 +2,23 @@ return {
   {
     "williamboman/mason.nvim",
     config = function()
-      require("mason").setup({
-        ensure_installed = {
-          -- lsp servers
-          "basedpyright",
-          "pylint",
-          "ruff",
-          "python-lsp-server",
-          "powershell-editor-services",
-          "lua-language-server",
-          -- formatters
-          "taplo",
-          "stylua",
-        },
-      })
+      require("mason").setup({})
     end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          -- lsp servers
+          -- "basedpyright",
+          -- "pylint",
+          -- "ruff",
+          -- "python-lsp-server",
+          -- "powershell-editor-services",
+          "lua_ls",
+        },
+      })
     end,
   },
   {
