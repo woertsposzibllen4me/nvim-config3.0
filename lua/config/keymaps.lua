@@ -16,6 +16,9 @@ vim.api.nvim_create_autocmd("FileType", {
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
+-- Exit terminal mode
+map("t", "<C-w>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
 -- window change made simpler (handled by smart-splits plugin)
 -- map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
 -- map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })

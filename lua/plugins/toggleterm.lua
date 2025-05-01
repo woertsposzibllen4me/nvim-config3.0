@@ -13,7 +13,6 @@ return {
       vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
       vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
       vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
-      vim.keymap.set("t", "<C-w>", [[<C-\><C-n>]], opts)
 
       -- Resize mappings
       vim.keymap.set("t", "<C-Up>", [[<Cmd>resize +2<CR>]], opts)
@@ -54,11 +53,12 @@ return {
     end
 
     -- Set up keybindings for multi-terminal management
-    vim.api.nvim_set_keymap("n", "<Leader>tt", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<Leader>tn", [[<Cmd>lua Open_new_terminal()<CR>]], { noremap = true, silent = true })
+    vim.keymap.set("n", "<Leader>tt", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
+    vim.keymap.set("n", "<Leader>tn", [[<Cmd>lua Open_new_terminal()<CR>]], { noremap = true, silent = true })
 
     require("toggleterm").setup({
-      shell = "pwsh.exe -NoLogo -NoExit -Command \"&{. $PROFILE; $Host.UI.RawUI.WindowTitle='Neovim Terminal'}; clear\"",
+      -- shell = "pwsh.exe -NoLogo -Command \"& {. $PROFILE; $Host.UI.RawUI.WindowTitle='Neovim Terminal'; Clear-Host}\"",
+      shell = "pwsh.exe",
       size = function(term)
         if term.direction == "horizontal" then
           return original_height -- Use the original_height variable
