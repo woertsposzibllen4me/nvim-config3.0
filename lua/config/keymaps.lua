@@ -26,7 +26,7 @@ map("t", "<C-w>", [[<C-\><C-n>]], { noremap = true, silent = true })
 -- map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
 
 -- leader q to quit
-map("n", "<leader>qq", ":qa<CR>", { desc = "Quit all", silent = true })
+map({ "n", "v" }, "<leader>qq", ":qa<CR>", { desc = "Quit all", silent = true })
 
 -- undo on U
 map("n", "U", "<C-r>")
