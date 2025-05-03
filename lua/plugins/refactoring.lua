@@ -6,7 +6,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
   },
   keys = {
-    { "<leader>r", "", desc = "Code Refactoring", mode = { "n", "v" } },
+    { "<leader>r", "", desc = "Refactor", mode = { "n", "v" } },
     {
       "<leader>ri",
       function()
