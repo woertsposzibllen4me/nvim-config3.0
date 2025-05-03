@@ -111,7 +111,7 @@ return {
       event_handlers = event_handlers,
     })
 
-    -- Open neo-tree automatically when first entering a (filetype) buffer
+    -- Open neo-tree automatically when entering our first (filetype) buffer of size >= 140 columns
     local neo_tree_opened = false
     vim.api.nvim_create_autocmd("BufEnter", {
       callback = function()
@@ -120,8 +120,10 @@ return {
         end
         local filetype = vim.bo.filetype
         local buftype = vim.bo.buftype
-        if filetype ~= "dashboard" and filetype ~= "" and buftype == "" then
-          neo_tree_opened = true
+        local win_width = vim.api.nvim_win_get_width(0)
+
+        if filetype ~= "dashboard" and filetype ~= "" and buftype == "" and win_width >= 140 then
+          neo_tree_opened = true -- To run successfully only once
           vim.defer_fn(function() -- defer 0 necessary to avoid bugs
             vim.cmd("Neotree show")
           end, 0)
