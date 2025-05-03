@@ -39,6 +39,10 @@ return {
       { "<leader>c", group = "QuickFix" },
       { "<leader>s", group = "Search" },
       { "<leader>sg", group = "Git Search" },
+      { "gl", icon = {
+        icon = "",
+        color = "blue",
+      }, group = "Vim Lsp" },
     })
   end,
 }

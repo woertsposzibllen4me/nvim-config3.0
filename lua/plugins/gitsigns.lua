@@ -48,9 +48,6 @@ return {
           -- Tab-specific keymaps
           set_tab_keymap("n", "q", function()
             vim.cmd("tabclose")
-            -- Restore original Ctrl+J and Ctrl+K bindings
-            vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to window below" })
-            vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to window above" })
           end, { desc = "Close diff tab" })
 
           -- Navigation in diff view

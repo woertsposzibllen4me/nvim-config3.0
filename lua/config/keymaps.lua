@@ -70,7 +70,7 @@ map("n", "<esc>", "<cmd>noh<cr>")
 -- lsp stuff
 map("n", "K", vim.lsp.buf.hover, { desc = "Lsp Hover Info" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol under cursor" })
-map("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Vim Lsp Definitions " })
+map("n", "gld", vim.lsp.buf.definition, { desc = "Definitions " })
 -- map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Telescope Goto Definition" })
 -- map("n", "gr", require("telescope.builtin").lsp_references, { desc = "Telescope Goto References" })
 
