@@ -96,6 +96,7 @@ return {
         copy_selector = require("modules.neo-tree.copy_selector").copy_selected_path,
         close_towards_up = require("modules.neo-tree.node_toggler").navigate_up,
         open_towards_down = require("modules.neo-tree.node_toggler").navigate_down,
+        grep_for_filename = require("modules.neo-tree.grep-for-filename").grep_for_filename,
       },
       window = {
         mappings = {
@@ -106,6 +107,7 @@ return {
           ["Y"] = "copy_selector",
           ["h"] = "close_towards_up", -- Navigate to parent directory / Close current directory
           ["l"] = "open_towards_down", -- Open current directory / Navigate to first child
+          ["gf"] = "grep_for_filename", -- Grep for the current node's filename in cwd
         },
       },
       event_handlers = event_handlers,
