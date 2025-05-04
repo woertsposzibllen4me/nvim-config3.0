@@ -117,11 +117,23 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Send out a name for the wezterm tab through OSC sequence
 vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
   callback = function()
+    -- Detect operating system and set icon
+    local os_name = vim.loop.os_uname().sysname
+    local os_icon = ""
+
+    if os_name == "Windows_NT" then
+      os_icon = "🪟 "
+    elseif os_name == "Linux" then
+      os_icon = "🐧"
+    else
+      os_icon = "[wtf?]"
+    end
+
     local filename = vim.fn.expand("%:t")
     if filename == "" then
       filename = "[No Name]"
     end
-    local title = string.format(" nvim - %s ", filename)
+    local title = string.format("%s nvim - %s", os_icon, filename)
     vim.opt.title = true
     vim.opt.titlestring = title
     vim.cmd("redraw")
