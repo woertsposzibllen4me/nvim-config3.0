@@ -17,7 +17,7 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars:append("trail:·")
 
-vim.opt.timeoutlen = 250
+vim.opt.timeoutlen = 350
 vim.opt.updatetime = 50
 
 vim.opt.cursorline = true -- Enable highlighting of the current line
