@@ -5,7 +5,15 @@ return {
     {
       "<leader>U",
       function()
-        -- Define the is_undotree_open function locally within the keymap function
+        local function is_neotree_open()
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.bo[buf].filetype == "neo-tree" then
+              return true
+            end
+          end
+          return false
+        end
+
         local function is_undotree_open()
           for _, buf in ipairs(vim.api.nvim_list_bufs()) do
             if vim.bo[buf].filetype == "undotree" then
@@ -15,31 +23,24 @@ return {
           return false
         end
 
-        -- if _G.Bufresize then
-        --   if is_undotree_open() then
-        --     _G.Bufresize.register()
-        --     _G.Bufresize.block_register()
-        --     vim.notify("call 1")
-        --   else
-        --     _G.Bufresize.register()
-        --     _G.Bufresize.block_register()
-        --     vim.notify("call 1'")
-        --   end
-        -- end
+        local neotree_was_open = is_neotree_open()
+        local undotree_was_open = is_undotree_open()
 
         vim.cmd("Neotree close")
-        vim.cmd("UndotreeToggle")
-        vim.cmd("UndotreeFocus")
 
-        -- if _G.Bufresize then
-        --   if is_undotree_open() then
-        --     _G.Bufresize.resize_open()
-        --     vim.notify("call 2")
-        --   else
-        --     _G.Bufresize.resize_close()
-        --     vim.notify("call 2'")
-        --   end
-        -- end
+        if neotree_was_open and not vim.g.neotree_closed_by_undotree then
+          vim.g.neotree_closed_by_undotree = true
+        end
+
+        vim.cmd("UndotreeToggle")
+
+        if undotree_was_open then
+          if vim.g.neotree_closed_by_undotree then
+            vim.cmd("Neotree show")
+          end
+        elseif not undotree_was_open then
+          vim.cmd("UndotreeFocus")
+        end
       end,
       desc = "Toggle Undotree",
     },
@@ -53,5 +54,17 @@ return {
         vim.g.undotree_DiffCommand = "FC"
       end
     end
+
+    -- Create an autocmd to handle when Undotree is closed by any method
+    vim.api.nvim_create_autocmd("BufWinLeave", {
+      callback = function(ev)
+        if vim.bo[ev.buf].filetype == "undotree" and vim.g.neotree_closed_by_undotree then
+          vim.schedule(function()
+            vim.cmd("Neotree show")
+            vim.g.neotree_closed_by_undotree = false
+          end)
+        end
+      end,
+    })
   end,
 }
