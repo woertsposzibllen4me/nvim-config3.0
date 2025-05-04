@@ -78,6 +78,7 @@ return {
         enabled = true,
         capabilities = capabilities,
         on_attach = function(client, bufnr)
+          vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "DiagnosticUnnecessary" })
           -- Turn off document highlighting in insert mode to prevent visual mess with copilot ghost text
           local orig_highlighting = client.server_capabilities.documentHighlightProvider
           vim.api.nvim_create_autocmd("InsertEnter", {
