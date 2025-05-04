@@ -93,9 +93,9 @@ return {
         },
       },
       commands = {
-        copy_selector = require("modules.neo-tree.copy_selector").copy_selected_path,
-        close_towards_up = require("modules.neo-tree.node_toggler").navigate_up,
-        open_towards_down = require("modules.neo-tree.node_toggler").navigate_down,
+        copy_selector = require("modules.neo-tree.copy-selector").copy_selected_path,
+        close_towards_up = require("modules.neo-tree.node-toggler").navigate_up,
+        open_towards_down = require("modules.neo-tree.node-toggler").navigate_down,
         grep_for_filename = require("modules.neo-tree.grep-for-filename").grep_for_filename,
       },
       window = {
