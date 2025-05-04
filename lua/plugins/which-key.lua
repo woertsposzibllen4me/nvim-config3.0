@@ -21,9 +21,9 @@ return {
     local wk = require("which-key")
     wk.setup(opts)
     wk.add({
-      { "<leader>g", group = "Git" },
-      { "<leader>gh", group = "Hunks operations" },
-      { "<leader>q", group = "Quit" },
+      { "<leader>g", group = "Git", mode = { "n", "v" } },
+      { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
+      { "<leader>q", group = "Quit", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
       {
         "<leader>y",
