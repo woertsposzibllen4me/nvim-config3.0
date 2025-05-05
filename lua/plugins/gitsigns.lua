@@ -129,16 +129,6 @@ return {
             gs.diffthis()
             local new_tab = vim.api.nvim_get_current_tabpage()
             set_diff_tab_keymaps(new_tab)
-
-            local tabnr = vim.api.nvim_tabpage_get_number(new_tab)
-            -- Create or ensure a table exists for this tab
-            if not vim.t[tabnr] then
-              vim.t[tabnr] = {}
-            end
-
-            local bufname = vim.fn.expand("%:t")
-            vim.t[tabnr].custom_tabname = "GitSignsDiff: " .. (bufname ~= "" and bufname or "[No Name]")
-            vim.cmd("redrawtabline")
           end,
           desc = "Open diff in new tab",
         })
