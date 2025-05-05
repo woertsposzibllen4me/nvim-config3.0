@@ -114,6 +114,8 @@ return {
             ["="] = { "insert_absolute_path", mode = { "n" } },
             ["<bs>"] = { "insert_python_import_path", mode = { "n" } },
             ["+"] = { "clip_full_path", mode = { "n" } },
+            ["<c-l>"] = { "focus_preview", mode = { "i", "n" } },
+            ["<c-h>"] = { "focus_list", mode = { "i", "n" } },
           },
         },
       },
