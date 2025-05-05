@@ -138,21 +138,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
   end,
 })
 
--- Toggle matchparen in insert mode  TODO: check copilot upstream for bugfix
-vim.api.nvim_create_augroup("matchparen_insert_mode_toggle", { clear = true })
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = "matchparen_insert_mode_toggle",
-  callback = function()
-    vim.cmd("NoMatchParen")
-  end,
-})
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = "matchparen_insert_mode_toggle",
-  callback = function()
-    vim.cmd("DoMatchParen")
-  end,
-})
-
 -- Git commit message configuration
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "gitcommit",
