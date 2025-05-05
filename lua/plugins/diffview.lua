@@ -1,20 +1,92 @@
 return {
   "sindrets/diffview.nvim",
   keys = {
-    { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
+    { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
   },
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewLog" },
   config = function()
-    -- Create autocmd to disable ugly cursorline in Diffview
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "DiffviewFiles",
+    -- For reference, default highlight group values
+    -- DiffviewFilePanelInsertions = {
+    --   default = true,
+    --   link = "diffAdded",
+    -- }
+    --
+    -- diffAdded = {
+    --   bg = "#273849",
+    --   fg = "#B8DB87",
+    -- }
+    -- DiffviewFilePanelDeletions = {
+    --   default = true,
+    --   link = "diffRemoved",
+    -- }
+    --
+    -- diffRemoved = {
+    --   bg = "#3A273A",
+    --   fg = "#E26A75",
+    -- }
+    -- DiffviewStatusModified = {
+    --   default = true,
+    --   link = "diffChanged",
+    -- }
+    --
+    -- DiffviewStatusCopied = {
+    --   default = true,
+    --   link = "diffChanged",
+    -- }
+    --
+    -- DiffviewStatusRenamed = {
+    --   default = true,
+    --   link = "diffChanged",
+    -- }
+    --
+    -- diffChanged = {
+    --   bg = "#252A3F",
+    --   fg = "#7CA1F2",
+    -- }
+
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelInsertions", { fg = "#B8DB87", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusAdded", { fg = "#B8DB87", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusUntracked", { fg = "#B8DB87", bg = "NONE" })
+
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelDeletions", { fg = "#E26A75", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusBroken", { fg = "#E26A75", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusDeleted", { fg = "#E26A75", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusUnknown", { fg = "#E26A75", bg = "NONE" })
+
+    vim.api.nvim_set_hl(0, "DiffviewStatusModified", { fg = "#7CA1F2", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusCopied", { fg = "#7CA1F2", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusRenamed", { fg = "#7CA1F2", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusUnmerged", { fg = "#7CA1F2", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "DiffviewStatusTypeChange", { fg = "#7CA1F2", bg = "NONE" })
+
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelTitle", { link = "@markup.heading.2.markdown" })
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelCounter", { link = "@markup.heading.2.markdown" })
+
+    local actions = require("diffview.actions")
+    local default_wrap_state = vim.o.wrap
+    local default_cursorline_state = vim.o.cursorline
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "DiffviewClose",
       callback = function()
-        vim.opt_local.cursorline = false
+        vim.o.wrap = default_wrap_state
+        vim.o.cursorline = default_cursorline_state
       end,
     })
 
-    local actions = require("diffview.actions")
     require("diffview").setup({
+      hooks = {
+        view_opened = function(view)
+          default_wrap_state = vim.o.wrap
+          default_cursorline_state = vim.o.cursorline
+        end,
+        diff_buf_read = function(bufnr)
+          if vim.opt_local.wrap ~= false or vim.opt_local.cursorline ~= false then
+            vim.opt_local.wrap = false
+            vim.opt_local.cursorline = false
+          end
+        end,
+      },
       keymaps = {
         view = {
           ["q"] = actions.close,

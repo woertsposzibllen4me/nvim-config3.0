@@ -39,12 +39,10 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
 vim.api.nvim_create_autocmd("WinEnter", {
   callback = function()
     if vim.wo.diff then
-      -- This code runs when entering a window in diff mode
       local wins = vim.api.nvim_tabpage_list_wins(0)
       for _, win in ipairs(wins) do
-        vim.cmd("set nowrap")
+        vim.wo[win].wrap = false
         vim.wo[win].cursorline = false
-        vim.wo[win].culopt = "number"
       end
     end
   end,

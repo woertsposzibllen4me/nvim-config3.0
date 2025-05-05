@@ -51,3 +51,15 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.shiftwidth = 4
   end,
 })
+
+-- Diffing options
+vim.opt.fillchars:append({ diff = "░" })
+-- Set specific highlight for diff delete character
+vim.api.nvim_set_hl(0, "DiffDelete", { fg = "#450000", bg = "#222436", bold = true })
+
+vim.api.nvim_set_hl(0, "Folded", {
+  bg = "#282a3d",
+  fg = "#5a5b5c",
+})
+
+vim.api.nvim_set_hl(0, "DiffText", { bg = "#344566" })
