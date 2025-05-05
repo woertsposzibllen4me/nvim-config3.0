@@ -32,14 +32,9 @@ function M.float_term(opts)
   vim.api.nvim_buf_set_keymap(buf, "t", "]", "]", { noremap = true, nowait = true })
   vim.api.nvim_buf_set_keymap(buf, "t", "[", "[", { noremap = true, nowait = true })
 
-  -- Set up environment with NVIM_LISTEN_ADDRESS
-  local server_addr = vim.v.servername
-  local env = server_addr and { NVIM_LISTEN_ADDRESS = server_addr } or {}
-
   -- Create terminal
   vim.fn.jobstart("lazygit", {
     cwd = opts.cwd,
-    env = env,
     term = true,
     on_exit = function()
       vim.schedule(function()
