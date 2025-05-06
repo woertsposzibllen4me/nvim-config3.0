@@ -15,7 +15,8 @@ return {
     -- quickfile = { enabled = true },
     -- scope = { enabled = true },
     -- scroll = { enabled = true },
-    -- statuscolumn = { enabled = true },
+    toggle = { enabled = true },
+    statuscolumn = { enabled = true },
     words = { enabled = true },
     picker = {
       enabled = true,
@@ -45,9 +46,6 @@ return {
         },
         grep_word = {
           layout = "grep_vertical",
-        },
-        help = {
-          layout = "ivy",
         },
         jumps = {
           layout = "grep_vertical",
@@ -142,6 +140,9 @@ return {
   },
   -- stylua: ignore
  keys = {
+   -- toggle
+    { "<leader>us", function() Snacks.toggle.option("spell") end, desc = "Toggle Spell Check" },
+    { "<leader>ui", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Inlay Hints" },
    -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
    -- Words
@@ -170,7 +171,7 @@ return {
     { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
     { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
     { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-    { "<leader>sC", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+    { "<leader>sC", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), title = "Config Files" }) end, desc = "Find Config File" },
     { "<leader>sc", function() Snacks.picker.commands() end, desc = "Commands" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
