@@ -13,6 +13,7 @@ function M.float_term(opts)
   opts = vim.tbl_deep_extend("force", {
     size = { width = 0.9, height = 0.9 },
   }, opts or {})
+  local cmd = opts.cmd or "lazygit"
   local buf = vim.api.nvim_create_buf(false, true)
   local float = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
@@ -33,7 +34,7 @@ function M.float_term(opts)
   vim.api.nvim_buf_set_keymap(buf, "t", "[", "[", { noremap = true, nowait = true })
 
   -- Create terminal
-  vim.fn.jobstart("lazygit", {
+  vim.fn.jobstart(cmd, {
     cwd = opts.cwd,
     term = true,
     on_exit = function()
@@ -75,10 +76,85 @@ local function getRelativeFilepath(retries, delay)
   end
   return nil
 end
+-- Function to get git root directory
+function M.get_git_root()
+  local git_cmd = io.popen("git rev-parse --show-toplevel 2>/dev/null")
+  if git_cmd then
+    local git_root = git_cmd:read("*l")
+    git_cmd:close()
+    return git_root
+  end
+  return vim.fn.getcwd()
+end
 
--- Function to run Tinygit smart commit over the lazygit terminal
-function M.run_tinygit_smartcommit()
-  vim.cmd("Tinygit smartCommit")
+-- Function to handle editing from Lazygit
+function M.LazygitEdit(original_buffer)
+  local current_bufnr = vim.fn.bufnr("%")
+  local channel_id = vim.fn.getbufvar(current_bufnr, "terminal_job_id")
+  if not channel_id then
+    notify_error("No terminal job ID found.")
+    return
+  end
+  vim.fn.chansend(channel_id, "\15") -- \15 is <c-o>
+  vim.cmd("close")
+  vim.cmd("checktime")
+  local relative_filepath = getRelativeFilepath(5, 50)
+  if not relative_filepath then
+    notify_error("Clipboard is empty or invalid.")
+    return
+  end
+  local winid = vim.fn.bufwinid(original_buffer)
+  if winid == -1 then
+    notify_error("Could not find the original window.")
+    return
+  end
+  vim.fn.win_gotoid(winid)
+  vim.cmd("e " .. relative_filepath)
+end
+
+-- Function to open Lazygit logs
+function M.StartLazygitLogs()
+  local float_term = M.StartLazygit({ cmd = "lazygit log" })
+end
+
+-- Function to start Lazygit in a floating terminal
+function M.StartLazygit(opts)
+  opts = opts or {}
+  opts.cwd = opts.cwd or M.get_git_root()
+  local current_buffer = vim.api.nvim_get_current_buf()
+  local float_term = M.float_term(opts)
+
+  -- Keybind to edit the file in the current nvim instance
+  vim.api.nvim_buf_set_keymap(
+    float_term.buf,
+    "t",
+    vim.g.maplocalleader .. "e",
+    string.format([[<Cmd>lua require('scripts.lazygit-terminal').LazygitEdit(%d)<CR>]], current_buffer),
+    { noremap = true, silent = true }
+  )
+
+  -- Keybind to write a commit using Tinygit
+  vim.api.nvim_buf_set_keymap(
+    float_term.buf,
+    "t",
+    vim.g.maplocalleader .. "c",
+    [[<C-\><C-n>:lua RunTinygitSmartCommit()<CR>]],
+    { noremap = true, silent = true }
+  )
+
+  -- Keybind to amend last commit using Tinygit
+  vim.api.nvim_buf_set_keymap(
+    float_term.buf,
+    "t",
+    vim.g.maplocalleader .. "a",
+    [[<C-\><C-n>:lua RunTinygitAmendOnlyMessage()<CR>]],
+    { noremap = true, silent = true }
+  )
+  return float_term
+end
+
+function M.run_tinygit_command(command)
+  vim.cmd("Tinygit " .. command)
   -- Set up a timer to check when Tinygit is done
   local check_timer = vim.loop.new_timer()
   check_timer:start(
@@ -107,79 +183,31 @@ function M.run_tinygit_smartcommit()
   )
 end
 
--- Function to handle editing from Lazygit
-function M.LazygitEdit(original_buffer)
-  local current_bufnr = vim.fn.bufnr("%")
-  local channel_id = vim.fn.getbufvar(current_bufnr, "terminal_job_id")
-  if not channel_id then
-    notify_error("No terminal job ID found.")
-    return
-  end
-  vim.fn.chansend(channel_id, "\15") -- \15 is <c-o>
-  vim.cmd("close")
-  vim.cmd("checktime")
-  local relative_filepath = getRelativeFilepath(5, 50)
-  if not relative_filepath then
-    notify_error("Clipboard is empty or invalid.")
-    return
-  end
-  local winid = vim.fn.bufwinid(original_buffer)
-  if winid == -1 then
-    notify_error("Could not find the original window.")
-    return
-  end
-  vim.fn.win_gotoid(winid)
-  vim.cmd("e " .. relative_filepath)
+function M.run_tinygit_smartcommit()
+  M.run_tinygit_command("smartCommit")
 end
 
--- Function to get git root directory
-function M.get_git_root()
-  local git_cmd = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-  if git_cmd then
-    local git_root = git_cmd:read("*l")
-    git_cmd:close()
-    return git_root
-  end
-  return vim.fn.getcwd()
-end
-
--- Function to open Lazygit logs
-function M.StartLazygitLogs()
-  local term = M.float_term({ cwd = M.get_git_root() })
-  return term
-end
-
--- Function to start Lazygit in a floating terminal
-function M.StartLazygit()
-  local current_buffer = vim.api.nvim_get_current_buf()
-  local float_term = M.float_term({ cwd = M.get_git_root() })
-
-  -- Keybind to edit the file in the current nvim instance
-  vim.api.nvim_buf_set_keymap(
-    float_term.buf,
-    "t",
-    "<C-g>",
-    string.format([[<Cmd>lua require('scripts.lazygit-terminal').LazygitEdit(%d)<CR>]], current_buffer),
-    { noremap = true, silent = true }
-  )
-
-  -- Keybind to write a commit using Tinygit
-  vim.api.nvim_buf_set_keymap(
-    float_term.buf,
-    "t",
-    "<C-c>",
-    [[<C-\><C-n>:lua RunTinygitSmartCommit()<CR>]],
-    { noremap = true, silent = true }
-  )
-  return float_term
+function M.run_tinygit_amendonlymessage()
+  M.run_tinygit_command("amendOnlyMsg")
 end
 
 -- Make specific functions available globally
 _G.StartLazygitLogs = M.StartLazygitLogs
 _G.StartLazygit = M.StartLazygit
 _G.RunTinygitSmartCommit = M.run_tinygit_smartcommit
+_G.RunTinygitAmendOnlyMessage = M.run_tinygit_amendonlymessage
 
-vim.api.nvim_set_keymap("n", "<leader>gg", [[<Cmd>lua StartLazygit()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>gl", [[<Cmd>lua StartLazygitLogs()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>gg",
+  [[<Cmd>lua StartLazygit()<CR>]],
+  { noremap = true, silent = true, desc = "Open a Lazygit terminal" }
+)
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>gl",
+  [[<Cmd>lua StartLazygitLogs()<CR>]],
+  { noremap = true, silent = true, desc = "Open a Lazygit terminal logs" }
+)
 
 return M
