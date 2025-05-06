@@ -122,7 +122,11 @@ return {
       defaults = {
         mappings = {
           n = { s = flash },
-          i = { ["<c-s>"] = flash },
+          i = { ["<m-s>"] = flash },
+        },
+        sorting_strategy = "ascending",
+        layout_config = {
+          prompt_position = "top",
         },
       },
       pickers = {
