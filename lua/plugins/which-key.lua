@@ -26,24 +26,15 @@ return {
       { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
       { "<leader>q", group = "Quit", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
-      {
-        "<leader>y",
-        icon = {
-          icon = "",
-          color = "yellow",
-        },
-        group = "Yank",
-      },
+      { "<leader>y", icon = { icon = "", color = "yellow", }, group = "Yank", },
       { "<leader>x", group = "Diagnostics" },
       { "<leader>w", group = "Windows" },
       { "<leader>d", group = "DadBod UI" },
       { "<leader>c", group = "QuickFix" },
       { "<leader>s", group = "Search" },
       { "<leader>sg", group = "Git Search" },
-      { "gl", icon = {
-        icon = "",
-        color = "blue",
-      }, group = "Vim Lsp" },
+      { "gl", icon = { icon = "", color = "blue", }, group = "Vim Lsp" },
+      { "<leader>gd", icon = { icon = "", color = "orange", }, group = "Diffview", },
     })
   end,
 }
