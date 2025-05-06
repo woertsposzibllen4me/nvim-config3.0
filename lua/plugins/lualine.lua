@@ -1,14 +1,5 @@
 return {
   {
-    "farazdagi/copilot-status.nvim", -- forked due to unimplemented fix  TODO: check upstream (jonahgoldwastaken)
-    dependencies = { "zbirenbaum/copilot.lua" },
-    event = "BufReadPost",
-    enabled = true,
-    config = function()
-      require("copilot_status").setup({})
-    end,
-  },
-  {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
@@ -34,6 +25,19 @@ return {
         cnd = function()
           return require("copilot_status").enabled()
         end,
+      })
+
+      table.insert(config.sections.lualine_x, 4, {
+        "macro",
+        fmt = function()
+          local reg = vim.fn.reg_recording()
+          if reg ~= "" then
+            return "Recording @" .. reg
+          end
+          return nil
+        end,
+        color = { fg = "#ff9e64" },
+        draw_empty = false,
       })
 
       config.options.globalstatus = true
