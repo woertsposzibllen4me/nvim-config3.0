@@ -7,7 +7,7 @@ return {
     { "<C-Left>", desc = "Toggle cursor mappings" },
     { "<C-Up>", desc = "Add cursor up" },
     { "<C-Down>", desc = "Add cursor down" },
-    { "<C-n>", desc = "Select next word" },
+    { "<C-n>", mode = { "n", "v" }, desc = "Select next word" },
   },
   config = function()
     -- Hack around issue with conflicting insert mode <BS> mapping
@@ -16,12 +16,15 @@ return {
       pattern = "visual_multi_start",
       callback = function()
         pcall(vim.keymap.del, "i", "<BS>", { buffer = 0 })
+        -- require("nvim-autopairs").force_detach()
+        require("nvim-autopairs").disable()
       end,
     })
     vim.api.nvim_create_autocmd("User", {
       pattern = "visual_multi_exit",
       callback = function()
         require("nvim-autopairs").force_attach()
+        require("nvim-autopairs").enable()
       end,
     })
 

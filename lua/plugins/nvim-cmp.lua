@@ -86,6 +86,12 @@ return {
             fallback()
           end
         end, { "c" }),
+        ["<C-p>"] = cmp.mapping(function(fallback)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Up>", true, true, true), "n", true)
+        end, { "c" }),
+        ["<C-n>"] = cmp.mapping(function(fallback)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Down>", true, true, true), "n", true)
+        end, { "c" }),
       }),
       sources = cmp.config.sources({
         { name = "path" },

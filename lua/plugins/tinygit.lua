@@ -39,12 +39,12 @@ return {
       desc = "Fixup commit",
     },
     {
-      "<leader>gs",
+      "<leader>gz",
       "<cmd>Tinygit stashPush<cr>",
       desc = "Stash changes",
     },
     {
-      "<leader>gS",
+      "<leader>gZ",
       "<cmd>Tinygit stashPop<cr>",
       desc = "Pop last stash",
     },

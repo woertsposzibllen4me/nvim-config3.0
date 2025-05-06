@@ -1,9 +1,10 @@
 return {
   "sindrets/diffview.nvim",
   keys = {
-    { "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diffview" },
-    { "<leader>gdh", "<cmd>DiffviewFileHistory<cr>", desc = "All File History" },
-    { "<leader>gdf", "<cmd>DiffviewFileHistory %<cr>", desc = "This File History" },
+    { "<leader>gov", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
+    { "<leader>goh", mode = { "n" }, "<cmd>DiffviewFileHistory<cr>", desc = "Files history" },
+    { "<leader>goh", mode = { "v" }, ":DiffviewFileHistory<cr>", desc = "Lines history" },
+    { "<leader>gof", "<cmd>DiffviewFileHistory %<cr>", desc = "This file history" },
   },
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewLog" },
   config = function()
@@ -61,8 +62,9 @@ return {
     vim.api.nvim_set_hl(0, "DiffviewStatusUnmerged", { fg = "#7CA1F2", bg = "NONE" })
     vim.api.nvim_set_hl(0, "DiffviewStatusTypeChange", { fg = "#7CA1F2", bg = "NONE" })
 
-    vim.api.nvim_set_hl(0, "DiffviewFilePanelTitle", { link = "@markup.heading.2.markdown" })
-    vim.api.nvim_set_hl(0, "DiffviewFilePanelCounter", { link = "@markup.heading.2.markdown" })
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelTitle", { link = "@markup.heading.1.markdown" })
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelCounter", { link = "@markup.heading.1.markdown" })
+    vim.api.nvim_set_hl(0, "DiffviewFilePanelSelected", { link = "@variable.parameter" })
 
     local actions = require("diffview.actions")
     local default_wrap_state = vim.o.wrap
@@ -95,6 +97,7 @@ return {
           ["<C-j>"] = function()
             local cur_pos = vim.api.nvim_win_get_cursor(0)
             vim.cmd("normal! ]c")
+            vim.cmd("normal! zz")
             local new_pos = vim.api.nvim_win_get_cursor(0)
 
             if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
@@ -110,6 +113,7 @@ return {
           ["<C-k>"] = function()
             local cur_pos = vim.api.nvim_win_get_cursor(0)
             vim.cmd("normal! [c")
+            vim.cmd("normal! zz")
             local new_pos = vim.api.nvim_win_get_cursor(0)
 
             if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then

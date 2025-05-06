@@ -21,7 +21,7 @@ return {
     picker = {
       enabled = true,
       formatters = { file = { truncate = 80, filename_first = true } },
-      layouts = require("config.snacks.custom_layouts"),
+      layouts = require("modules.snacks.custom_layouts"),
       sources = {
         lsp_definitions = {
           jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.

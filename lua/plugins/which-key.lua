@@ -23,6 +23,7 @@ return {
     -- stylua: ignore
     wk.add({
       { "<leader>g", icon = { icon = "󰊢", color = "red" }, group = "Git", mode = { "n", "v" } },
+      { "<leader>go", icon = { icon = "󰊢", color = "red" }, group = "Open...", mode = { "n", "v" } },
       { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
       { "<leader>q", group = "Quit", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
@@ -35,6 +36,7 @@ return {
       { "<leader>sg", group = "Git Search" },
       { "gl", icon = { icon = "", color = "blue", }, group = "Vim Lsp" },
       { "<leader>gd", icon = { icon = "", color = "orange", }, group = "Diffview", },
+      {"<leader>t", icon = { icon = "", color = "blue", }, group = "Terminal", },
     })
   end,
 }

@@ -20,13 +20,8 @@ return {
       vim.keymap.set("t", "<C-Left>", [[<Cmd>vertical resize -2<CR>]], opts)
       vim.keymap.set("t", "<C-Right>", [[<Cmd>vertical resize +2<CR>]], opts)
 
-      -- Close (delete) terminal mapping
-      vim.keymap.set("t", "<C-d>", function()
-        vim.api.nvim_buf_delete(term.bufnr, { force = true })
-      end, opts)
-
       -- Hide terminal mapping
-      vim.api.nvim_set_keymap("t", "<C-q>", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("t", "<C-t>", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
     end
 
     -- Function to create a new terminal
@@ -53,8 +48,20 @@ return {
     end
 
     -- Set up keybindings for multi-terminal management
-    vim.keymap.set("n", "<Leader>tt", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
-    vim.keymap.set("n", "<Leader>tn", [[<Cmd>lua Open_new_terminal()<CR>]], { noremap = true, silent = true })
+    local wk = require("which-key")
+    wk.add({
+      "<leader>tn",
+      "<Cmd>lua Open_new_terminal()<CR>",
+      desc = "Open new toggleterm",
+      icon = { icon = "", color = "blue" },
+    })
+
+    wk.add({
+      "<leader>tt",
+      "<Cmd>ToggleTermToggleAll<CR>",
+      desc = "Toggle terminals",
+      icon = { icon = "", color = "blue" },
+    })
 
     require("toggleterm").setup({
       -- shell = "pwsh.exe -NoLogo -Command \"& {. $PROFILE; $Host.UI.RawUI.WindowTitle='Neovim Terminal'; Clear-Host}\"",

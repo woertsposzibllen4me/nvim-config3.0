@@ -29,7 +29,7 @@ return {
 
         -- Helper function for mapping keys
         local function map(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+          vim.keymap.set(mode, l, r, { desc = desc })
         end
 
         -- Helper function for setting tab-specific keymaps
@@ -102,25 +102,27 @@ return {
           gs.nav_hunk("first")
         end, "First Hunk")
 
+        -- Buffer operations
+        map("n", "<leader>gs", gs.stage_buffer, "Stage Buffer")
+        map("n", "<leader>gr", gs.reset_buffer, "Reset Buffer")
+
         -- Hunk operations
         map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
         map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
         map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
 
         -- Blame operations
-        map("n", "<leader>ghb", function()
+        map("n", "<leader>gb", function()
           gs.blame_line({ full = true })
         end, "Blame Line")
 
-        map("n", "<leader>ghB", function()
+        map("n", "<leader>gB", function()
           gs.blame()
         end, "Blame Buffer")
 
         -- Diff operations in new tab with custom name (requires bufferline plugin)
-        vim.api.nvim_set_keymap("n", "<leader>ghd", "", {
+        vim.api.nvim_set_keymap("n", "<leader>god", "", {
           noremap = true,
           silent = true,
           callback = function()
@@ -130,10 +132,10 @@ return {
             local new_tab = vim.api.nvim_get_current_tabpage()
             set_diff_tab_keymaps(new_tab)
           end,
-          desc = "Open diff in new tab",
+          desc = "Quick diff in new tab",
         })
 
-        vim.api.nvim_set_keymap("n", "<leader>ghD", "", {
+        vim.api.nvim_set_keymap("n", "<leader>goD", "", {
           noremap = true,
           silent = true,
           callback = function()
@@ -143,7 +145,7 @@ return {
             local new_tab = vim.api.nvim_get_current_tabpage()
             set_diff_tab_keymaps(new_tab)
           end,
-          desc = "Open diff with ~ in new tab",
+          desc = "Quick diff ~ in new tab",
         })
 
         -- Text object for hunks

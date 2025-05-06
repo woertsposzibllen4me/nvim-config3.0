@@ -17,7 +17,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Exit terminal mode
-map("t", "<C-w>", [[<C-\><C-n>]], { noremap = true, silent = true })
+map("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 -- window change made simpler
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
@@ -67,32 +67,16 @@ map("i", "<C-h>", "<C-w>", { noremap = true })
 -- Disable hl with esc
 map("n", "<esc>", "<cmd>noh<cr>")
 
--- lsp stuff
-map("n", "K", vim.lsp.buf.hover, { desc = "Lsp Hover Info" })
-map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol under cursor" })
-map("n", "gld", vim.lsp.buf.definition, { desc = "Definitions " })
--- map("n", "gd", require("telescope.builtin").lsp_definitions, { desc = "Telescope Goto Definition" })
--- map("n", "gr", require("telescope.builtin").lsp_references, { desc = "Telescope Goto References" })
+map("n", "<leader>wo", function()
+  vim.cmd("Neotree close")
+  vim.cmd("only")
+  vim.cmd("Neotree show")
+end, { desc = "Close others (and opens Neotree)" })
 
--- Window management
-require("which-key").add({
-  "<leader>wm",
-  "<cmd>wincmd _<cr><cmd>wincmd |<cr>",
-  desc = "Maximize window size",
-})
+-- force C-n and C-p to navgigate cmd/search history (fixes cmp issues)
+map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history" })
+map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history" })
 
-require("which-key").add({
-  "<leader>wr",
-  "<cmd>wincmd =<cr>",
-  desc = "Reset window size",
-})
-
-require("which-key").add({
-  "<leader>wo",
-  function()
-    vim.cmd("Neotree close")
-    vim.cmd("only")
-    vim.cmd("Neotree show")
-  end,
-  desc = "Close others (and opens Neotree)",
-})
+map("n", vim.g.maplocalleader .. "i", function()
+  vim.notify("test")
+end, { desc = "test" })
