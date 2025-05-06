@@ -38,9 +38,15 @@ return {
   config = function()
     vim.api.nvim_create_autocmd("User", {
       pattern = "LinediffBufferReady",
-
       callback = function()
         vim.api.nvim_buf_set_keymap(0, "n", "q", ":LinediffReset<CR>", { noremap = true })
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        for _, client in pairs(clients) do
+          vim.lsp.buf_detach_client(0, client.id)
+        end
+        vim.defer_fn(function()
+          vim.cmd("Noice dismiss") -- dismiss notifications for LSP detach (noisy warnings from lsp)
+        end, 100)
       end,
     })
   end,
