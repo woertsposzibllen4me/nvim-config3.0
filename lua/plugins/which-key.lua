@@ -20,8 +20,9 @@ return {
   config = function(_, opts) -- added opts parameter here
     local wk = require("which-key")
     wk.setup(opts)
+    -- stylua: ignore
     wk.add({
-      { "<leader>g", group = "Git", mode = { "n", "v" } },
+      { "<leader>g", icon = { icon = "󰊢", color = "red" }, group = "Git", mode = { "n", "v" } },
       { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
       { "<leader>q", group = "Quit", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },

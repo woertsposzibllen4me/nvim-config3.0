@@ -1,7 +1,52 @@
 return {
   "chrisgrieser/nvim-tinygit",
   dependencies = { "nvim-telescope/telescope.nvim" },
-  vim.keymap.set("n", "<leader>gi", function()
-    require("tinygit").interactiveStaging()
-  end, { desc = "Interactive staging" }),
+  cmd = { "Tinygit" },
+  keys = {
+    {
+      "<leader>gi",
+      "<cmd>Tinygit interactiveStaging<cr>",
+      desc = "Interactive staging",
+    },
+    {
+      "<leader>gc",
+      "<cmd>Tinygit smartCommit<cr>",
+      desc = "Smart commit",
+    },
+    {
+      "<leader>ga",
+      "<cmd>Tinygit amendOnlyMsg<cr>",
+      desc = "Amend last commit message",
+    },
+    {
+      "<leader>gA",
+      "<cmd>Tinygit amendNoEdit<cr>",
+      desc = "Amend last commit noEdit",
+    },
+    {
+      "<leader>gH",
+      "<cmd>Tinygit fileHistory<cr>",
+      desc = "Grep history",
+    },
+    {
+      "<leader>gU",
+      "<cmd>Tinygit undoLastCommitOrAmend<cr>",
+      desc = "Undo last commit or amend",
+    },
+    {
+      "<leader>gf",
+      "<cmd>Tinygit fixupCommit<cr>",
+      desc = "Fixup commit",
+    },
+    {
+      "<leader>gs",
+      "<cmd>Tinygit stashPush<cr>",
+      desc = "Stash changes",
+    },
+    {
+      "<leader>gS",
+      "<cmd>Tinygit stashPop<cr>",
+      desc = "Pop last stash",
+    },
+  },
 }
