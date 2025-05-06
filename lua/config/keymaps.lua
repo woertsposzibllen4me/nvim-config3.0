@@ -19,11 +19,11 @@ map("v", ">", ">gv")
 -- Exit terminal mode
 map("t", "<C-w>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
--- window change made simpler (handled by smart-splits plugin)
--- map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
--- map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
--- map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
--- map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
+-- window change made simpler
+map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
+map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
+map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
+map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
 
 -- leader q to quit
 vim.keymap.set({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", silent = true })
