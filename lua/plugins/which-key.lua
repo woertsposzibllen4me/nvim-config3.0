@@ -2,11 +2,12 @@ return {
   "folke/which-key.nvim",
   event = "VeryLazy",
   opts = {
+    preset = "modern",
     keys = {
       scroll_down = "<c-d>",
       scroll_up = "<c-u>",
     },
-    delay = 250, -- delay in milliseconds
+    delay = 200, -- delay in milliseconds
   },
   keys = {
     {
@@ -22,8 +23,8 @@ return {
     wk.setup(opts)
     -- stylua: ignore
     wk.add({
-      { "<leader>g", icon = { icon = "󰊢", color = "red" }, group = "Git", mode = { "n", "v" } },
-      { "<leader>go", icon = { icon = "󰊢", color = "red" }, group = "Open...", mode = { "n", "v" } },
+      { "<leader>g", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, group = "Git", mode = { "n", "v" } },
+      { "<leader>go", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, group = "Open...", mode = { "n", "v" } },
       { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
       { "<leader>q", group = "Quit", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
