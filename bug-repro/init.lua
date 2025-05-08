@@ -20,20 +20,19 @@ require("lazy").setup({
   -- Snacks plugin
   {
     "folke/snacks.nvim",
-    --stylua: ignore
-    dashboard = {enabled = true,
-    sections = {
-    { section = "header" },
-    { section = "keys"},
-    {
-      pane = 1,
-      section = "terminal",
-      cmd = "echo 'test'",
-      height = 5,
-      padding = 1,
+    dashboard = {
+      enabled = true,
+      sections = {
+        { section = "header" },
+        { section = "keys" },
+        {
+          pane = 2,
+          section = "terminal",
+          cmd = "git status",
+          height = 5,
+          padding = 1,
+        },
+      },
     },
-
-    },
-  },
   },
 })
