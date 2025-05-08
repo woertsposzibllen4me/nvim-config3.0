@@ -11,10 +11,10 @@ return {
       end,
     },
     keys = {
-      { "<leader>du", ":DBUIToggle<CR>", desc = "Toggle database UI" },
-      { "<leader>df", ":DBUIFindBuffer<CR>", desc = "Find database buffer" },
-      { "<leader>dr", ":DBUIRenameBuffer<CR>", desc = "Rename database buffer" },
-      { "<leader>dl", ":DBUILastQueryInfo<CR>", desc = "Show last query info" },
+      { "<leader>Du", ":DBUIToggle<CR>", desc = "Toggle database UI" },
+      { "<leader>Df", ":DBUIFindBuffer<CR>", desc = "Find database buffer" },
+      { "<leader>Dr", ":DBUIRenameBuffer<CR>", desc = "Rename database buffer" },
+      { "<leader>Dl", ":DBUILastQueryInfo<CR>", desc = "Show last query info" },
     },
     config = function(_, opts)
       vim.g.db_ui_save_location = vim.fn.stdpath("config") .. "/db_ui"
