@@ -7,7 +7,7 @@ return {
   end,
   opts = {
     -- bigfile = { enabled = true },
-    -- dashboard = { enabled = true },
+    dashboard = require("modules.snacks.dashboard-config"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     -- input = { enabled = true },
