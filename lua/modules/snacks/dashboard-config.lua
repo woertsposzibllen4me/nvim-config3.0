@@ -193,29 +193,29 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
       local in_git = Snacks.git.get_root() ~= nil
 
       -- Function to get command output, count lines, and add ellipsis if needed
-      local function process_cmd(cmd, max_height)
+      local function process_cmd(cmd, max_height, check_empty)
         local handle = io.popen(cmd)
         if not handle then
-          return cmd, math.max(1, max_height) -- Default to max_height or at least 1
+          return cmd, math.max(1, max_height)
         end
         local result = handle:read("*a")
         handle:close()
 
-        -- Count lines in output
+        -- Check if result is empty (just whitespace) when check_empty is true
+        if check_empty and (result == "" or result:match("^%s*$")) then
+          return "echo 'none'", 1
+        end
+
         local lines = {}
         for line in string.gmatch(result, "[^\r\n]+") do
           table.insert(lines, line)
         end
-
         local line_count = #lines
-        local display_height = math.max(1, math.min(line_count, max_height)) -- Ensure at least 1 line
+        local display_height = math.max(1, math.min(line_count, max_height))
 
-        -- If we're truncating, modify the command to add the ellipsis
         if line_count > max_height then
-          -- Create a new command that limits output and adds ellipsis
           local modified_cmd
           if cmd:find("|") then
-            -- If command already has a pipe, add another for head
             modified_cmd = cmd .. " | head -n " .. (max_height - 1) .. ' && echo "..."'
           else
             modified_cmd = cmd .. " | head -n " .. (max_height - 1) .. ' && echo "..."'
@@ -238,8 +238,8 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
         end
       end
 
-      local untracked_cmd, untracked_height = process_cmd(get_platform_specific_untracked_cmd(), 10)
-      local diff_cmd, diff_height = process_cmd("git --no-pager diff --stat -B -M -C", 20)
+      local untracked_cmd, untracked_height = process_cmd(get_platform_specific_untracked_cmd(), 10, true)
+      local diff_cmd, diff_height = process_cmd("git --no-pager diff --stat -B -M -C", 20, true)
 
       -- local untracked_cmd, untracked_height = process_cmd('git status --porcelain | grep "^??"', 10)
 
