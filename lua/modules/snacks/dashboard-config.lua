@@ -195,9 +195,8 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
       local function process_cmd(cmd, max_height)
         local handle = io.popen(cmd)
         if not handle then
-          return cmd, 2
+          return cmd, math.max(1, max_height) -- Default to max_height or at least 1
         end
-
         local result = handle:read("*a")
         handle:close()
 
@@ -208,7 +207,7 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
         end
 
         local line_count = #lines
-        local display_height = math.min(line_count, max_height)
+        local display_height = math.max(1, math.min(line_count, max_height)) -- Ensure at least 1 line
 
         -- If we're truncating, modify the command to add the ellipsis
         if line_count > max_height then
