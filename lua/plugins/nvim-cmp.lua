@@ -57,7 +57,7 @@ return {
 
     -- Setup for cmdline completion
     cmp.setup.cmdline(":", {
-      mapping = vim.tbl_extend("force", cmp.mapping.preset.cmdline(), {
+      mapping = {
         ["<Tab>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "c" }),
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -86,13 +86,7 @@ return {
             fallback()
           end
         end, { "c" }),
-        ["<C-p>"] = cmp.mapping(function(fallback)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Up>", true, true, true), "n", true)
-        end, { "c" }),
-        ["<C-n>"] = cmp.mapping(function(fallback)
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-Down>", true, true, true), "n", true)
-        end, { "c" }),
-      }),
+      },
       sources = cmp.config.sources({
         { name = "path" },
       }, {
@@ -102,7 +96,7 @@ return {
 
     -- Setup for search completion
     cmp.setup.cmdline("/", {
-      mapping = vim.tbl_extend("force", cmp.mapping.preset.cmdline(), {
+      mapping = {
         ["<Tab>"] = cmp.mapping(cmp.mapping.confirm({ select = true }), { "c" }),
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -131,7 +125,7 @@ return {
             fallback()
           end
         end, { "c" }),
-      }),
+      },
       sources = {
         { name = "buffer" },
       },
