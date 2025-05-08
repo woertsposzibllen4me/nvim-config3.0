@@ -1,4 +1,6 @@
-local function live_grep_neotree_dir()
+local M = {}
+
+M.live_grep_neotree_dir = function()
   -- Get the neo-tree state
   local state = require("neo-tree.sources.manager").get_state("filesystem")
   if not state then
@@ -33,15 +35,4 @@ local function live_grep_neotree_dir()
   })
 end
 
--- Set up the keymap
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "neo-tree",
-  callback = function()
-    vim.api.nvim_buf_set_keymap(0, "n", "<leader>sG", "", {
-      noremap = true,
-      silent = true,
-      callback = live_grep_neotree_dir,
-      desc = "Live grep in neotree node",
-    })
-  end,
-})
+return M

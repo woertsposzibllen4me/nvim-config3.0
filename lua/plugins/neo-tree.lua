@@ -87,6 +87,7 @@ return {
         close_towards_up = require("modules.neo-tree.node-toggler").navigate_up,
         open_towards_down = require("modules.neo-tree.node-toggler").navigate_down,
         grep_for_filename = require("modules.neo-tree.grep-for-filename").grep_for_filename,
+        grep_in_directory = require("modules.neo-tree.grep-in-neotree-dir").live_grep_neotree_dir,
       },
       window = {
         mappings = {
@@ -98,6 +99,7 @@ return {
           ["h"] = "close_towards_up", -- Navigate to parent directory / Close current directory
           ["l"] = "open_towards_down", -- Open current directory / Navigate to first child
           ["gf"] = "grep_for_filename", -- Grep for the current node's filename in cwd
+          ["gd"] = "grep_in_directory", -- Grep in the parent/selected directory
         },
       },
       event_handlers = event_handlers,
