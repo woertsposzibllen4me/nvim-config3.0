@@ -93,45 +93,54 @@ return {
       },
       keymaps = {
         view = {
-          ["q"] = actions.close,
-          ["<C-j>"] = function()
-            local cur_pos = vim.api.nvim_win_get_cursor(0)
-            vim.cmd("normal! ]c")
-            vim.cmd("normal! zz")
-            local new_pos = vim.api.nvim_win_get_cursor(0)
-
-            if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
-              local last_change_pos = vim.api.nvim_win_get_cursor(0)
-              vim.cmd("normal! G")
-              local eof_pos = vim.api.nvim_win_get_cursor(0)
-
-              if last_change_pos[1] == eof_pos[1] and last_change_pos[2] == eof_pos[2] then
-                actions.select_next_entry()
+          { "n", "q", actions.close, { desc = "Close diffview" } },
+          { "n", "-", actions.toggle_stage_entry, { desc = "Toggle stage file" } },
+          {
+            "n",
+            "<C-j>",
+            function()
+              local cur_pos = vim.api.nvim_win_get_cursor(0)
+              vim.cmd("normal! ]c")
+              vim.cmd("normal! zz")
+              local new_pos = vim.api.nvim_win_get_cursor(0)
+              if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
+                local last_change_pos = vim.api.nvim_win_get_cursor(0)
+                vim.cmd("normal! G")
+                local eof_pos = vim.api.nvim_win_get_cursor(0)
+                if last_change_pos[1] == eof_pos[1] and last_change_pos[2] == eof_pos[2] then
+                  actions.select_next_entry()
+                end
               end
-            end
-          end,
-          ["<C-k>"] = function()
-            local cur_pos = vim.api.nvim_win_get_cursor(0)
-            vim.cmd("normal! [c")
-            vim.cmd("normal! zz")
-            local new_pos = vim.api.nvim_win_get_cursor(0)
-
-            if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
-              local first_change_pos = vim.api.nvim_win_get_cursor(0)
-              vim.cmd("normal! gg")
-              local bof_pos = vim.api.nvim_win_get_cursor(0)
-
-              if first_change_pos[1] == bof_pos[1] and first_change_pos[2] == bof_pos[2] then
-                actions.select_prev_entry()
+            end,
+            { desc = "Next change or file" },
+          },
+          {
+            "n",
+            "<C-k>",
+            function()
+              local cur_pos = vim.api.nvim_win_get_cursor(0)
+              vim.cmd("normal! [c")
+              vim.cmd("normal! zz")
+              local new_pos = vim.api.nvim_win_get_cursor(0)
+              if cur_pos[1] == new_pos[1] and cur_pos[2] == new_pos[2] then
+                local first_change_pos = vim.api.nvim_win_get_cursor(0)
+                vim.cmd("normal! gg")
+                local bof_pos = vim.api.nvim_win_get_cursor(0)
+                if first_change_pos[1] == bof_pos[1] and first_change_pos[2] == bof_pos[2] then
+                  actions.select_prev_entry()
+                end
               end
-            end
-          end,
+            end,
+            { desc = "Previous change or file" },
+          },
         },
         file_panel = {
-          ["q"] = actions.close,
+          { "n", "q", actions.close, { desc = "Close diffview" } },
+          { "n", "s", false, { desc = "diffview_ignore" } },
+          { "n", "-", actions.toggle_stage_entry, { desc = "Toggle stage file" } },
         },
         file_history_panel = {
-          ["q"] = actions.close,
+          { "n", "q", actions.close, { desc = "Close diffview" } },
         },
       },
     })
