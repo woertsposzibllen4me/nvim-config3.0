@@ -97,6 +97,27 @@ return {
     local telescope = require("telescope")
     local actions = require("telescope.actions")
 
+    local focus_preview = function(prompt_bufnr)
+      local action_state = require("telescope.actions.state")
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local prompt_win = picker.prompt_win
+      local previewer = picker.previewer
+      local bufnr = previewer.state.bufnr or previewer.state.termopen_bufnr
+      local winid = previewer.state.winid or vim.fn.win_findbuf(bufnr)[1]
+      vim.keymap.set("n", "i", function()
+        vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%s)", prompt_win))
+        vim.cmd("startinsert")
+      end, { buffer = bufnr })
+      vim.keymap.set("n", "q", function()
+        actions.close(prompt_bufnr)
+      end, { buffer = bufnr })
+      vim.keymap.set("n", "<C-l>", "<nop>", { buffer = bufnr })
+      vim.keymap.set("n", "<C-j>", "<nop>", { buffer = bufnr })
+      vim.keymap.set("n", "<C-k>", "<nop>", { buffer = bufnr })
+      vim.keymap.set("n", "<C-h>", "<nop>", { buffer = bufnr })
+      vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%s)", winid))
+    end
+
     -- Flash setup
     local function flash(prompt_bufnr)
       require("flash").jump({
@@ -121,8 +142,14 @@ return {
     telescope.setup({
       defaults = {
         mappings = {
-          n = { s = flash },
-          i = { ["<m-s>"] = flash },
+          n = {
+            s = flash,
+            ["<C-l>"] = focus_preview,
+          },
+          i = {
+            ["<m-s>"] = flash,
+            ["<C-l>"] = focus_preview,
+          },
         },
         sorting_strategy = "ascending",
         layout_config = {
