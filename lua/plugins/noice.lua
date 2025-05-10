@@ -15,5 +15,10 @@ return {
       "<cmd>NoiceAll<CR>",
       desc = "Show all notifications",
     },
+    {
+      "<leader>nd",
+      "<cmd>NoiceDismiss<CR>",
+      desc = "Dismiss notifications",
+    },
   },
 }
