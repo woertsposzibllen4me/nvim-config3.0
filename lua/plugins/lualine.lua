@@ -7,6 +7,8 @@ return {
       local lualine = require("lualine")
       local config = lualine.get_config()
 
+      config.options.theme = "tokyonight"
+
       -- Add our components to lualine_x section while preserving existing ones
       table.insert(config.sections.lualine_x, 2, {
         "harpoon2",
