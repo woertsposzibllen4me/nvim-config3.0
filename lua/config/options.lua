@@ -60,4 +60,6 @@ vim.api.nvim_set_hl(0, "Folded", {
   fg = "#5a5b5c",
 })
 
-vim.api.nvim_set_hl(0, "DiffText", { bg = "#344566" })
+vim.api.nvim_set_hl(0, "DiffText", { bg = "#633f01" })
+-- #633f01 pretty good, lean on brighter rather than darker if ur gonna adjust
+-- #6e4601 trying out
