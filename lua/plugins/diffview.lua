@@ -2,9 +2,9 @@ return {
   "sindrets/diffview.nvim",
   keys = {
     { "<leader>gov", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
-    { "<leader>goh", mode = { "n" }, "<cmd>DiffviewFileHistory<cr>", desc = "Files history" },
+    { "<leader>goh", mode = { "n" }, "<cmd>DiffviewFileHistory<cr>", desc = "File history" },
     { "<leader>goh", mode = { "v" }, ":DiffviewFileHistory<cr>", desc = "Lines history" },
-    { "<leader>gof", "<cmd>DiffviewFileHistory %<cr>", desc = "This file history" },
+    { "<leader>got", "<cmd>DiffviewFileHistory %<cr>", desc = "This file history" },
   },
   cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewLog" },
   config = function()
