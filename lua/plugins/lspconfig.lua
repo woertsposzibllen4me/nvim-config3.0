@@ -71,6 +71,9 @@ return {
           -- max_height = 12,
           -- max_width = 80,
         }, bufnr)
+        if client.server_capabilities.inlayHintProvider then
+          vim.lsp.inlay_hint.enable()
+        end
       end
 
       -- Configure each LSP server
