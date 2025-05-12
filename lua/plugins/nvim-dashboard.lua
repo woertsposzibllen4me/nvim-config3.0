@@ -2,9 +2,9 @@ return {
   "nvimdev/dashboard-nvim",
   lazy = false,
   enabled = function()
-    return vim.fn.has("win32") == 1 and false -- Using this dashboard on windows.
+    return vim.fn.has("win32") == 1 and false -- this dashboard might be better for windows.
     -- Nvim loads slower on WN_NT than on WSL and the delay makes the Snacks dashboard loading noticeable.
-    -- This is less fancy but has no noticeable loading period.
+    -- This is less fancy but has no noticeable loading period where the inital empty vi buffer would be shown.
   end,
   config = function()
     local custom_header = {
