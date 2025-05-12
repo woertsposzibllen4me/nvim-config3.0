@@ -59,7 +59,7 @@ M = {
         end,
       },
       {
-        icon = { "󰩈 ", hl = "DevIconAstro" },
+        icon = { "✖️", hl = "DevIconAstro" },
         key = "q",
         desc = "Quit Neovim",
         action = function()
