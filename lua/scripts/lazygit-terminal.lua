@@ -9,11 +9,39 @@ local function notify_error(msg)
 end
 
 -- Function to create a floating terminal
-function M.float_term(opts)
+function M.lg_float_term(opts)
   opts = vim.tbl_deep_extend("force", {
     size = { width = 0.9, height = 0.9 },
   }, opts or {})
-  local cmd = opts.cmd or "lazygit"
+
+  local cmd
+  if vim.fn.has("win32") == 1 then
+    cmd = { "cmd.exe", "/C", "lazygit" }
+
+    -- Handle arguments for Windows
+    if opts.cmd_args then
+      if type(opts.cmd_args) == "string" then
+        -- Add the single string as one more argument
+        table.insert(cmd, opts.cmd_args)
+      elseif type(opts.cmd_args) == "table" then
+        -- Add each argument from the table
+        for _, arg in ipairs(opts.cmd_args) do
+          table.insert(cmd, arg)
+        end
+      end
+    end
+  else
+    cmd = "lazygit"
+    -- Handle arguments for non-Windows
+    if opts.cmd_args then
+      if type(opts.cmd_args) == "string" then
+        cmd = cmd .. " " .. opts.cmd_args
+      elseif type(opts.cmd_args) == "table" then
+        cmd = cmd .. " " .. table.concat(opts.cmd_args, " ")
+      end
+    end
+  end
+
   local buf = vim.api.nvim_create_buf(false, true)
   local float = vim.api.nvim_open_win(buf, true, {
     relative = "editor",
@@ -35,7 +63,7 @@ function M.float_term(opts)
 
   -- Create terminal
   vim.fn.jobstart(cmd, {
-    cwd = opts.cwd,
+    cwd = vim.fn.getcwd(),
     term = true,
     on_exit = function()
       vim.schedule(function()
@@ -60,6 +88,7 @@ function M.float_term(opts)
       end)
     end,
   })
+
   vim.cmd("startinsert")
   return { buf = buf, win = float }
 end
@@ -75,16 +104,6 @@ local function getRelativeFilepath(retries, delay)
     vim.loop.sleep(delay)
   end
   return nil
-end
--- Function to get git root directory
-function M.get_git_root()
-  local git_cmd = io.popen("git rev-parse --show-toplevel 2>/dev/null")
-  if git_cmd then
-    local git_root = git_cmd:read("*l")
-    git_cmd:close()
-    return git_root
-  end
-  return vim.fn.getcwd()
 end
 
 -- Function to handle editing from Lazygit
@@ -114,15 +133,13 @@ end
 
 -- Function to open Lazygit logs
 function M.StartLazygitLogs()
-  local float_term = M.StartLazygit({ cmd = "lazygit log" })
+  M.StartLazygit({ cmd_args = "log" })
 end
 
 -- Function to start Lazygit in a floating terminal
 function M.StartLazygit(opts)
-  opts = opts or {}
-  opts.cwd = opts.cwd or M.get_git_root()
   local current_buffer = vim.api.nvim_get_current_buf()
-  local float_term = M.float_term(opts)
+  local float_term = M.lg_float_term(opts)
 
   -- Keybind to edit the file in the current nvim instance
   vim.api.nvim_buf_set_keymap(
@@ -150,6 +167,7 @@ function M.StartLazygit(opts)
     [[<C-\><C-n>:lua RunTinygitAmendOnlyMessage()<CR>]],
     { noremap = true, silent = true }
   )
+
   return float_term
 end
 
@@ -203,6 +221,7 @@ vim.api.nvim_set_keymap(
   [[<Cmd>lua StartLazygit()<CR>]],
   { noremap = true, silent = true, desc = "Open a Lazygit terminal" }
 )
+
 vim.api.nvim_set_keymap(
   "n",
   "<leader>gl",
