@@ -2,6 +2,8 @@ return {
   {
     "mrjones2014/smart-splits.nvim",
     lazy = false,
+    enabled = vim.fn.has("win32") == 0 and true, -- We don't use it on Windows (slow
+    -- and inconsistent, we have an alternative plugin)
     opts = {
       at_edge = "stop",
     },
