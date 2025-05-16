@@ -1,6 +1,7 @@
 local terms_width = 60
 local top_padding = 8
 M = {
+  enabled = vim.fn.has("win32") == 0 and true, -- Loads slowly on WN_NT but not on WSL
   width = 42,
   preset = {
     keys = {
@@ -56,6 +57,16 @@ M = {
         desc = "Open LazyGit",
         action = function()
           vim.cmd("lua StartLazygit()")
+        end,
+      },
+      {
+        icon = { "󱕖 ", hl = "DevIcon3gp" },
+        -- icon = "🗑",
+        key = "d",
+        desc = "Delete Shada Temp Files",
+        enabled = vim.fn.has("win32") == 0,
+        action = function()
+          require("scripts.delete-temp-shadas").Delete_shada_temp_files()
         end,
       },
       {
