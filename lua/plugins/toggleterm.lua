@@ -63,9 +63,13 @@ return {
       icon = { icon = "", color = "blue" },
     })
 
+    local shell
+    if vim.fn.has("win32") == 1 then
+      shell = "pwsh.exe"
+    end
+
     require("toggleterm").setup({
-      -- shell = "pwsh.exe -NoLogo -Command \"& {. $PROFILE; $Host.UI.RawUI.WindowTitle='Neovim Terminal'; Clear-Host}\"",
-      shell = "pwsh.exe",
+      shell = shell or vim.o.shell,
       size = function(term)
         if term.direction == "horizontal" then
           return original_height -- Use the original_height variable
