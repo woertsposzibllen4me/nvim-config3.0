@@ -114,6 +114,29 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+-- Set user var "in_windows_nvim" to "1" in WezTerm when entering Neovim on windows
+-- This is used to have dynamic pane navigation keybinds with wezterm, to use C-hjkl everywhere
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.has("win32") == 1 then
+      local function set_in_windows_nvim(b64_val)
+        io.write(string.format("\x1b]1337;SetUserVar=in_Windows_nvim=%s\x07", b64_val))
+        io.flush()
+      end
+
+      -- set to "1" (MQ==) when Neovim starts
+      set_in_windows_nvim("MQ==")
+
+      -- set to "0" (MA==) just before Neovim exits
+      vim.api.nvim_create_autocmd("VimLeavePre", {
+        callback = function()
+          set_in_windows_nvim("MA==")
+        end,
+      })
+    end
+  end,
+})
+
 -- Send out a name for the wezterm tab through OSC sequence
 vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
   callback = function()
@@ -131,9 +154,9 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
 
     local filename = vim.fn.expand("%:t")
     if filename == "" then
-      filename = "[No Name]"
+      filename = "NoName"
     end
-    local title = string.format("%s nvim - %s", os_icon, filename)
+    local title = string.format("%s [nvim] - %s", os_icon, filename)
     vim.opt.title = true
     vim.opt.titlestring = title
     vim.cmd("redraw")
