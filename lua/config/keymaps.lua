@@ -1,10 +1,10 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 
+-- lateral movement with H and L except in neo-tree
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
-    -- lateral movement with H and L except in neo-tree
     if vim.bo.buftype ~= "neo-tree" then
       map("n", "H", "15zh", { desc = "Move cursor 10 spaces to the left" })
       map("n", "L", "15zl", { desc = "Move cursor 10 spaces to the right" })
@@ -67,6 +67,7 @@ map("i", "<C-h>", "<C-w>", { noremap = true })
 -- Disable hl with esc
 map("n", "<esc>", "<cmd>noh<cr>")
 
+-- Set focus on solo windows with neo-tree
 map("n", "<leader>wo", function()
   vim.cmd("Neotree close")
   vim.cmd("only")
@@ -80,3 +81,6 @@ map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history" })
 map("n", vim.g.maplocalleader .. "i", function()
   vim.notify("test")
 end, { desc = "test" })
+
+-- Search within visual selection
+vim.keymap.set("x", "<leader>/", "<Esc>/\\%V")
