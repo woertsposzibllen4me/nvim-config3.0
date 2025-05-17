@@ -1,7 +1,7 @@
 local terms_width = 60
 local top_padding = 8
+local windows_os = vim.fn.has("win32") == 1
 M = {
-  enabled = vim.fn.has("win32") == 0 and true, -- Loads slowly on WN_NT but not on WSL
   width = 42,
   preset = {
     keys = {
@@ -64,7 +64,7 @@ M = {
         -- icon = "🗑",
         key = "d",
         desc = "Delete Shada Temp Files",
-        enabled = vim.fn.has("win32") == 0,
+        enabled = windows_os,
         action = function()
           require("scripts.delete-temp-shadas").Delete_shada_temp_files()
         end,
@@ -189,7 +189,7 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
     {
       pane = 4,
       section = "terminal",
-      cmd = "colorscript -e square",
+      cmd = not windows_os and "colorscript -e square" or nil,
       height = 5,
       width = terms_width,
       padding = 1,
@@ -254,11 +254,15 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
       end
 
       local function get_platform_specific_untracked_cmd()
-        local is_windows = package.config:sub(1, 1) == "\\"
-
-        if is_windows then
+        if windows_os then
           -- Windows approach using PowerShell
-          return "git status --porcelain | findstr \"^??\" | powershell -Command \"$input | ForEach-Object { $_ -replace '^??', '$([char]0x1b)[35m??$([char]0x1b)[0m' }\""
+          return [[
+          git status --porcelain | findstr "^??" |
+            pwsh -NoProfile -Command "& {
+              $input |
+                ForEach-Object { $_ -replace '^??', '$([char]0x1b)[35m??$([char]0x1b)[0m' }
+          }"
+]]
         else
           -- Unix approach using tput
           return 'git status --porcelain | grep "^??" | sed "s/^??/$(tput setaf 5)??$(tput sgr0)/"'
@@ -266,7 +270,7 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
       end
 
       local untracked_cmd, untracked_height = process_cmd(get_platform_specific_untracked_cmd(), 10, true)
-      local diff_cmd, diff_height = process_cmd("git --no-pager diff --stat -B -M -C", 20, true)
+      local diff_cmd, diff_height = process_cmd("git --no-pager diff --stat=60,40 -B -M -C", 20, true)
 
       -- local untracked_cmd, untracked_height = process_cmd('git status --porcelain | grep "^??"', 10)
 
