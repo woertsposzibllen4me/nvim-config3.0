@@ -11,7 +11,20 @@ return {
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     input = { enabled = false },
-    notifier = { enabled = true },
+    notifier = {
+      enabled = true,
+      filter = function(notif)
+        -- notif.msg is the string VimNotify shows
+        if notif.msg:match("Config Change Detected. Reloading") or notif.msg:match("written$") then
+          notif.timeout = 300 -- faster timeout for spammy messages
+        else
+          if notif.msg:find("Plugin Updates") then
+            notif.timeout = 1000
+          end
+        end
+        return true
+      end,
+    },
     -- quickfile = { enabled = true },
     -- scope = { enabled = true },
     -- scroll = { enabled = true },
