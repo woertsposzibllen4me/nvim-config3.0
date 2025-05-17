@@ -28,8 +28,27 @@ local function custom_on_list(options)
   end
 end
 
+local function quick_references()
+  vim.lsp.buf.references(nil, {
+    on_list = function(opts)
+      -- tag the list so bqf’s should_preview_cb can recognise it
+      opts.title = "bqf-nopreview"
+      vim.fn.setqflist({}, " ", opts) -- populate qf *with* new title
+      vim.cmd("copen")
+
+      local qf_buf = vim.api.nvim_get_current_buf()
+      local map = function(lhs, rhs)
+        vim.keymap.set("n", lhs, rhs, { buffer = qf_buf, silent = true })
+      end
+      map("j", "j<CR>zz<C-W>p")
+      map("k", "k<CR>zz<C-W>p")
+    end,
+  })
+end
+
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Lsp Hover Info" })
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol under cursor" })
+vim.keymap.set("n", "gr", quick_references, { desc = "References" })
 vim.keymap.set("n", "gld", function()
   vim.lsp.buf.definition({ on_list = custom_on_list })
 end, { desc = "Definitions " })
