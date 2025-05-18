@@ -34,40 +34,29 @@ return {
 
         -- Helper function for setting tab-specific keymaps
         local function set_diff_tab_keymaps(new_tab)
-          local function set_tab_keymap(mode, lhs, rhs, tab_opts)
-            tab_opts = vim.tbl_extend("force", tab_opts or {}, {
-              callback = function()
-                if vim.api.nvim_get_current_tabpage() == new_tab then
-                  rhs()
-                end
-              end,
-            })
-            vim.keymap.set(mode, lhs, "", tab_opts)
-          end
-
-          -- Tab-specific keymaps
-          set_tab_keymap("n", "q", function()
+          local diff_tab_nr = vim.api.nvim_tabpage_get_number(new_tab)
+          map("n", "q", function()
             vim.cmd("tabclose")
-          end, { desc = "Close diff tab" })
+          end, "Close diff tab")
 
-          -- Navigation in diff view
-          set_tab_keymap("n", "<C-k>", function()
-            if vim.wo.diff then
-              vim.cmd.normal({ "[c", bang = true })
-            else
-              gs.prev_hunk()
-            end
+          map("n", "<C-k>", function()
+            vim.cmd.normal({ "[c", bang = true })
             vim.cmd("normal! zz")
-          end, { desc = "Next change in diff" })
+          end, "Next change in diff")
 
-          set_tab_keymap("n", "<C-j>", function()
-            if vim.wo.diff then
-              vim.cmd.normal({ "]c", bang = true })
-            else
-              gs.next_hunk()
-            end
+          map("n", "<C-j>", function()
+            vim.cmd.normal({ "]c", bang = true })
             vim.cmd("normal! zz")
-          end, { desc = "Previous change in diff" })
+          end, "Previous change in diff")
+
+          vim.api.nvim_create_autocmd("TabClosed", {
+            callback = function(args)
+              local closed_tab_nr = tonumber(args.file)
+              if closed_tab_nr == diff_tab_nr then
+                require("modules.gitsigns.restore-ck-cj").restore_gs_bindings()
+              end
+            end,
+          })
         end
 
         -- Hunk navigation
@@ -122,7 +111,7 @@ return {
         end, "Blame Buffer")
 
         -- Diff operations in new tab with custom name (requires bufferline plugin)
-        vim.api.nvim_set_keymap("n", "<leader>god", "", {
+        vim.keymap.set("n", "<leader>god", "", {
           noremap = true,
           silent = true,
           callback = function()
@@ -135,7 +124,7 @@ return {
           desc = "Quick diff in new tab",
         })
 
-        vim.api.nvim_set_keymap("n", "<leader>goD", "", {
+        vim.keymap.set("n", "<leader>goD", "", {
           noremap = true,
           silent = true,
           callback = function()
