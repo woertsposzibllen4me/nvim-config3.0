@@ -18,7 +18,7 @@ vim.opt.undofile = true
 vim.opt.clipboard = ""
 
 vim.opt.wrap = true
-vim.opt.scrolloff = 12
+vim.opt.scrolloff = 14
 vim.opt.sessionoptions:remove("blank") -- Don't save empty windows in session (can cause issues with neo-tree)
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-TermCursor"
 
@@ -74,3 +74,8 @@ vim.api.nvim_set_hl(0, "Folded", {
 vim.api.nvim_set_hl(0, "DiffText", { bg = "#633f01" })
 -- #633f01 pretty good, lean on brighter rather than darker if ur gonna adjust
 -- #6e4601 trying out
+
+-- vim.api.nvim_set_hl(0, "DiffChange", { bg = "#252A3F" }) -- Original
+
+-- vim.api.nvim_set_hl(0, "DiffText", { bg = "#252A3F" })
+-- vim.api.nvim_set_hl(0, "DiffChange", { bg = "#222436" })
