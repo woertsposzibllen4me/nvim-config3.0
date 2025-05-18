@@ -1,6 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter-context",
+  event = "BufReadPost",
   config = function()
+    -- vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#1d1f2e" })
     require("treesitter-context").setup({
       enable = true,
       multiwindow = false, -- Enable multiwindow support.
@@ -16,5 +18,7 @@ return {
       zindex = 20, -- The Z-index of the context window
       on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
     })
+
+    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#282a40" })
   end,
 }
