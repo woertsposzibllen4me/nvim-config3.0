@@ -1,20 +1,34 @@
 local M = {}
 
-local restore_wezmove_bindings = function()
+local restore_wezmove_bindings = function(wezmove)
   vim.keymap.set("n", "<C-j>", function()
-    require("wezterm-move").move("j")
+    wezmove.move("j")
   end)
 
   vim.keymap.set("n", "<C-k>", function()
-    require("wezterm-move").move("k")
+    wezmove.move("k")
+  end)
+end
+
+local restore_smart_splits_bindings = function(smsplit)
+  vim.keymap.set("n", "<C-j>", function()
+    smsplit.move_cursor_down()
+  end)
+
+  vim.keymap.set("n", "<C-k>", function()
+    smsplit.move_cursor_up()
   end)
 end
 
 function M.restore_gs_bindings()
   vim.keymap.set("n", "q", "", { noremap = true, desc = "Quit most things" })
-  local ok, foo = pcall(require, "wezterm-move")
+  local ok, wezmove = pcall(require, "wezterm-move")
   if ok then
-    restore_wezmove_bindings()
+    restore_wezmove_bindings(wezmove)
+  end
+  local ok2, smsplit = pcall(require, "smart-splits")
+  if ok2 then
+    restore_smart_splits_bindings(smsplit)
   end
 end
 
