@@ -78,6 +78,19 @@ return {
       end,
     })
 
+    -- Prevent powershell_es mess
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function(args)
+        local bufnr = args.buf
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        local name = vim.api.nvim_buf_get_name(bufnr)
+        if client and client.name == "powershell_es" and name:match("^diffview://") then
+          ---@diagnostic disable-next-line: param-type-mismatch -- go fuck yourself
+          client.stop(client.name)
+        end
+      end,
+    })
+
     require("diffview").setup({
       hooks = {
         view_opened = function(view)
