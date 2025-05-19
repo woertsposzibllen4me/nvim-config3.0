@@ -32,7 +32,7 @@ vim.keymap.set({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", 
 map("n", "U", "<C-r>")
 
 -- save with C-S
-map("n", "<C-s>", ":w<CR>", { silent = true })
+map("n", "<C-s>", "<cmd>w<cr><esc>", { silent = true })
 
 -- Center after most code navigation commands
 map("n", "G", "Gzz", opts)
