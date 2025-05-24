@@ -9,6 +9,17 @@ return {
 
       config.options.theme = "tokyonight"
 
+      config.sections.lualine_c = {
+        {
+          "filename",
+          path = 1, -- 0: Just the filename
+          -- 1: Relative path
+          -- 2: Absolute path (full filepath)
+          -- 3: Absolute path, with tilde as the home directory
+          -- 4: Filename and parent dir, with tilde as the home directory
+        },
+      }
+
       -- Add our components to lualine_x section while preserving existing ones
       table.insert(config.sections.lualine_x, 2, {
         "harpoon2",
