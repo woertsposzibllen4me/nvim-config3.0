@@ -8,10 +8,15 @@ return {
     event = "BufReadPre",
     config = function()
       require("nvim-treesitter.configs").setup({
+        modules = {},
+        sync_install = false,
+        ignore_install = {},
+        auto_install = true,
         ensure_installed = {
           "lua",
           "vim",
           "vimdoc",
+          "python",
         },
         incremental_selection = {
           enable = true,
