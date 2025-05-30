@@ -2,6 +2,7 @@ local terms_width = 60
 local top_padding = 8
 local windows_os = vim.fn.has("win32") == 1
 M = {
+  enabled = true,
   width = 42,
   preset = {
     keys = {
@@ -172,8 +173,31 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
       padding = 1,
       width = 25,
     },
-    { pane = 2, section = "keys", gap = 1, padding = 2, width = 15 },
+    { pane = 2, section = "keys", gap = 1, padding = 1, width = 15 },
     -- { pane = 2, padding = 2 },
+    {
+      pane = 2,
+      icon = " ",
+      desc = "Browse Repo on GitHub",
+      padding = 1,
+      key = "B",
+      enabled = function()
+        vim.cmd(":setlocal scrolloff=0")
+        return Snacks.git.get_root() ~= nil
+      end,
+      action = function()
+        Snacks.gitbrowse()
+      end,
+    },
+    {
+      pane = 2,
+      icon = "󰊢",
+      desc = "Not in a Git Repo",
+      padding = 1,
+      enabled = function()
+        return Snacks.git.get_root() == nil
+      end,
+    },
     {
       pane = 2,
       icon = "📂",
@@ -189,32 +213,11 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
     {
       pane = 4,
       section = "terminal",
+      enabled = false,
       cmd = not windows_os and "colorscript -e square" or nil,
       height = 5,
       width = terms_width,
       padding = 1,
-    },
-    {
-      pane = 4,
-      icon = " ",
-      desc = "Browse Repo on GitHub",
-      padding = 1,
-      key = "B",
-      enabled = function()
-        vim.cmd(":setlocal scrolloff=0")
-        return Snacks.git.get_root() ~= nil
-      end,
-      action = function()
-        Snacks.gitbrowse()
-      end,
-    },
-    {
-      pane = 4,
-      icon = "󰊢",
-      desc = "Not in a Git Repo",
-      enabled = function()
-        return Snacks.git.get_root() == nil
-      end,
     },
     function()
       local in_git = Snacks.git.get_root() ~= nil
@@ -294,7 +297,8 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
         return vim.tbl_extend("force", {
           pane = 4,
           section = "terminal",
-          enabled = in_git,
+          enabled = false,
+          -- enabled = in_git,
           padding = 1,
           width = terms_width,
           ttl = 5 * 60,
