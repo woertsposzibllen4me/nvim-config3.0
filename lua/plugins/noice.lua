@@ -25,6 +25,9 @@ return {
       signature = {
         enabled = false,
       },
+      progress = {
+        enabled = false,
+      },
     },
   },
   keys = {
