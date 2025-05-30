@@ -175,6 +175,10 @@ function M.run_tinygit_command(command)
   vim.cmd("Tinygit " .. command)
   -- Set up a timer to check when Tinygit is done
   local check_timer = vim.loop.new_timer()
+  if not check_timer then
+    notify_error("Failed to create a timer for checking Tinygit completion.")
+    return
+  end
   check_timer:start(
     80,
     80,
@@ -183,7 +187,7 @@ function M.run_tinygit_command(command)
       local gitcommit_windows_exist = false
       for _, win in ipairs(vim.api.nvim_list_wins()) do
         local buf = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_get_option(buf, "filetype") == "gitcommit" then
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].filetype == "gitcommit" then
           gitcommit_windows_exist = true
           break
         end
