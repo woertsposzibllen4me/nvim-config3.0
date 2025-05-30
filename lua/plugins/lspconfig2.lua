@@ -8,10 +8,12 @@ vim.diagnostic.config({
 return {
   {
     "williamboman/mason.nvim",
+    event = { "BufReadPre" },
     opts = {},
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    event = { "BufReadPre" },
     opts = {
       ensure_installed = {
         "lua_ls",
@@ -21,6 +23,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre" },
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",

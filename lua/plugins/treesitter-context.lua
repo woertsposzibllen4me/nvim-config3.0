@@ -1,6 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter-context",
-  event = "BufReadPost",
+  event = { "BufReadPre" },
   config = function()
     -- vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#1d1f2e" })
     require("treesitter-context").setup({
