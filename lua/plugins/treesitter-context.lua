@@ -19,6 +19,6 @@ return {
       on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
     })
 
-    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#282a40" })
+    -- vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#282a40" })
   end,
 }
