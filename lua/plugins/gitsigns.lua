@@ -33,7 +33,7 @@ return {
         end
 
         -- Helper function for setting tab-specific keymaps
-        local function set_diff_tab_keymaps(new_tab)
+        local function set_diff_tab_keymaps(new_tab, created_buffers)
           local diff_tab_nr = vim.api.nvim_tabpage_get_number(new_tab)
           map("n", "q", function()
             vim.cmd("tabclose")
@@ -54,6 +54,21 @@ return {
               local closed_tab_nr = tonumber(args.file)
               if closed_tab_nr == diff_tab_nr then
                 require("modules.gitsigns.restore-ck-cj").restore_gs_bindings()
+
+                -- Clean up the created buffers
+                for _, buf in ipairs(created_buffers or {}) do
+                  if vim.api.nvim_buf_is_valid(buf) then
+                    -- Check if buffer is empty and unnamed
+                    local buf_name = vim.api.nvim_buf_get_name(buf)
+                    local buf_lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+                    local is_empty = #buf_lines == 1 and buf_lines[1] == ""
+                    local is_unnamed = buf_name == ""
+
+                    if is_empty and is_unnamed then
+                      vim.api.nvim_buf_delete(buf, { force = true })
+                    end
+                  end
+                end
               end
             end,
           })
@@ -115,11 +130,32 @@ return {
           noremap = true,
           silent = true,
           callback = function()
+            local original_buf = vim.api.nvim_get_current_buf()
+            local buffers_before = vim.api.nvim_list_bufs()
+
             vim.cmd("tabnew")
             vim.cmd("buffer #")
             gs.diffthis()
+
+            local buffers_after = vim.api.nvim_list_bufs()
+            local created_buffers = {}
+
+            -- Find newly created buffers
+            for _, buf in ipairs(buffers_after) do
+              local found = false
+              for _, old_buf in ipairs(buffers_before) do
+                if buf == old_buf then
+                  found = true
+                  break
+                end
+              end
+              if not found and buf ~= original_buf then
+                table.insert(created_buffers, buf)
+              end
+            end
+
             local new_tab = vim.api.nvim_get_current_tabpage()
-            set_diff_tab_keymaps(new_tab)
+            set_diff_tab_keymaps(new_tab, created_buffers)
           end,
           desc = "Quick diff in new tab",
         })
@@ -128,11 +164,32 @@ return {
           noremap = true,
           silent = true,
           callback = function()
+            local original_buf = vim.api.nvim_get_current_buf()
+            local buffers_before = vim.api.nvim_list_bufs()
+
             vim.cmd("tabnew")
             vim.cmd("buffer #")
             gs.diffthis("~")
+
+            local buffers_after = vim.api.nvim_list_bufs()
+            local created_buffers = {}
+
+            -- Find newly created buffers
+            for _, buf in ipairs(buffers_after) do
+              local found = false
+              for _, old_buf in ipairs(buffers_before) do
+                if buf == old_buf then
+                  found = true
+                  break
+                end
+              end
+              if not found and buf ~= original_buf then
+                table.insert(created_buffers, buf)
+              end
+            end
+
             local new_tab = vim.api.nvim_get_current_tabpage()
-            set_diff_tab_keymaps(new_tab)
+            set_diff_tab_keymaps(new_tab, created_buffers)
           end,
           desc = "Quick diff ~ in new tab",
         })
