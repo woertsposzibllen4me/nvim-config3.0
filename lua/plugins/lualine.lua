@@ -6,17 +6,24 @@ return {
       -- Get default config first
       local lualine = require("lualine")
       local config = lualine.get_config()
+      -- lualine_c_normal = {
+      --   bg = "#1E2030",
+      --   fg = "#828BB8",
+      --   nocombine = true,
+      -- }
+      vim.api.nvim_set_hl(0, "LualineFilename", { fg = "#949fd1", bold = true })
 
       config.options.theme = "tokyonight"
 
       config.sections.lualine_c = {
         {
-          "filename",
-          path = 1, -- 0: Just the filename
-          -- 1: Relative path
-          -- 2: Absolute path (full filepath)
-          -- 3: Absolute path, with tilde as the home directory
-          -- 4: Filename and parent dir, with tilde as the home directory
+          function()
+            local filename = vim.fn.expand("%:t")
+            local relative_path = vim.fn.expand("%:.")
+            local dir = vim.fn.fnamemodify(relative_path, ":h")
+            local separator = vim.fn.has("win32") == 1 and "\\" or "/"
+            return table.concat({ dir, separator, "%#LualineFilename#", filename, "%*" })
+          end,
         },
       }
 
