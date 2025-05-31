@@ -1,3 +1,13 @@
+local original_redraw = vim.api.nvim__redraw
+vim.api.nvim__redraw = function(opts)
+  local ok, err = pcall(original_redraw, opts)
+  if not ok and err:match("Invalid window id") then
+    -- Silently ignore invalid window errors during LSP operations
+    return
+  elseif not ok then
+    error(err)
+  end
+end
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -5,7 +15,8 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     build = ":TSUpdate",
-    event = "BufReadPre",
+    event = "VeryLazy",
+    enabled = true,
     config = function()
       require("nvim-treesitter.configs").setup({
         modules = {},

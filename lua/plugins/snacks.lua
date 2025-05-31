@@ -4,6 +4,22 @@ return {
   enabled = true,
   init = function()
     _G.Snacks = require("snacks")
+
+    -- vim.api.nvim_create_autocmd("BufEnter", {
+    --   pattern = "*",
+    --   callback = function(event)
+    --     local buf = event.buf
+    --     if vim.bo[buf].filetype == "snacks_picker_preview" then
+    --       local filename = vim.api.nvim_buf_get_name(buf)
+    --       if filename and filename ~= "" then
+    --         local ft = vim.filetype.match({ filename = filename })
+    --         if ft then
+    --           vim.bo[buf].filetype = ft
+    --         end
+    --       end
+    --     end
+    --   end,
+    -- })
   end,
   opts = {
     -- bigfile = { enabled = true },
