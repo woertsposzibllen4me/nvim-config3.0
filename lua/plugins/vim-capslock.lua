@@ -1,6 +1,6 @@
 return {
   "tpope/vim-capslock",
   keys = {
-    { "<C-g>c", mode = "i" }, -- for insert mode
+    { "<C-u>", "<Plug>CapsLockToggle", mode = "i", desc = "Toggle CapsLock" },
   },
 }
