@@ -36,11 +36,18 @@ return {
     },
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local lspconfig = require("lspconfig")
       local util = require("lspconfig.util")
-      if has_cmp then
-        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+      -- Setup completion capabilities
+      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local has_blink, blink = pcall(require, "blink.cmp")
+      if has_blink then
+        capabilities = blink.get_lsp_capabilities(capabilities)
+      else
+        if has_cmp then
+          capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+        end
       end
 
       local function custom_attach(client, bufnr)
