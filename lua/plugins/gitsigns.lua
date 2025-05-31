@@ -38,6 +38,11 @@ return {
           local diff_tab_nr = vim.api.nvim_tabpage_get_number(new_tab)
 
           map("n", "q", function()
+            vim.cmd("tabclose")
+          end)
+
+          -- close diff tab and jump to current change position
+          map("n", "Q", function()
             local cursor_pos = vim.api.nvim_win_get_cursor(0)
             local current_file = vim.api.nvim_buf_get_name(0)
 
