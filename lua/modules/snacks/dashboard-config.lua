@@ -39,6 +39,14 @@ M = {
         end,
       },
       {
+        icon = "",
+        key = "c",
+        desc = "Changed files",
+        action = function()
+          vim.cmd("lua Snacks.picker.git_status()")
+        end,
+      },
+      {
         icon = "💾",
         key = "S",
         desc = "Restore Session",
