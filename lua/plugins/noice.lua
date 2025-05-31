@@ -3,6 +3,9 @@ return {
   event = "VeryLazy",
   enabled = true,
   opts = {
+    presets = {
+      lsp_doc_border = true,
+    },
     routes = {
       {
         filter = {
@@ -23,7 +26,7 @@ return {
     },
     lsp = {
       signature = {
-        enabled = false,
+        enabled = true,
       },
       progress = {
         enabled = false,

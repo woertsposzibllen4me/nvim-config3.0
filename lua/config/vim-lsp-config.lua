@@ -46,9 +46,11 @@ local function quick_references()
   })
 end
 
-vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Lsp Hover Info" })
+vim.keymap.set("n", "K", function()
+  vim.lsp.buf.hover({ border = "rounded" })
+end, { desc = "Lsp Hover Info" })
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol under cursor" })
-vim.keymap.set("n", "gr", quick_references, { desc = "References" })
+vim.keymap.set("n", "gR", quick_references, { desc = "References (quickfix)" })
 vim.keymap.set("n", "gld", function()
   vim.lsp.buf.definition({ on_list = custom_on_list })
 end, { desc = "Definitions " })
