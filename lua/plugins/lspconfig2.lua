@@ -1,9 +1,17 @@
+if false then
+  return {}
+end
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
   underline = true,
   update_in_insert = false,
   severity_sort = true,
+  float = {
+    show_header = true,
+    source = "if_many",
+    border = "rounded",
+  },
 })
 return {
   {
@@ -15,10 +23,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     event = { "BufReadPre" },
     opts = {
-      ensure_installed = {
-        "lua_ls",
-        "powershell_es",
-      },
+      automatic_enable = false,
     },
   },
   {
@@ -33,31 +38,32 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
       local lspconfig = require("lspconfig")
+      local util = require("lspconfig.util")
       if has_cmp then
         capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
       end
 
       local function custom_attach(client, bufnr)
-        require("lsp_signature").on_attach({
-          bind = true,
-          -- use_lspsaga = true,
-          floating_window = true,
-          fix_pos = true,
-          hint_enable = false,
-          hi_parameter = "MatchParen",
-          toggle_key = "<c-s>",
-          toggle_key_flip_floatwin_setting = true, -- toggle key will enable|disable floating_window flag
-          handler_opts = {
-            border = "rounded",
-          },
-          -- max_height = 12,
-          -- max_width = 80,
-        }, bufnr)
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable()
-        end
+        -- NOTE: we prefer Noice's builtin signature help over this rn
+
+        -- require("lsp_signature").on_attach({
+        --   bind = true,
+        --   use_lspsaga = true,
+        --   -- floating_window = true,
+        --   fix_pos = true,
+        --   hint_enable = false,
+        --   hi_parameter = "MatchParen",
+        --   toggle_key = "<c-s>",
+        --   toggle_key_flip_floatwin_setting = true, -- toggle key will enable|disable floating_window flag
+        --   handler_opts = {
+        --     border = "rounded",
+        --   },
+        --   --   -- max_height = 12,
+        --   --   -- max_width = 80,
+        -- }, bufnr)
       end
 
+      -- Lua LSP setup
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
@@ -85,7 +91,8 @@ return {
         end,
       })
 
-      vim.lsp.config("powershell_es", {
+      -- powershell LSP setup
+      lspconfig.powershell_es.setup({
         cmd = {
           "pwsh",
           "-NoLogo",
@@ -108,6 +115,39 @@ return {
         end,
       })
 
+      -- Python LSPs setup
+      lspconfig.basedpyright.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.renameProvider = false -- we use pylsp rope plugin for renaming
+          custom_attach(client, bufnr)
+        end,
+        enabled = true,
+        -- autostart = true,
+        settings = {
+          basedpyright = {
+            analysis = {
+              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
+              -- diagnosticMode = "workspace",
+            },
+          },
+        },
+      })
+
+      lspconfig.pylsp.setup({
+        capabilities = capabilities,
+        enabled = true,
+        autostart = true,
+        on_attach = require("plugins.lsp_settings.pylsp").on_attach,
+        settings = require("plugins.lsp_settings.pylsp").settings,
+      })
+
+      -- lspconfig.ruff.setup({
+      --   capabilities = capabilities,
+      --   on_attach = custom_attach,
+      --   enabled = false,
+      --   autostart = true,
+      -- })
+
       -- AutoHotkey v2 LSP setup
       local ahk2_configs = {
         autostart = true,
@@ -126,16 +166,22 @@ return {
         capabilities = capabilities,
         on_attach = custom_attach,
       }
-
-      -- Register the custom AHK2 LSP configuration
       local configs = require("lspconfig.configs")
       if not configs.ahk2 then
         configs.ahk2 = { default_config = ahk2_configs }
       end
-
-      -- Set up the AHK2 LSP
       lspconfig.ahk2.setup({})
     end,
+
+    -- LSP keymaps
+    vim.keymap.set("n", "<leader>xl", function()
+      vim.diagnostic.config({
+        virtual_text = not vim.diagnostic.config().virtual_text,
+      })
+    end, { desc = "Toggle line diagnostics" }),
+
+    -- LSP enabling/disabling (for the newer 0.11+ syntax)
+    vim.lsp.enable("lua_ls"),
   },
   {
     "stevearc/conform.nvim",

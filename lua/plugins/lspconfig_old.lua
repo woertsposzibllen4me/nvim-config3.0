@@ -19,8 +19,9 @@ return {
           -- "ruff",
           -- "python-lsp-server",
           -- "powershell-editor-services",
-          "lua_ls",
+          -- "lua_ls",
         },
+        automatic_enable = false,
       })
     end,
   },

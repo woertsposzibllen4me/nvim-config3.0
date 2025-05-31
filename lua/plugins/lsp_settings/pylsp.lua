@@ -28,7 +28,6 @@ function M.on_attach(client, _)
   -- Enable only specific capabilities
   client.server_capabilities.renameProvider = true
   -- Disable all other capabilities
-  client.server_capabilities.textDocumentSync = nil
   client.server_capabilities.completionProvider = nil
   client.server_capabilities.hoverProvider = nil
   client.server_capabilities.signatureHelpProvider = nil
