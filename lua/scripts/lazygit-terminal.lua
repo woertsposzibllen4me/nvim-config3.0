@@ -11,7 +11,7 @@ end
 -- Function to create a floating terminal
 function M.lg_float_term(opts)
   opts = vim.tbl_deep_extend("force", {
-    size = { width = 0.9, height = 0.9 },
+    size = { width = 0.96, height = 1.0 },
   }, opts or {})
 
   local cmd
