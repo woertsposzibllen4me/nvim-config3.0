@@ -8,13 +8,14 @@ return {
       options = {
         mode = "tabs",
         max_name_length = 30,
-        name_formatter = function(tab)
+        name_formatter = function(buf)
+          ---@cast buf {name: string, path: string, bufnr: number, buffers: table, tabnr: number}
           -- Check if tab has custom name
-          if vim.t[tab.tabnr] and vim.t[tab.tabnr].custom_tabname then
-            return vim.t[tab.tabnr].custom_tabname
+          if vim.t[buf.tabnr] and vim.t[buf.tabnr].custom_tabname then
+            return vim.t[buf.tabnr].custom_tabname
           end
           -- Otherwise use default name
-          return tab.name
+          return buf.name
         end,
       },
     })

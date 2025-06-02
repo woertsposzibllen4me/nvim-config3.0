@@ -100,6 +100,22 @@ return {
           default_wrap_state = vim.o.wrap
           default_cursorline_state = vim.o.cursorline
           diff_clean.disable_diff_features()
+
+          -- Name tabpage with diffview info
+          vim.schedule(function()
+            local tabpage = vim.api.nvim_get_current_tabpage()
+            vim.api.nvim_create_autocmd("User", {
+              pattern = "DiffviewDiffBufWinEnter",
+              callback = function()
+                if vim.api.nvim_get_current_tabpage() == tabpage then
+                  local filename = vim.fn.expand("%:t")
+                  if filename ~= "" and filename ~= "null" then
+                    vim.t.custom_tabname = "diffview: " .. filename
+                  end
+                end
+              end,
+            })
+          end)
         end,
         view_closed = function()
           diff_clean.enable_diff_features()

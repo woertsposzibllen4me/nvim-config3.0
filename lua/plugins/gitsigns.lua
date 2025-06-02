@@ -145,7 +145,7 @@ return {
           gs.blame()
         end, "Blame Buffer")
 
-        -- Diff operations in new tab with custom name (requires bufferline plugin)
+        -- Diff operations in new tab with custom name (uses bufferline plugin for "vim.t.custom_tabname")
         vim.keymap.set("n", "<leader>god", "", {
           noremap = true,
           silent = true,
@@ -155,6 +155,8 @@ return {
 
             vim.cmd("tabnew")
             vim.cmd("buffer #")
+            local filename = vim.fn.expand("%:t")
+            vim.t.custom_tabname = "gs diff: " .. filename
             gs.diffthis()
             diff_clean.disable_diff_features()
 
@@ -190,6 +192,8 @@ return {
 
             vim.cmd("tabnew")
             vim.cmd("buffer #")
+            local filename = vim.fn.expand("%:t")
+            vim.t.custom_tabname = "gs diff(~): " .. filename
             gs.diffthis("~")
             diff_clean.disable_diff_features()
 
