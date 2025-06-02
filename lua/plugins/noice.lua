@@ -29,7 +29,7 @@ return {
         enabled = true,
       },
       progress = {
-        enabled = false,
+        enabled = true,
       },
     },
   },
