@@ -74,7 +74,7 @@ return {
               diff_clean.enable_diff_features()
               local closed_tab_nr = tonumber(args.file)
               if closed_tab_nr == diff_tab_nr then
-                require("modules.gitsigns.restore-ck-cj").restore_gs_bindings()
+                require("modules.gitsigns.restore-bindings").restore_gs_bindings()
 
                 -- Clean up the created buffers
                 for _, buf in ipairs(created_buffers or {}) do

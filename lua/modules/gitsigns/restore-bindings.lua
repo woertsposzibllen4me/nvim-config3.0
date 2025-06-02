@@ -22,6 +22,7 @@ end
 
 function M.restore_gs_bindings()
   vim.keymap.set("n", "q", "", { noremap = true, desc = "Quit most things" })
+  vim.keymap.set("n", "Q", "q", { noremap = true, desc = "Record macro" })
   local ok, wezmove = pcall(require, "wezterm-move")
   if ok then
     restore_wezmove_bindings(wezmove)
