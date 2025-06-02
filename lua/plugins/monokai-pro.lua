@@ -48,6 +48,7 @@ return {
       ---@param p ColorschemeOptions
       ---@param Config MonokaiProOptions
       ---@param hp Helper
+      --- @ diagnostic disable-next-line: unused-local
       override = function(cs, p, Config, hp) end,
     })
   end,

@@ -96,6 +96,7 @@ return {
 
     require("diffview").setup({
       hooks = {
+        --- @ diagnostic disable-next-line: unused-local
         view_opened = function(view)
           default_wrap_state = vim.o.wrap
           default_cursorline_state = vim.o.cursorline
@@ -120,6 +121,7 @@ return {
         view_closed = function()
           diff_clean.enable_diff_features()
         end,
+        --- @ diagnostic disable-next-line: unused-local
         diff_buf_read = function(bufnr)
           if vim.opt_local.wrap ~= false or vim.opt_local.cursorline ~= false then
             vim.opt_local.wrap = false

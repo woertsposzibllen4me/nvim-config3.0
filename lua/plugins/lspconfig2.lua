@@ -50,6 +50,7 @@ return {
         end
       end
 
+      --- @ diagnostic disable-next-line: unused-local
       local function custom_attach(client, bufnr)
         -- NOTE: we prefer Noice's builtin signature help over this rn
 
@@ -117,6 +118,7 @@ return {
           },
         },
         capabilities = capabilities,
+        --- @ diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
           vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
         end,

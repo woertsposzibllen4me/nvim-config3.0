@@ -34,6 +34,7 @@ return {
     },
     enabled = true,
     config = function()
+      --- @ diagnostic disable-next-line: unused-local
       vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx, _)
         if result == nil or vim.tbl_isempty(result) then
           return nil

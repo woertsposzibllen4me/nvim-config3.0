@@ -25,6 +25,7 @@ return {
         changedelete = { text = "▎" },
       },
 
+      --- @ diagnostic disable-next-line: unused-local
       on_attach = function(buffer)
         local gs = package.loaded.gitsigns
 
