@@ -69,6 +69,18 @@ return {
         --   --   -- max_height = 12,
         --   --   -- max_width = 80,
         -- }, bufnr)
+
+        -- close completion menu when showing signature help
+        vim.keymap.set("i", "<c-s>", function()
+          if has_blink and blink.is_visible() then
+            blink.hide()
+          else
+            if has_cmp and nvim_cmp.visible() then
+              nvim_cmp.close()
+            end
+          end
+          vim.lsp.buf.signature_help()
+        end, { buffer = bufnr })
       end
 
       -- Lua LSP setup
