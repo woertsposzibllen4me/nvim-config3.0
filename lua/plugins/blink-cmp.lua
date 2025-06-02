@@ -1,12 +1,17 @@
 return {
   "saghen/blink.cmp",
+  lazy = false,
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     "rafamadriz/friendly-snippets",
     "L3MON4D3/LuaSnip", -- Keep LuaSnip if you want to use it
   },
-  version = "v0.*",
+  -- test:
+  -- lua_ls
+  -- blink-cmp-introduction-special-thanks
   enabled = true,
+  -- version = "*",
+  build = "cargo build --release",
   config = function()
     -- Load snippets configuration (same as your nvim-cmp setup)
     require("plugins.plugin_configs.snippets_config")
@@ -31,15 +36,39 @@ return {
       -- Sources configuration matching your nvim-cmp sources
       sources = {
         default = { "lsp", "snippets", "buffer", "path" },
+        -- Define custom providers
+        providers = {
+          -- Custom buffer source for current buffer only
+          current_buffer = {
+            name = "Current Buffer",
+            module = "blink.cmp.sources.buffer",
+            opts = {
+              -- Only get completions from the current buffer
+              max_sync_buffer_size = math.huge,
+              get_bufnrs = function()
+                return { vim.api.nvim_get_current_buf() }
+              end,
+            },
+          },
+        },
       },
 
       fuzzy = {
         implementation = "rust",
+        sorts = {
+          "exact",
+          "score",
+          "sort_text",
+        },
         use_frecency = true,
         use_proximity = true,
+        max_typos = function(keyword)
+          return math.floor(#keyword / 6)
+          -- return 0
+        end,
       },
 
-      -- Cmdline configuration
+      -- Cmdline configuration with buffer search support
       cmdline = {
         enabled = true,
         keymap = {
@@ -49,13 +78,15 @@ return {
           ["<Tab>"] = { "accept", "fallback" },
           ["<CR>"] = { "select_and_accept" },
         },
+        -- Configure sources for different command line modes
+        --- @ type function
         sources = function()
           local type = vim.fn.getcmdtype()
-          -- Search forward and backward
+          -- Search forward and backward - show CURRENT buffer completions only
           if type == "/" or type == "?" then
-            return { "buffer" }
+            return { "current_buffer" }
           end
-          -- Commands
+          -- Commands - show cmdline completions
           if type == ":" or type == "@" then
             return { "cmdline" }
           end
@@ -104,7 +135,7 @@ return {
 
       -- Signature help (optional)
       signature = {
-        enabled = false, -- Disable if you prefer other signature help
+        enabled = false,
         window = { border = "none" },
       },
 
