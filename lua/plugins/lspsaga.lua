@@ -1,7 +1,12 @@
 return {
   "nvimdev/lspsaga.nvim",
   event = { "LspAttach" },
-  opts = {},
+  opts = {
+    lightbulb = {
+      enable = false,
+      virtual_text = false,
+    },
+  },
   keys = {
     { "<leader>K", "<cmd>Lspsaga hover_doc<CR>", desc = "(saga) Hover documentation" },
   },
