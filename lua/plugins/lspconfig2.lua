@@ -203,9 +203,6 @@ return {
         ["lua"] = { "stylua" },
       },
       formatters = {
-        ruff_format = {
-          args = { "--line-length", "88" },
-        },
         stylua = {
           prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         },
