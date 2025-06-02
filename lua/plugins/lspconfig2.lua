@@ -40,13 +40,13 @@ return {
       local util = require("lspconfig.util")
 
       -- Setup completion capabilities
-      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local has_cmp, nvim_cmp = pcall(require, "cmp_nvim_lsp")
       local has_blink, blink = pcall(require, "blink.cmp")
       if has_blink then
         capabilities = blink.get_lsp_capabilities()
       else
         if has_cmp then
-          capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+          capabilities = nvim_cmp.default_capabilities(capabilities)
         end
       end
 
