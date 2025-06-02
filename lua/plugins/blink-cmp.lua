@@ -63,7 +63,7 @@ return {
         use_frecency = true,
         use_proximity = true,
         max_typos = function(keyword)
-          return math.floor(#keyword / 6)
+          return math.floor(#keyword / 8)
           -- return 0
         end,
       },
@@ -118,7 +118,7 @@ return {
         },
         menu = {
           auto_show = true,
-          border = "none",
+          border = "rounded",
           draw = {
             treesitter = { "lsp" },
           },
