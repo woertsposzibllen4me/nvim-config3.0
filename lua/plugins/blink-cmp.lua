@@ -24,7 +24,7 @@ return {
         ["<Down>"] = { "select_next", "fallback" },
         ["<C-f>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide", "fallback" },
-        ["<CR>"] = { "accept", "fallback" },
+        ["<CR>"] = { "select_and_accept", "fallback" },
       },
 
       -- Appearance settings
