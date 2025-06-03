@@ -1,6 +1,7 @@
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
+  event = "BufReadPost",
   cmd = { "TodoTrouble", "TodoTelescope", "TodoQuickFix", "TodoLocList", "TodoFzfLua" },
   opts = {
     -- your configuration comes here

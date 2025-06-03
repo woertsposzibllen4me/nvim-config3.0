@@ -1,7 +1,7 @@
 return {
   {
     "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    event = "BufReadPost",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- Get default config first
@@ -73,5 +73,6 @@ return {
         branch = "harpoon2",
       },
     },
+    event = "BufReadPost",
   },
 }

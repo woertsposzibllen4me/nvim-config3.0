@@ -1,7 +1,7 @@
 return {
   "AndrewRadev/linediff.vim",
   lazy = true,
-  event = "VeryLazy",
+  event = "BufReadPost",
   keys = {
     {
       "<leader>ld",

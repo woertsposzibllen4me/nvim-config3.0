@@ -6,6 +6,7 @@ return {
     "MunifTanjim/nui.nvim",
     "kwkarlwang/bufresize.nvim", -- for automatic resize support
   },
+  event = "VeryLazy",
   config = function()
     vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
       desc = "Toggle Neo-tree",

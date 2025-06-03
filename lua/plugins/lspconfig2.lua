@@ -220,6 +220,7 @@ return {
   },
   {
     "stevearc/conform.nvim",
+    event = { "BufReadPre" },
     opts = {
       formatters_by_ft = {
         ["powershell"] = { "powershell_es" },

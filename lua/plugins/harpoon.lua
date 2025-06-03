@@ -2,6 +2,7 @@ return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
+  event = "VeryLazy",
   config = function()
     local harpoon = require("harpoon")
 
@@ -22,7 +23,7 @@ return {
     end, { desc = "Open Harpoon menu" })
 
     vim.keymap.set("n", "<leader>A", function()
-      harpoon:list():append()
+      harpoon:list():add()
     end, { desc = "Add file to Harpoon" })
 
     -- Navigate to files using leader + number

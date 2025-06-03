@@ -1,7 +1,7 @@
 -- better yank/paste
 return {
   "gbprod/yanky.nvim",
-  lazy = false,
+  lazy = true,
   recommended = true,
   desc = "Better Yank/Paste",
   opts = {
