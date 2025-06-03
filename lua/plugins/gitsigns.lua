@@ -1,6 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
-  event = "BufReadPre",
+  event = "BufReadPost",
   commit = "3c76f7fabac723aa682365ef782f88a83ccdb4ac", -- Locked for now due to Windows issues  TODO: Check upstream
   config = function()
     local diff_clean = require("scripts.diff-sanitize")

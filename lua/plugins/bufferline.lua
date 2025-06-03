@@ -2,6 +2,7 @@ return {
   "akinsho/bufferline.nvim",
   version = "*",
   dependencies = "nvim-tree/nvim-web-devicons",
+  event = "BufReadPost",
   enabled = true,
   config = function()
     require("bufferline").setup({

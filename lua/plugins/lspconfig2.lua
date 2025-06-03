@@ -17,6 +17,7 @@ return {
   {
     "williamboman/mason.nvim",
     event = { "BufReadPre" },
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonLog", "MasonUpdate" },
     opts = {},
   },
   {
