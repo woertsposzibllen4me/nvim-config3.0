@@ -156,7 +156,7 @@ return {
           client.server_capabilities.renameProvider = false -- we use pylsp rope plugin for renaming
           custom_attach(client, bufnr)
         end,
-        enabled = true,
+        enabled = false,
         -- autostart = true,
         settings = {
           basedpyright = {
@@ -168,9 +168,31 @@ return {
         },
       })
 
-      lspconfig.pylsp.setup({
+      lspconfig.pyright.setup({ -- quite a bit faster than basedpyright it seems like rn
         capabilities = capabilities,
         enabled = true,
+        autostart = true,
+        settings = {
+          python = {
+            analysis = {
+              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
+              -- autoSearchPaths = true,
+              typeCheckingMode = "strict",
+              -- diagnosticMode = "workspace",
+              -- useLibraryCodeForTypes = true,
+              -- autoImportCompletions = true,
+            },
+          },
+        },
+        on_attach = function(client, bufnr)
+          client.server_capabilities.renameProvider = false -- cannot rename module imports
+          custom_attach(client, bufnr)
+        end,
+      })
+
+      lspconfig.pylsp.setup({
+        capabilities = capabilities,
+        enabled = false,
         autostart = true,
         on_attach = require("plugins.lsp_settings.pylsp").on_attach,
         settings = require("plugins.lsp_settings.pylsp").settings,
