@@ -1,5 +1,5 @@
 return {
-  "farazdagi/copilot-status.nvim", -- forked due to unimplemented fix  TODO: check upstream (jonahgoldwastaken)
+  "jonahgoldwastaken/copilot-status.nvim",
   dependencies = { "zbirenbaum/copilot.lua" },
   event = "InsertEnter",
   enabled = true,
