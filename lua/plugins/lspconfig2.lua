@@ -40,13 +40,15 @@ return {
       local util = require("lspconfig.util")
 
       -- Setup completion capabilities
-      local has_cmp, nvim_cmp = pcall(require, "cmp_nvim_lsp")
+      local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+      local has_cmp, cmp = pcall(require, "cmp")
       local has_blink, blink = pcall(require, "blink.cmp")
       if has_blink then
         capabilities = blink.get_lsp_capabilities()
+        vim.notify("Blink is available (lsp)", vim.log.levels.INFO)
       else
-        if has_cmp then
-          capabilities = nvim_cmp.default_capabilities(capabilities)
+        if has_cmp_lsp then
+          capabilities = cmp_lsp.default_capabilities(capabilities)
         end
       end
 
@@ -75,8 +77,8 @@ return {
           if has_blink and blink.is_visible() then
             blink.hide()
           else
-            if has_cmp and nvim_cmp.visible() then
-              nvim_cmp.close()
+            if has_cmp and cmp.visible() then
+              cmp.close()
             end
           end
           vim.lsp.buf.signature_help()
