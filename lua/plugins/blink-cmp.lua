@@ -9,7 +9,7 @@ return {
   -- test:
   -- lua_ls
   -- blink-cmp-introduction-special-thanks
-  enabled = true,
+  enabled = false,
   -- version = "*",
   build = "cargo build --release",
   config = function()

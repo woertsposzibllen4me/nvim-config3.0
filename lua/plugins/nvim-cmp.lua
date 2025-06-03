@@ -8,18 +8,55 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
+    "onsails/lspkind-nvim",
   },
   event = { "InsertEnter", "CmdlineEnter" },
-  enabled = false,
+  enabled = true,
   config = function()
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { link = "CustomMatch" })
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CustomMatchFuzzy" })
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    -- Load snippets configuration
     require("plugins.plugin_configs.snippets_config")
-    -- Basic completion setup
+    local lspkind = require("lspkind")
     cmp.setup({
+      window = {
+        completion = {
+          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+          col_offset = -3,
+          side_padding = 0,
+        },
+      },
+      formatting = {
+        fields = { "kind", "abbr" },
+        format = function(entry, vim_item)
+          local original_kind = vim_item.kind
+          local kind = require("lspkind").cmp_format({
+            mode = "symbol_text",
+            maxwidth = 50,
+          })(entry, vim_item)
+
+          local strings = vim.split(kind.kind, "%s", { trimempty = true })
+          kind.kind = " " .. (strings[1] or "") .. " "
+
+          local has_colormenu, colormenu = pcall(require, "colorful-menu")
+          if has_colormenu then
+            local highlights_info = colormenu.cmp_highlights(entry)
+            if highlights_info then
+              kind.abbr_hl_group = highlights_info.highlights
+              kind.abbr = highlights_info.text
+            end
+          end
+
+          -- print("DEBUG - Original Kind:", original_kind, "Label:", vim_item.abbr)
+          -- Make python keyword argument names yellow
+          if original_kind == "Variable" and string.find(vim_item.abbr, "=") then
+            kind.abbr_hl_group = "@variable.parameter" -- This should be yellow
+          end
+
+          return kind
+        end,
+      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
