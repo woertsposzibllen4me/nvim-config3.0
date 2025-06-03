@@ -4,7 +4,7 @@ return {
   enabled = true,
   init = function()
     _G.Snacks = require("snacks")
-
+    vim.api.nvim_set_hl(0, "SnacksPickerMatch", { link = "CustomMatch" })
     -- vim.api.nvim_create_autocmd("BufEnter", {
     --   pattern = "*",
     --   callback = function(event)

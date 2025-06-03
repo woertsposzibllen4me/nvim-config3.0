@@ -94,6 +94,7 @@ return {
     },
   },
   config = function()
+    vim.api.nvim_set_hl(0, "TelescopeMatching", { link = "CustomMatch" })
     local telescope = require("telescope")
     local actions = require("telescope.actions")
 

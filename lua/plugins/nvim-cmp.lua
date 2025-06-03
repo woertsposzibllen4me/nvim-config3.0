@@ -12,6 +12,8 @@ return {
   event = { "InsertEnter", "CmdlineEnter" },
   enabled = false,
   config = function()
+    vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { link = "CustomMatch" })
+    vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CustomMatchFuzzy" })
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     -- Load snippets configuration
