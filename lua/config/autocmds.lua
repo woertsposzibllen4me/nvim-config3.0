@@ -171,3 +171,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.colorcolumn = "50,72"
   end,
 })
+
+-- Set terminal buffer background color
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.wo.winhighlight = "Normal:CustomTerminalBg"
+  end,
+})

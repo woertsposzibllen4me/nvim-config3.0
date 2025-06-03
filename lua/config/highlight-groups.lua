@@ -15,3 +15,4 @@ vim.api.nvim_set_hl(0, "DiffText", { bg = "#633f01" })
 
 vim.api.nvim_set_hl(0, "CustomMatch", { fg = "#73ffdc", bold = true })
 vim.api.nvim_set_hl(0, "CustomMatchFuzzy", { fg = "#f1ff73", bold = true })
+vim.api.nvim_set_hl(0, "CustomTerminalBg", { bg = "#151a2e" })
