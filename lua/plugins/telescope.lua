@@ -119,6 +119,33 @@ return {
       vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%s)", winid))
     end
 
+    local focus_results = function(prompt_bufnr)
+      local action_state = require("telescope.actions.state")
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local prompt_win = picker.prompt_win
+      local results_win = picker.results_win
+      local results_bufnr = vim.api.nvim_win_get_buf(results_win)
+
+      -- Set up keymaps for the results buffer
+      vim.keymap.set("n", "i", function()
+        vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%s)", prompt_win))
+        vim.cmd("startinsert")
+      end, { buffer = results_bufnr })
+
+      vim.keymap.set("n", "q", function()
+        actions.close(prompt_bufnr)
+      end, { buffer = results_bufnr })
+
+      -- Disable navigation keymaps that might conflict
+      vim.keymap.set("n", "<C-l>", "<nop>", { buffer = results_bufnr })
+      vim.keymap.set("n", "<C-j>", "<nop>", { buffer = results_bufnr })
+      vim.keymap.set("n", "<C-k>", "<nop>", { buffer = results_bufnr })
+      vim.keymap.set("n", "<C-h>", "<nop>", { buffer = results_bufnr })
+
+      -- Focus the results window
+      vim.cmd(string.format("noautocmd lua vim.api.nvim_set_current_win(%s)", results_win))
+    end
+
     -- Flash setup
     local function flash(prompt_bufnr)
       require("flash").jump({
@@ -146,10 +173,12 @@ return {
           n = {
             s = flash,
             ["<C-l>"] = focus_preview,
+            ["<C-h>"] = focus_results,
           },
           i = {
             ["<m-s>"] = flash,
             ["<C-l>"] = focus_preview,
+            ["<C-h>"] = focus_results,
           },
         },
         sorting_strategy = "ascending",
