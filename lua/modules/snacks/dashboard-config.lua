@@ -59,6 +59,14 @@ M = {
         end,
       },
       {
+        icon = "📜",
+        key = "t",
+        desc = "TODO comments",
+        action = function()
+          vim.cmd("TodoQuickFix keywords=TODO")
+        end,
+      },
+      {
         icon = "💾",
         key = "S",
         desc = "Restore Session",
