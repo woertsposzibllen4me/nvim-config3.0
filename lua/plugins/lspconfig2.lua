@@ -25,6 +25,17 @@ return {
     event = { "BufReadPre" },
     opts = {
       automatic_enable = false,
+      ensure_installed = {
+        -- lua
+        "lua_ls",
+        -- python
+        "pyright",
+        "pylsp",
+        "basedpyright",
+        "ruff",
+        -- pwsh
+        "powershell_es",
+      },
     },
   },
   {
