@@ -1,18 +1,6 @@
 if false then
   return {}
 end
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = {
-    show_header = true,
-    source = "if_many",
-    border = "rounded",
-  },
-})
 return {
   {
     "williamboman/mason.nvim",
@@ -194,8 +182,8 @@ return {
         capabilities = capabilities,
         enabled = false,
         autostart = true,
-        on_attach = require("plugins.lsp_settings.pylsp").on_attach,
-        settings = require("plugins.lsp_settings.pylsp").settings,
+        on_attach = require("config.lsp-settings").pylsp.on_attach,
+        settings = require("config.lsp-settings").pylsp.settings,
       })
 
       -- lspconfig.ruff.setup({
@@ -230,36 +218,7 @@ return {
       lspconfig.ahk2.setup({})
     end,
 
-    -- LSP keymaps
-    vim.keymap.set("n", "<leader>xl", function()
-      vim.diagnostic.config({
-        virtual_text = not vim.diagnostic.config().virtual_text,
-      })
-    end, { desc = "Toggle line diagnostics" }),
-
     -- LSP enabling/disabling (for the newer 0.11+ syntax)
     vim.lsp.enable("lua_ls"),
-  },
-  {
-    "stevearc/conform.nvim",
-    event = { "BufReadPre" },
-    opts = {
-      formatters_by_ft = {
-        ["powershell"] = { "powershell_es" },
-        ["python"] = { "ruff_format" },
-        ["yaml"] = { "prettier" },
-        ["toml"] = { "taplo" },
-        ["lua"] = { "stylua" },
-      },
-      formatters = {
-        stylua = {
-          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
-        },
-      },
-      format_on_save = {
-        timer = 500,
-        lsp_fallback = true,
-      },
-    },
   },
 }
