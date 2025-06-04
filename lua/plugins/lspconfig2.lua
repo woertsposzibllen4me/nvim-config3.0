@@ -180,6 +180,7 @@ return {
           client.server_capabilities.documentHighlightProvider = false
           client.server_capabilities.documentSymbolProvider = false
           client.server_capabilities.semanticTokensProvider = nil
+          client.server_capabilities.definitionProvider = nil
           custom_attach(client, bufnr)
         end,
       })
