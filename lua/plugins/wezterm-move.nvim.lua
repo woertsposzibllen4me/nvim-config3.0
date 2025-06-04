@@ -18,6 +18,10 @@ return {
       "<C-k>",
       function()
         require("wezterm-move").move("k")
+        -- Check if we landed in neo-tree and auto-move right
+        if vim.bo.filetype == "neo-tree" then
+          require("wezterm-move").move("l")
+        end
       end,
     },
     {
