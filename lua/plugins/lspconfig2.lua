@@ -37,7 +37,6 @@ return {
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
 
       -- Setup completion capabilities
       local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
@@ -45,7 +44,6 @@ return {
       local has_blink, blink = pcall(require, "blink.cmp")
       if has_blink then
         capabilities = blink.get_lsp_capabilities()
-        vim.notify("Blink is available (lsp)", vim.log.levels.INFO)
       else
         if has_cmp_lsp then
           capabilities = cmp_lsp.default_capabilities(capabilities)
@@ -138,60 +136,80 @@ return {
         end,
       })
 
-      -- Python LSPs setup
-      lspconfig.basedpyright.setup({
-        on_attach = function(client, bufnr)
-          client.server_capabilities.renameProvider = false -- we use pylsp rope plugin for renaming
-          custom_attach(client, bufnr)
-        end,
-        enabled = false,
-        -- autostart = true,
-        settings = {
-          basedpyright = {
-            analysis = {
-              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
-              -- diagnosticMode = "workspace",
-            },
-          },
-        },
-      })
-
-      lspconfig.pyright.setup({ -- quite a bit faster than basedpyright it seems like rn
+      --  #### Start of Python LSPs setup ####
+      -- We use Pyright for completions, hover, signatures (it's faster at interactive stuff)
+      lspconfig.pyright.setup({
         capabilities = capabilities,
         enabled = true,
         autostart = true,
         settings = {
           python = {
             analysis = {
-              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
-              -- autoSearchPaths = true,
-              typeCheckingMode = "strict",
-              -- diagnosticMode = "workspace",
-              -- useLibraryCodeForTypes = true,
-              -- autoImportCompletions = true,
+              ignore = { "*" }, -- we use basedpyright for diagnostics
+              typeCheckingMode = "off",
             },
           },
+          -- pyright = {
+          --   disableTaggedHints = true, -- leaving it in as fallback solution if needed
+          -- },
         },
         on_attach = function(client, bufnr)
-          client.server_capabilities.renameProvider = false -- cannot rename module imports
+          client.server_capabilities.renameProvider = false -- can't rename module names
           custom_attach(client, bufnr)
         end,
       })
 
+      -- BasedPyright for type checking and diagnostics
+      lspconfig.basedpyright.setup({
+        capabilities = capabilities,
+        enabled = true,
+        autostart = true,
+        settings = {
+          basedpyright = {
+            analysis = {
+              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
+            },
+          },
+        },
+        on_attach = function(client, bufnr)
+          -- Disable capabilities that pyright handles better/faster
+          client.server_capabilities.completionProvider = false
+          client.server_capabilities.hoverProvider = false
+          client.server_capabilities.signatureHelpProvider = false -- pyright has better placement for it
+          client.server_capabilities.renameProvider = false
+          client.server_capabilities.documentHighlightProvider = false
+          client.server_capabilities.documentSymbolProvider = false
+          client.server_capabilities.semanticTokensProvider = nil
+          custom_attach(client, bufnr)
+        end,
+      })
+
+      -- pylsp for renaming (rope)
       lspconfig.pylsp.setup({
         capabilities = capabilities,
-        enabled = false,
+        enabled = true,
         autostart = true,
         on_attach = require("config.lsp-settings").pylsp.on_attach,
         settings = require("config.lsp-settings").pylsp.settings,
       })
 
-      -- lspconfig.ruff.setup({
-      --   capabilities = capabilities,
-      --   on_attach = custom_attach,
-      --   enabled = false,
-      --   autostart = true,
-      -- })
+      -- Ruff for formatting and diagnostics
+      lspconfig.ruff.setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modifiable then
+              -- Make a fake edit to trigger diagnostics directly after attaching
+              -- (otherwise wouldn't until a change is made to the buffer)
+              vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, { "" })
+              vim.bo[bufnr].modified = false
+            end
+          end)
+        end,
+        enabled = true,
+        autostart = true,
+      })
+      -- #### End of Python LSPs setup ####
 
       -- AutoHotkey v2 LSP setup
       local ahk2_configs = {
