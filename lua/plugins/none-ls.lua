@@ -12,7 +12,7 @@ return {
     require("mason-null-ls").setup({
       ensure_installed = {
         "taplo",
-        "pylint",
+        -- "pylint",
       },
       automatic_installation = true,
     })
