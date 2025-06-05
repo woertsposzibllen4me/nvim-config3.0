@@ -179,7 +179,9 @@ return {
           client.server_capabilities.renameProvider = false
           client.server_capabilities.documentHighlightProvider = false
           client.server_capabilities.documentSymbolProvider = false
-          client.server_capabilities.semanticTokensProvider = nil
+          if client.server_capabilities.semanticTokensProvider then
+            client.server_capabilities.semanticTokensProvider = false
+          end
           client.server_capabilities.definitionProvider = nil
           custom_attach(client, bufnr)
         end,
