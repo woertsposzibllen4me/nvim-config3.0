@@ -118,7 +118,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- This is used to have dynamic pane navigation keybinds with wezterm, to use C-hjkl everywhere
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    if vim.fn.has("win32") == 1 then
+    if OnWindows then
       local function set_in_windows_nvim(b64_val)
         io.write(string.format("\x1b]1337;SetUserVar=in_Windows_nvim=%s\x07", b64_val))
         io.flush()

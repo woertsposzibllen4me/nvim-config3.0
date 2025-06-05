@@ -64,7 +64,7 @@ return {
     })
 
     local shell
-    if vim.fn.has("win32") == 1 then
+    if OnWindows then
       shell = "pwsh.exe"
     end
 

@@ -46,7 +46,7 @@ return {
     },
   },
   config = function()
-    if vim.fn.has("win32") == 1 then
+    if OnWindows then
       -- Check if diff is available in the PATH
       if vim.fn.executable("diff") == 1 then
         vim.g.undotree_DiffCommand = "diff"

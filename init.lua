@@ -1,3 +1,4 @@
+_G.OnWindows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 require("config.lazy")
 vim.cmd([[colorscheme tokyonight]])
 require("config.keymaps")

@@ -1,7 +1,6 @@
 -- local terms_width = 60
 local height_limit = 40
 local top_padding = vim.o.lines > height_limit and 7 or -1
-local windows_os = vim.fn.has("win32") == 1
 local function get_panes()
   local fullscreen = vim.o.columns >= 190
   return {
@@ -93,7 +92,7 @@ M = {
         -- icon = "🗑",
         key = "d",
         desc = "Delete Shada Temp Files",
-        enabled = windows_os,
+        enabled = OnWindows,
         action = function()
           require("scripts.delete-temp-shadas").Delete_shada_temp_files()
         end,
@@ -329,7 +328,7 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
     --       pane = 4,
     --       section = "terminal",
     --       enabled = false,
-    --       cmd = not windows_os and "colorscript -e square" or nil,
+    --       cmd = not OnWindows and "colorscript -e square" or nil,
     --       height = 5,
     --       width = terms_width,
     --       padding = 1,
@@ -372,7 +371,7 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
     --       end
     --
     --       local function get_platform_specific_untracked_cmd()
-    --         if windows_os then
+    --         if OnWindows then
     --           -- Windows approach using PowerShell
     --           return [[
     --           git status --porcelain | findstr "^??" |

@@ -1,6 +1,6 @@
 return {
   "letieu/wezterm-move.nvim",
-  enabled = vim.fn.has("win32") == 1 and true, -- Better fitted for Windows
+  enabled = OnWindows and true, -- Better fitted for Windows
   keys = {
     {
       "<C-h>",

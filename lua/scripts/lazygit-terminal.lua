@@ -15,7 +15,7 @@ function M.lg_float_term(opts)
   }, opts or {})
 
   local cmd
-  if vim.fn.has("win32") == 1 then
+  if OnWindows then
     cmd = { "cmd.exe", "/C", "lazygit" }
 
     -- Handle arguments for Windows

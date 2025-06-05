@@ -22,7 +22,7 @@ return {
             local filename = vim.fn.expand("%:t")
             local relative_path = vim.fn.expand("%:.")
             local dir = vim.fn.fnamemodify(relative_path, ":h")
-            local separator = vim.fn.has("win32") == 1 and "\\" or "/"
+            local separator = OnWindows and "\\" or "/"
             return table.concat({ dir, separator, "%#LualineFilename#", filename, "%*" })
           end,
         },
