@@ -17,7 +17,6 @@ return {
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CustomMatchFuzzy" })
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    require("modules.luasnip.snippets_config")
     local lspkind = require("lspkind")
     cmp.setup({
       window = {

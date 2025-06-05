@@ -13,9 +13,6 @@ return {
   -- version = "*",
   build = "cargo build --release",
   config = function()
-    -- Load snippets configuration (same as your nvim-cmp setup)
-    require("modules.luasnip.snippets_config")
-
     require("blink.cmp").setup({
       -- Keymap configuration matching your nvim-cmp setup
       keymap = {
