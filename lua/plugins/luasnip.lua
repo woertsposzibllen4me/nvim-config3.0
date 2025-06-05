@@ -1,13 +1,41 @@
 return {
   "L3MON4D3/LuaSnip",
-  -- keys = {
-  --   { "<C-k>", mode = { "i", "s" } },
-  --   { "<C-j>", mode = { "i", "s" } },
-  --   { "<C-l>", mode = { "i" } },
-  --   { "<C-e>", mode = { "i", "s" } },
-  -- },
+  keys = {
+    { "<C-k>", mode = { "i", "s" } },
+    { "<C-j>", mode = { "i", "s" } },
+    { "<C-l>", mode = { "i" } },
+    { "<C-e>", mode = { "i", "s" } },
+  },
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+  },
+  enabled = true,
   config = function()
     local ls = require("luasnip")
+
+    -- -- example
+    -- local s = ls.snippet
+    -- local t = ls.text_node
+    -- local i = ls.insert_node
+    -- local f = ls.function_node
+    -- local c = ls.choice_node
+    --
+    -- ls.add_snippets("all", {
+    --   s("testsnip", {
+    --     t("function "),
+    --     i(1, "name"),
+    --     t("("),
+    --     i(2),
+    --     t(") "),
+    --     c(3, { -- This is a choice node
+    --       t("returns this"),
+    --       t("returns or_that"),
+    --     }),
+    --     t({ "", "  " }),
+    --     i(0),
+    --     t({ "", "end" }),
+    --   }),
+    -- })
 
     require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -21,6 +49,7 @@ return {
     end, { expr = true, silent = true })
 
     vim.keymap.set({ "i" }, "<C-l>", function()
+      --- @ diagnostic disable-next-line: missing-parameter
       ls.expand()
     end, { silent = true })
 

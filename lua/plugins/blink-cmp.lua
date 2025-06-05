@@ -1,18 +1,19 @@
 return {
   "saghen/blink.cmp",
-  lazy = false,
+  lazy = true,
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     "rafamadriz/friendly-snippets",
-    "L3MON4D3/LuaSnip", -- Keep LuaSnip if you want to use it
+    "L3MON4D3/LuaSnip",
   },
   -- test:
   -- lua_ls
   -- blink-cmp-introduction-special-thanks
-  enabled = false,
-  -- version = "*",
-  build = "cargo build --release",
+  enabled = true,
+  version = "*", -- either use a release or use the build command below
+  -- build = "cargo build --release",
   config = function()
+    local has_luasnip, luasnip = pcall(require, "luasnip")
     require("blink.cmp").setup({
       -- Keymap configuration matching your nvim-cmp setup
       keymap = {
@@ -140,7 +141,7 @@ return {
 
       -- Snippets configuration
       snippets = {
-        preset = "luasnip",
+        preset = has_luasnip and "luasnip" or "default",
       },
     })
   end,

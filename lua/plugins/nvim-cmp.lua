@@ -11,12 +11,12 @@ return {
     "onsails/lspkind-nvim",
   },
   event = { "InsertEnter", "CmdlineEnter" },
-  enabled = true,
+  enabled = false,
   config = function()
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { link = "CustomMatch" })
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CustomMatchFuzzy" })
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
+    local has_luasnip, luasnip = pcall(require, "luasnip")
     local lspkind = require("lspkind")
     ---@diagnostic disable-next-line: redundant-parameter
     cmp.setup({
@@ -59,7 +59,9 @@ return {
       },
       snippet = {
         expand = function(args)
-          luasnip.lsp_expand(args.body)
+          if has_luasnip then
+            luasnip.lsp_expand(args.body)
+          end
         end,
       },
       mapping = {
