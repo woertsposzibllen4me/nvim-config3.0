@@ -189,7 +189,7 @@ return {
         live_grep = {
           mappings = {
             i = {
-              ["<C-e>"] = actions.to_fuzzy_refine,
+              ["<C-g>"] = actions.to_fuzzy_refine,
             },
           },
         },
