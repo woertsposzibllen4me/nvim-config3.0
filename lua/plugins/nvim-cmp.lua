@@ -18,6 +18,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
+    ---@diagnostic disable-next-line: redundant-parameter
     cmp.setup({
       window = {
         completion = {
@@ -62,6 +63,17 @@ return {
         end,
       },
       mapping = {
+        -- show information on cmp selected entry
+        ["<Left>"] = cmp.mapping(function()
+          local entry = cmp.get_selected_entry()
+          if entry then
+            print("Source:", entry.source.name)
+            print("Label:", entry.completion_item.label)
+            print("Kind:", entry.completion_item.kind)
+            print("Detail:", entry.completion_item.detail or "none")
+            print("Documentation:", vim.inspect(entry.completion_item.documentation))
+          end
+        end),
         ["<Up>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
@@ -86,8 +98,8 @@ return {
         completeopt = "menu,menuone,noselect",
       },
       sources = cmp.config.sources({
-        { name = "nvim_lsp" },
         { name = "luasnip" },
+        { name = "nvim_lsp" },
         { name = "buffer" },
         { name = "path" },
       }),

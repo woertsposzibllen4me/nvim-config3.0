@@ -32,7 +32,12 @@ return {
 
       -- Sources configuration matching your nvim-cmp sources
       sources = {
-        default = { "lsp", "snippets", "buffer", "path" },
+        default = {
+          "snippets",
+          "lsp",
+          "buffer",
+          "path",
+        },
         -- Define custom providers
         providers = {
           -- Custom buffer source for current buffer only
@@ -110,12 +115,9 @@ return {
         accept = {
           auto_brackets = { enabled = false }, -- Match nvim-cmp behavior
         },
-        list = {
-          max_items = 200,
-        },
         menu = {
           auto_show = true,
-          border = "rounded",
+          border = "none",
           draw = {
             treesitter = { "lsp" },
           },
