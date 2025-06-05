@@ -1,4 +1,5 @@
 local opts = { noremap = true, silent = true }
+local wk = require("which-key")
 local map = vim.keymap.set
 
 -- lateral movement with H and L except in neo-tree
@@ -50,7 +51,7 @@ map("n", "%", "%zz", opts)
 -- map("n", "``", "``zz", opts)
 
 -- Lazy
-require("which-key").add({
+wk.add({
   "<leader>L",
   "<cmd>Lazy<cr>",
   desc = "Lazy",
@@ -84,3 +85,16 @@ end, { desc = "test" })
 
 -- Search within visual selection
 vim.keymap.set("x", "<leader>/", "<Esc>/\\%V")
+
+wk.add({
+  "<leader>op",
+  function()
+    local path = vim.api.nvim_buf_get_name(0)
+    local row = unpack(vim.api.nvim_win_get_cursor(0))
+    local command = ("pycharm --line " .. row .. " " .. path .. "")
+    print(command)
+    os.execute(command)
+  end,
+  desc = "Open line in PyCharm",
+  icon = { icon = "", color = "yellow" },
+})
