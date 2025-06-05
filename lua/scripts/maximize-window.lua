@@ -39,3 +39,11 @@ vim.keymap.set("n", "<leader>wm", maximize_window, { desc = "Maximize window siz
 vim.keymap.set("n", "<leader>ws", set_window, { desc = "Set window size" })
 vim.keymap.set("n", "<leader>wr", restore_window, { desc = "Restore window size" })
 vim.keymap.set("n", "<leader>wh", half_size_window, { desc = "Set window to half size" })
+
+return {
+  -- exported functions
+  maximize_window = maximize_window,
+  half_size_window = half_size_window,
+  restore_window = restore_window,
+  set_window = set_window,
+}

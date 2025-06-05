@@ -36,8 +36,11 @@ return {
   keys = {
     {
       "<leader>na",
-      "<cmd>NoiceAll<CR>",
-      desc = "Show all notifications",
+      function()
+        vim.cmd("NoiceAll")
+        require("scripts.maximize-window").half_size_window()
+      end,
+      desc = "All notifications (half size window)",
     },
     {
       "<leader>nd",
