@@ -36,8 +36,10 @@ return {
       { "<leader>c", group = "QuickFix" },
       { "<leader>s", group = "Search" },
       { "<leader>sg", group = "Git Search" },
-      { "<leader>gd", icon = { icon = "", color = "orange", }, group = "Diffview", },
       {"<leader>t", icon = { icon = "", color = "blue", }, group = "Terminal", },
+      {"<leader>rg", icon = { icon = "󰛔", color = "blue", }, group = "GrugFar", },
+      { "<leader>l", icon = { icon = "󰈙", color = "blue" }, group = "Line diffs" },
+      { "<leader>o", icon = { icon = "", color = "yellow" }, group = "Open" },
     })
   end,
 }
