@@ -39,6 +39,9 @@ return {
       function()
         vim.cmd("NoiceAll")
         require("scripts.maximize-window").half_size_window()
+        vim.schedule(function()
+          vim.cmd("normal! G")
+        end)
       end,
       desc = "All notifications (half size window)",
     },
