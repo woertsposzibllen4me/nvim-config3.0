@@ -1,7 +1,7 @@
 return {
   {
     "nvim-lualine/lualine.nvim",
-    event = "BufReadPost",
+    -- event = "BufReadPost",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- Get default config first
@@ -67,11 +67,11 @@ return {
   {
     "letieu/harpoon-lualine",
     dependencies = {
-      {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-      },
+      -- {
+      --   "ThePrimeagen/harpoon",
+      --   branch = "harpoon2",
+      -- },
     },
-    event = "BufReadPost",
+    -- event = "BufReadPost",
   },
 }
