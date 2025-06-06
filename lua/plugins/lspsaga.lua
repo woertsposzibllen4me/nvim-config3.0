@@ -8,6 +8,6 @@ return {
     },
   },
   keys = {
-    { "<leader>K", "<cmd>Lspsaga hover_doc<CR>", desc = "(saga) Hover documentation" },
+    { "gK", "<cmd>Lspsaga hover_doc<CR>", desc = "(saga) Hover documentation" },
   },
 }
