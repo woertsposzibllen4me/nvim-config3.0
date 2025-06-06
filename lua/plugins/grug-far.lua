@@ -3,7 +3,7 @@ return {
   cmd = "GrugFar",
   keys = {
     {
-      "<leader>G",
+      "<leader>rgr",
       function()
         local grug = require("grug-far")
         local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
@@ -15,7 +15,23 @@ return {
         })
       end,
       mode = { "n", "v" },
-      desc = "Search and Replace (GrugFar)",
+      desc = "GrugFar (rg)",
+    },
+    {
+      "<leader>rga",
+      function()
+        local grug = require("grug-far")
+        local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+        grug.open({
+          transient = true,
+          engine = "astgrep",
+          prefills = {
+            filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+          },
+        })
+      end,
+      mode = { "n", "v" },
+      desc = "GrugFar (ast-grep)",
     },
   },
   config = function()
