@@ -87,8 +87,8 @@ M.pylsp = {
     pylsp = {
       plugins = {
         -- Enabled plugins
-        pylint = { enabled = true },
-        rope_rename = { enabled = true },
+        pylint = { enabled = false },
+        rope_rename = { enabled = false }, -- doesnt seem to do anything useful lmfao
         -- Explicitly disabled plugins
         mccabe = { enabled = false }, -- ruff does it now
         jedi_completion = { enabled = false },
