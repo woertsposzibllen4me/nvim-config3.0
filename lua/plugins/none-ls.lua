@@ -13,6 +13,8 @@ return {
       ensure_installed = {
         "taplo",
         -- "pylint",
+        "stylua",
+        "prettier",
       },
       automatic_installation = true,
     })
