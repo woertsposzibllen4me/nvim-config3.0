@@ -18,6 +18,9 @@ return {
 
       config.sections.lualine_c = {
         {
+          "grapple",
+        },
+        {
           function()
             local filename = vim.fn.expand("%:t")
             local relative_path = vim.fn.expand("%:.")
@@ -28,15 +31,17 @@ return {
         },
       }
 
-      -- Add our components to lualine_x section while preserving existing ones
-      table.insert(config.sections.lualine_c, 1, {
-        "harpoon2",
-        icon = "󱡅", -- Harpoon icon (requires a Nerd Font)
-        indicators = { "1", "2", "3", "4", "5" },
-        active_indicators = { "[1]", "[2]", "[3]", "[4]", "[5]" },
-        color_active = { fg = "#ff6186", gui = "bold" },
-        no_harpoon = "Harpoon not loaded",
-      })
+      local has_harpoon, _ = pcall(require, "harpoon")
+      if has_harpoon then
+        table.insert(config.sections.lualine_c, 1, {
+          "harpoon2",
+          icon = "󱡅", -- Harpoon icon (requires a Nerd Font)
+          indicators = { "1", "2", "3", "4", "5" },
+          active_indicators = { "[1]", "[2]", "[3]", "[4]", "[5]" },
+          color_active = { fg = "#ff6186", gui = "bold" },
+          no_harpoon = "Harpoon not loaded",
+        })
+      end
 
       table.insert(config.sections.lualine_x, 3, {
         function()
@@ -65,7 +70,10 @@ return {
     end,
   },
   {
-    "letieu/harpoon-lualine",
+    -- "letieu/harpoon-lualine",
+    dir = "C:/Users/ville/myfiles/various-github-repos/harpoon-lualine",
+    name = "local-harpoon-lualine",
+    enabled = false,
     dependencies = {
       -- {
       --   "ThePrimeagen/harpoon",

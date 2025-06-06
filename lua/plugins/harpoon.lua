@@ -4,6 +4,7 @@ return {
   dir = "C:/Users/ville/myfiles/various-github-repos/harpoon",
   name = "local-harpoon",
   dependencies = { "nvim-lua/plenary.nvim" },
+  enabled = false,
   -- event = "VeryLazy",
   config = function()
     local harpoon = require("harpoon")
@@ -25,8 +26,8 @@ return {
     end, { desc = "Open Harpoon menu" })
 
     vim.keymap.set("n", "<leader>A", function()
-      -- harpoon:list():add()
-      harpoon:list():append()
+      harpoon:list():add()
+      -- harpoon:list():append()
     end, { desc = "Add file to Harpoon" })
 
     -- Navigate to files using leader + number
