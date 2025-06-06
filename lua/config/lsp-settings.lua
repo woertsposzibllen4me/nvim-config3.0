@@ -22,6 +22,12 @@ vim.keymap.set("n", "<leader>xl", function()
   })
 end, { desc = "Toggle line diagnostics" })
 
+vim.keymap.set("n", "<leader>xu", function()
+  vim.diagnostic.config({
+    underline = not vim.diagnostic.config().underline,
+  })
+end, { desc = "Toggle diagnostics underlines" })
+
 vim.keymap.set("n", "K", function()
   vim.lsp.buf.hover({ border = "rounded" })
 end, { desc = "Lsp Hover Info" })
