@@ -119,8 +119,8 @@ return {
           "-NoProfile",
           "-Command",
           "&'"
-            .. vim.fn.stdpath("data")
-            .. "/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1'",
+          .. vim.fn.stdpath("data")
+          .. "/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1'",
           "-Stdio",
         },
         settings = {
@@ -154,7 +154,7 @@ return {
           -- },
         },
         on_attach = function(client, bufnr)
-          client.server_capabilities.renameProvider = false -- can't rename module names
+          client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can do it)
           custom_attach(client, bufnr)
         end,
       })
@@ -176,13 +176,14 @@ return {
           client.server_capabilities.completionProvider = false
           client.server_capabilities.hoverProvider = false
           client.server_capabilities.signatureHelpProvider = false -- pyright has better placement for it
-          client.server_capabilities.renameProvider = false
+          client.server_capabilities.renameProvider = false        -- can't rename module symbols (pylsp can do it)
           client.server_capabilities.documentHighlightProvider = false
           client.server_capabilities.documentSymbolProvider = false
-          if client.server_capabilities.semanticTokensProvider then
-            client.server_capabilities.semanticTokensProvider = false
-          end
+          -- if client.server_capabilities.semanticTokensProvider then
+          --   client.server_capabilities.semanticTokensProvider = false
+          -- end
           client.server_capabilities.definitionProvider = nil
+          client.server_capabilities.referencesProvider = nil
           custom_attach(client, bufnr)
         end,
       })
