@@ -8,6 +8,30 @@ return {
       scroll_up = "<c-u>",
     },
     delay = 200, -- delay in milliseconds
+    spec = {
+      { "<leader>g", group = "Git", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, mode = { "n", "v" } },
+      { "<leader>go", group = "Open..", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, mode = { "n", "v" } },
+      { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
+
+      { "<leader>r", group = "Refactor", mode = { "n", "v" } },
+      { "<leader>rg", group = "GrugFar", icon = { icon = "󰛔", color = "blue" } },
+
+      { "<leader>s", group = "Snacks", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
+      { "<leader>sg", group = "Git", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
+
+      { "<leader>f", group = "Telescope" },
+      { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
+      { "<leader>l", group = "Line diffs", icon = { icon = "󰈙", color = "blue" } },
+      { "<leader>o", group = "Open..", icon = { icon = "", color = "yellow" } },
+      { "<leader>q", group = "Quit", mode = { "n", "v" } },
+      { "<leader>n", group = "Notifications" },
+      { "<leader>y", group = "Yank", icon = { icon = "", color = "yellow" } },
+      { "<leader>x", group = "Diagnostics" },
+      { "<leader>w", group = "Windows" },
+      { "<leader>D", group = "DadBod UI" },
+      { "<leader>d", group = "Debug", icon = { icon = "🪲" } },
+      { "<leader>c", group = "QuickFix" },
+    },
   },
   keys = {
     {
@@ -18,28 +42,4 @@ return {
       desc = "Buffer Local Keymaps (which-key)",
     },
   },
-  config = function(_, opts) -- added opts parameter here
-    local wk = require("which-key")
-    wk.setup(opts)
-    -- stylua: ignore
-    wk.add({
-      { "<leader>g", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, group = "Git", mode = { "n", "v" } },
-      { "<leader>go", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, group = "Open...", mode = { "n", "v" } },
-      { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
-      { "<leader>q", group = "Quit", mode = { "n", "v" } },
-      { "<leader>n", group = "Notifications" },
-      { "<leader>y", icon = { icon = "", color = "yellow", }, group = "Yank", },
-      { "<leader>x", group = "Diagnostics" },
-      { "<leader>w", group = "Windows" },
-      { "<leader>D", group = "DadBod UI" },
-      { "<leader>d",  icon = { icon = "🪲"}, group = "Debug" },
-      { "<leader>c", group = "QuickFix" },
-      { "<leader>s", group = "Search" },
-      { "<leader>sg", group = "Git Search" },
-      {"<leader>t", icon = { icon = "", color = "blue", }, group = "Terminal", },
-      {"<leader>rg", icon = { icon = "󰛔", color = "blue", }, group = "GrugFar", },
-      { "<leader>l", icon = { icon = "󰈙", color = "blue" }, group = "Line diffs" },
-      { "<leader>o", icon = { icon = "", color = "yellow" }, group = "Open" },
-    })
-  end,
 }
