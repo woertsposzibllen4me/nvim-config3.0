@@ -22,7 +22,7 @@ return {
         ["<Down>"] = { "select_next", "fallback" },
         ["<C-f>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide", "fallback" },
-        ["<CR>"] = { "select_and_accept", "fallback" },
+        ["<CR>"] = { "select_and_accept", },
       },
 
       -- Appearance settings
