@@ -9,57 +9,57 @@ return {
   },
   enabled = true,
   event = "VeryLazy",
-  _keys = { -- Disabled for now in favor of snack pickers
+  keys = { -- Disabled for now in favor of snack pickers
     {
-      "<leader>sF",
+      "<leader>fF",
       "<cmd>Telescope find_files<cr>",
       desc = "Find files (default)",
     },
     {
-      "<leader>sL",
+      "<leader>fL",
       "<cmd>Telescope live_grep<cr>",
       desc = "Live grep (default)",
     },
     {
-      "<leader>sB",
+      "<leader>fB",
       "<cmd>Telescope buffers<cr>",
       desc = "Buffers (default)",
     },
     {
-      "<leader>sR",
+      "<leader>fR",
       "<cmd>Telescope oldfiles<cr>",
       desc = "Recent files (default)",
     },
     {
-      "<leader>sG",
+      "<leader>fG",
       "<cmd>Telescope git_status<cr>",
       desc = "Git status (default)",
     },
     {
-      "<leader><leader>",
+      "<leader>ff",
       function()
         require("telescope.builtin").find_files({
-          entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
         })
       end,
       desc = "Find files (custom)",
     },
     {
-      "<leader>sf",
+      "<leader>fl",
       function()
         local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
         require("telescope.builtin").find_files({
           cwd = lazy_path,
-          -- entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
         })
       end,
       desc = "Find lazy files (custom)",
     },
     {
-      "<leader>sr",
+      "<leader>fr",
       function()
         require("telescope.builtin").oldfiles({
-          entry_maker = require("plugins.custom_pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
         })
       end,
       desc = "Recent files (custom)",
@@ -68,7 +68,7 @@ return {
       "<leader>`",
       function()
         require("telescope.builtin").buffers({
-          entry_maker = require("plugins.custom_pickers.custom_buffers").entry_maker(),
+          entry_maker = require(".modules.telescope.pickers.custom_buffers").entry_maker(),
         })
       end,
       desc = "Buffers (custom)",
@@ -77,7 +77,7 @@ return {
       "<leader>/",
       function()
         require("telescope.builtin").live_grep({
-          entry_maker = require("plugins.custom_pickers.custom_live_grep").entry_maker(),
+          entry_maker = require("modules.telescope.pickers.custom_live_grep").entry_maker(),
           layout_strategy = "vertical",
         })
       end,
@@ -87,7 +87,7 @@ return {
       "<leader>sg",
       function()
         require("telescope.builtin").git_status({
-          entry_maker = require("plugins.custom_pickers.custom_git_status").entry_maker(),
+          entry_maker = require("modules.telescope.pickers.custom_git_status").entry_maker(),
         })
       end,
       desc = "Git status (custom)",
@@ -205,10 +205,5 @@ return {
     })
 
     telescope.load_extension("fzf")
-
-    -- Set up which-key group with icon for all telescope commands
-    require("which-key").add({
-      { "<leader>s", group = "Search" },
-    })
   end,
 }
