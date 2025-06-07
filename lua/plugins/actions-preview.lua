@@ -8,7 +8,7 @@ return {
       -- "nui",
     },
     snacks = {
-      layout = require("modules.snacks.custom-picker-layouts").midscreen_dropdown_preview,
+      layout = require("modules.snacks.picker.custom-layouts").midscreen_dropdown_preview,
     },
   },
   keys = {
