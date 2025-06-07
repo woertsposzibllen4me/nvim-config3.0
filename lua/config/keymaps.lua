@@ -87,7 +87,7 @@ end, { desc = "test" })
 vim.keymap.set("x", "<leader>/", "<Esc>/\\%V")
 
 wk.add({
-  "<leader>op",
+  "<leader>bp",
   function()
     local path = vim.api.nvim_buf_get_name(0)
     local row = unpack(vim.api.nvim_win_get_cursor(0))

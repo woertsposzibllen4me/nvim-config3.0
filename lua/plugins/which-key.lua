@@ -9,28 +9,37 @@ return {
     },
     delay = 200, -- delay in milliseconds
     spec = {
+      -- Git
       { "<leader>g", group = "Git", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, mode = { "n", "v" } },
       { "<leader>go", group = "Open..", icon = { icon = "󰊢", hl = "DevIconGitLogo" }, mode = { "n", "v" } },
       { "<leader>gh", group = "Hunks", mode = { "n", "v" } },
 
+      -- Refactor
       { "<leader>r", group = "Refactor", mode = { "n", "v" } },
       { "<leader>rg", group = "GrugFar", icon = { icon = "󰛔", color = "blue" } },
 
+      -- Snacks
       { "<leader>s", group = "Snacks", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
       { "<leader>sg", group = "Git", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
 
+      -- Portal
+      { "<leader>o", desc = "Portal Jump Backward", icon = { icon = "󰩈", color = "azure" } },
+      { "<leader>i", desc = "Portal Jump Forward", icon = { icon = "󰩈", color = "azure" } },
+
+      -- Standalones
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
       { "<leader>l", group = "Line diffs", icon = { icon = "󰈙", color = "blue" } },
-      { "<leader>o", group = "Open..", icon = { icon = "", color = "yellow" } },
-      { "<leader>q", group = "Quit", mode = { "n", "v" } },
+      { "<leader>b", group = "Bring Open..", icon = { icon = "", color = "yellow" } },
+      { "<leader>q", group = "Quit/Session", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
       { "<leader>y", group = "Yank", icon = { icon = "", color = "yellow" } },
       { "<leader>x", group = "Diagnostics" },
       { "<leader>w", group = "Windows" },
       { "<leader>D", group = "DadBod UI" },
       { "<leader>d", group = "Debug", icon = { icon = "🪲" } },
-      { "<leader>c", group = "QuickFix" },
+      { "<leader>c", group = "QuickFix/Actions" },
+      { "<Leader>u", group = "Utilities", icon = { icon = "🛠️", color = "yellow" } },
     },
   },
   keys = {

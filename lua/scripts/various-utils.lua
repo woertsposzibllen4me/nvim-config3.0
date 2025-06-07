@@ -12,10 +12,5 @@ function CaptureCurrentBufferName()
   return { bufname = bufname, raw = raw_representation, title = title }
 end
 
-vim.api.nvim_set_keymap("n", "<Leader>ub", ":lua CaptureCurrentBufferName()<CR>", { noremap = true, silent = false })
 
-require("which-key").add({
-  mode = { "n" },
-  { "<Leader>u", group = "Utilities", icon = "󱁤" },
-  { "<leader>ub", desc = "Capture current buffer name" },
-})
+vim.keymap.set("n", "<Leader>ub", CaptureCurrentBufferName, { desc = "Capture current buffer name" })
