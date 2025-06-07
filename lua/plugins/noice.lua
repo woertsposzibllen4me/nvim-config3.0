@@ -40,7 +40,9 @@ return {
         vim.cmd("NoiceAll")
         require("scripts.maximize-window").half_size_window()
         vim.schedule(function()
+          Make_window_floating()
           vim.cmd("normal! G")
+          vim.cmd("normal! M")
         end)
       end,
       desc = "All notifications (half size window)",
