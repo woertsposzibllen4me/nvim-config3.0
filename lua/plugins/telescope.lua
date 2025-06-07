@@ -39,7 +39,7 @@ return {
       "<leader>ff",
       function()
         require("telescope.builtin").find_files({
-          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_find_files"),
         })
       end,
       desc = "Find files (custom)",
@@ -50,7 +50,7 @@ return {
         local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
         require("telescope.builtin").find_files({
           cwd = lazy_path,
-          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_find_files"),
         })
       end,
       desc = "Find lazy files (custom)",
@@ -59,35 +59,35 @@ return {
       "<leader>fr",
       function()
         require("telescope.builtin").oldfiles({
-          entry_maker = require("modules.telescope.pickers.custom_find_files").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_find_files"),
         })
       end,
       desc = "Recent files (custom)",
     },
     {
-      "<leader>`",
+      "<leader>f`",
       function()
         require("telescope.builtin").buffers({
-          entry_maker = require(".modules.telescope.pickers.custom_buffers").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_buffers"),
         })
       end,
       desc = "Buffers (custom)",
     },
     {
-      "<leader>/",
+      "<leader>f/",
       function()
         require("telescope.builtin").live_grep({
-          entry_maker = require("modules.telescope.pickers.custom_live_grep").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_live_grep"),
           layout_strategy = "vertical",
         })
       end,
       desc = "Live grep (custom)",
     },
     {
-      "<leader>sg",
+      "<leader>fg",
       function()
         require("telescope.builtin").git_status({
-          entry_maker = require("modules.telescope.pickers.custom_git_status").entry_maker(),
+          entry_maker = require("modules.telescope.entry-makers.custom_git_status"),
         })
       end,
       desc = "Git status (custom)",
