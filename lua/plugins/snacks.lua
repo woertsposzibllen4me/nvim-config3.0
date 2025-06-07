@@ -149,6 +149,8 @@ return {
   },
   -- stylua: ignore
  keys = {
+   -- custom
+   { "<leader>c/", function() require("modules.snacks.picker.grep-qf-files") end, desc = "Grep Quickfix Files" },
    -- toggle
     { "<leader>us", function() Snacks.toggle.option("spell") end, desc = "Toggle Spell Check" },
     { "<leader>ui", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Inlay Hints" },
