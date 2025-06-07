@@ -12,7 +12,7 @@ return {
           i = { "@block.inner", "@conditional.inner", "@loop.inner" },
         }),
         f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-        C = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
+        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
         t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
         d = { "%f[%d]%d+" }, -- digits
         e = { -- Word with case
@@ -23,7 +23,7 @@ return {
         g = mini_utils.ai_buffer, -- buffer
         u = ai.gen_spec.function_call(), -- u for "Usage"
         U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
-        c = mini_comments.ai_comment, -- comment block
+        C = mini_comments.ai_comment, -- comment block (doenst work yet)
       },
     }
   end,

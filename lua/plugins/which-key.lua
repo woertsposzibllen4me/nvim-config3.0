@@ -40,6 +40,7 @@ return {
       { "<leader>d", group = "Debug", icon = { icon = "🪲" } },
       { "<leader>c", group = "QuickFix/Actions" },
       { "<Leader>u", group = "Utilities", icon = { icon = "🛠️", color = "yellow" } },
+      { "<Leader>p", group = "Peek", icon = { icon = "👁️", color = "yellow" } },
     },
   },
   keys = {
