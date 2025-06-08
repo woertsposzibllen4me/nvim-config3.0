@@ -159,6 +159,26 @@ return {
    -- Words
     { "]r", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" },},
     { "[r", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+    -- Words
+    {
+      "]r",
+      function()
+        local tracked = require("modules.snacks.words.repeat-reverse")
+        local next_ref, _ = tracked.setup_snacks_words()
+        next_ref()
+      end,
+      desc = "Next Snacks Word",
+    },
+
+    {
+      "[r",
+      function()
+        local tracked = require("modules.snacks.words.repeat-reverse")
+        local _, prev_ref = tracked.setup_snacks_words()
+        prev_ref()
+      end,
+      desc = "Previous Snacks Word",
+    },
    -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
