@@ -19,7 +19,7 @@ local files_str = table.concat(filenames, ", ")
 local prefix = "Grep in " .. #filetable .. " files: "
 local max_files_length = 80 - #prefix - 4 -- 4 for " ..."
 local title = #files_str > max_files_length and (prefix .. files_str:sub(1, max_files_length) .. "...")
-  or ("Grep: " .. files_str)
+  or ("Grep in: " .. files_str)
 
 Snacks.picker.grep({
   dirs = filetable,

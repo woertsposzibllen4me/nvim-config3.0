@@ -47,6 +47,9 @@ return {
         lsp_type_definitions = {
           jump = { reuse_win = false },
         },
+        qflist = {
+          layout = "grep_vertical",
+        },
         grep = {
           layout = "grep_vertical",
         },
@@ -151,7 +154,7 @@ return {
     -- stylua: ignore start
 
     -- custom
-    { "<leader>c/", function() require("modules.snacks.picker.grep-qf-files") end, desc = "Grep Quickfix Files" },
+    { "<leader>c/", function() require("modules.snacks.picker.grep-quickfix-files") end, desc = "Grep Quickfix Files" },
 
     -- toggle
     { "<leader>us", function() Snacks.toggle.option("spell") end, desc = "Toggle Spell Check" },
