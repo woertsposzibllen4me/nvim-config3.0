@@ -1,6 +1,3 @@
-if false then
-  return {}
-end
 return {
   {
     "williamboman/mason.nvim",
@@ -183,6 +180,7 @@ return {
           --   client.server_capabilities.semanticTokensProvider = false
           -- end
           client.server_capabilities.definitionProvider = nil
+          client.server_capabilities.declarationProvider = nil
           client.server_capabilities.referencesProvider = nil
           custom_attach(client, bufnr)
         end,
