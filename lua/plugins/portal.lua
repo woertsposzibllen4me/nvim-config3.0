@@ -8,7 +8,7 @@ return {
     {
       "<leader>o",
       function()
-        require("modules.portal.clear-winbar").setup_clear_portal_winbar("debug")
+        require("modules.portal.clear-winbar").setup_clear_portal_winbar()
         vim.cmd("Portal jumplist backward")
       end,
       desc = "Portal Jump Backward",
@@ -16,7 +16,7 @@ return {
     {
       "<leader>i",
       function()
-        require("modules.portal.clear-winbar").setup_clear_portal_winbar("debug")
+        require("modules.portal.clear-winbar").setup_clear_portal_winbar()
         vim.cmd("Portal jumplist forward")
       end,
       desc = "Portal Jump Forward",
