@@ -15,7 +15,7 @@ end
 -- Toggle quickfix
 vim.keymap.set(
   "n",
-  "<leader>cc",
+  "<leader>C",
   ":lua ToggleQuickfix()<CR>",
   { noremap = true, silent = true, desc = "Toggle quickfix" }
 )
