@@ -1,5 +1,5 @@
-local mini_utils = require("utils.mini-utils")
-local mini_comments = require("utils.mini-utils-comment")
+local mini_utils = require("modules.mini-ai.mini-utils")
+local mini_comments = require("modules.mini-ai.mini-utils-comment")
 return {
   "echasnovski/mini.ai",
   opts = function()
