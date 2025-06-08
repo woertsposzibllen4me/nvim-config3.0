@@ -147,18 +147,20 @@ return {
       },
     },
   },
-  -- stylua: ignore
- keys = {
-   -- custom
-   { "<leader>c/", function() require("modules.snacks.picker.grep-qf-files") end, desc = "Grep Quickfix Files" },
-   -- toggle
+  keys = {
+    -- stylua: ignore start
+
+    -- custom
+    { "<leader>c/", function() require("modules.snacks.picker.grep-qf-files") end, desc = "Grep Quickfix Files" },
+
+    -- toggle
     { "<leader>us", function() Snacks.toggle.option("spell") end, desc = "Toggle Spell Check" },
     { "<leader>ui", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Inlay Hints" },
-   -- Notifier
+
+    -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
-   -- Words
-    { "]r", function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" },},
-    { "[r", function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+
+    -- stylua: ignore end
     -- Words
     {
       "]r",
@@ -179,6 +181,8 @@ return {
       end,
       desc = "Previous Snacks Word",
     },
+   -- stylua: ignore start
+
    -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
@@ -202,7 +206,15 @@ return {
     { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
     { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
     { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-    { "<leader>sC", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), title = "Config Files" }) end, desc = "Find Config File" },
+    --stylua: ignore end
+    {
+      "<leader>sC",
+      function()
+        Snacks.picker.files({ cwd = vim.fn.stdpath("config"), title = "Config Files" })
+      end,
+      desc = "Find Config File",
+    },
+    -- stylua: ignore start
     { "<leader>sc", function() Snacks.picker.commands() end, desc = "Commands" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
