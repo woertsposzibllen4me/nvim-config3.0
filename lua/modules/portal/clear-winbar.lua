@@ -121,6 +121,8 @@ M.setup_clear_portal_winbar = function(debug)
         end
       end
 
+      vim.cmd("redraw!")
+
       if debug then
         debug_log("= Portal Winbar Debug - Complete =")
       end
