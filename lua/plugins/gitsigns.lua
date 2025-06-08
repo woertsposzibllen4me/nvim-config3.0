@@ -97,25 +97,15 @@ return {
 
         -- Hunk navigation
         map("n", "]g", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "]c", bang = true })
-          else
-            gs.next_hunk()
-          end
-          vim.defer_fn(function()
-            vim.cmd("normal! zz")
-          end, 5)
+          local repeat_reverse = require("modules.gitsigns.repeat-reverse")
+          local next_hunk, _ = repeat_reverse.setup_gitsigns()
+          next_hunk()
         end, "Next Hunk")
 
         map("n", "[g", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "[c", bang = true })
-          else
-            gs.prev_hunk()
-          end
-          vim.defer_fn(function()
-            vim.cmd("normal! zz")
-          end, 5)
+          local repeat_reverse = require("modules.gitsigns.repeat-reverse")
+          local _, prev_hunk = repeat_reverse.setup_gitsigns()
+          prev_hunk()
         end, "Prev Hunk")
 
         -- Jump to first/last hunk

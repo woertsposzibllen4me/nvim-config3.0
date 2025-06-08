@@ -165,8 +165,8 @@ return {
     {
       "]r",
       function()
-        local tracked = require("modules.snacks.words.repeat-reverse")
-        local next_ref, _ = tracked.setup_snacks_words()
+        local repeat_reverse = require("modules.snacks.words.repeat-reverse")
+        local next_ref, _ = repeat_reverse.setup_snacks_words()
         next_ref()
       end,
       desc = "Next Snacks Word",
@@ -175,8 +175,8 @@ return {
     {
       "[r",
       function()
-        local tracked = require("modules.snacks.words.repeat-reverse")
-        local _, prev_ref = tracked.setup_snacks_words()
+        local repeat_reverse = require("modules.snacks.words.repeat-reverse")
+        local _, prev_ref = repeat_reverse.setup_snacks_words()
         prev_ref()
       end,
       desc = "Previous Snacks Word",

@@ -5,11 +5,15 @@ function M.setup_snacks_words()
     return M.next_ref, M.prev_ref
   end
 
-  M.next_ref, M.prev_ref = RepeatablePairs.track_pair(function()
+  local function next_ref()
     Snacks.words.jump(vim.v.count1)
-  end, function()
+  end
+
+  local function prev_ref()
     Snacks.words.jump(-vim.v.count1)
-  end)
+  end
+
+  M.next_ref, M.prev_ref = RepeatablePairs.track_pair(next_ref, prev_ref)
 
   return M.next_ref, M.prev_ref
 end
