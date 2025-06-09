@@ -65,8 +65,30 @@ map("n", "Q", "q", { noremap = true, desc = "Record macro" })
 -- Delete whole word with ctrl+backspace (interpreted as <C-h> in terminal)
 map("i", "<C-h>", "<C-w>", { noremap = true })
 
--- Disable hl with esc
-map("n", "<esc>", "<cmd>noh<cr>")
+-- Close (non-entered) floating windows and disable search hl with esc
+map("n", "<esc>", function()
+  local current_win = vim.api.nvim_get_current_win()
+  local current_config = vim.api.nvim_win_get_config(current_win)
+
+  -- If currently in a floating window, don't close any floating windows
+  if current_config.relative ~= "" then
+    vim.cmd("noh") -- just clear search highlights
+    return
+  end
+
+  -- Otherwise, close any open floating windows (hover docs, diagnostics, etc.)
+  local wins = vim.api.nvim_list_wins()
+  for _, win in ipairs(wins) do
+    -- Check if window still exists before trying to get config
+    if vim.api.nvim_win_is_valid(win) then
+      local ok, config = pcall(vim.api.nvim_win_get_config, win)
+      if ok and config.relative ~= "" then -- floating window
+        pcall(vim.api.nvim_win_close, win, false)
+      end
+    end
+  end
+  vim.cmd("noh")
+end, { silent = true, desc = "Close floating windows/disable search highlight" })
 
 -- Set focus on solo windows with neo-tree
 map("n", "<leader>wo", function()
@@ -75,7 +97,7 @@ map("n", "<leader>wo", function()
   vim.cmd("Neotree show")
 end, { desc = "Close others (and opens Neotree)" })
 
--- force C-n and C-p to navgigate cmd/search history (fixes cmp issues)
+-- force C-n and C-p to navigate cmd/search history (fixes cmp issues)
 map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history" })
 map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history" })
 
@@ -98,3 +120,17 @@ wk.add({
   desc = "Open line in PyCharm",
   icon = { icon = "", color = "yellow" },
 })
+
+map("n", "[q", function()
+  local ok, err = pcall(vim.cmd.cprev)
+  if not ok then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Previous Quickfix Item" })
+
+map("n", "]q", function()
+  local ok, err = pcall(vim.cmd.cnext)
+  if not ok then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Next Quickfix Item" })
