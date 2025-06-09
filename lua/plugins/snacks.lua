@@ -3,8 +3,35 @@ return {
   lazy = false,
   enabled = true,
   init = function()
-    _G.Snacks = require("snacks")
+    _G.Snacks = require("snacks") -- Necessary to stop lazydev from panicking 😰 lmfao
     vim.api.nvim_set_hl(0, "SnacksPickerMatch", { link = "CustomMatch" })
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy",
+      callback = function()
+        -- Setup some globals for debugging (lazy-loaded)
+        _G.dd = function(...)
+          Snacks.debug.inspect(...)
+        end
+        _G.bt = function()
+          Snacks.debug.backtrace()
+        end
+        vim.print = _G.dd -- Override print to use snacks for `:=` command
+
+        -- Create some toggle mappings
+        Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+        Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+        Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+        Snacks.toggle.diagnostics():map("<leader>xd")
+        Snacks.toggle
+          .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+          :map("<leader>uc")
+        Snacks.toggle.treesitter():map("<leader>uT")
+        Snacks.toggle.inlay_hints():map("<leader>uh")
+
+        local virtual_text_toggle = require("modules.snacks.toggle.virtual_text").virtual_text_toggle
+        virtual_text_toggle:map("<leader>xl")
+      end,
+    })
   end,
   opts = {
     -- bigfile = { enabled = true },
@@ -155,10 +182,6 @@ return {
 
     -- custom
     { "<leader>c/", function() require("modules.snacks.picker.grep-quickfix-files") end, desc = "Grep Quickfix Files" },
-
-    -- toggle
-    { "<leader>us", function() Snacks.toggle.option("spell") end, desc = "Toggle Spell Check" },
-    { "<leader>ui", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Inlay Hints" },
 
     -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},

@@ -33,4 +33,4 @@ function Make_window_floating()
 end
 
 vim.keymap.set("n", "<leader>uf", Make_window_floating, { desc = "Make window floating" })
-vim.keymap.set("n", "<Leader>ub", CaptureCurrentBufferName, { desc = "Capture current buffer name" })
+vim.keymap.set("n", "<Leader>uB", CaptureCurrentBufferName, { desc = "Capture current buffer name" })
