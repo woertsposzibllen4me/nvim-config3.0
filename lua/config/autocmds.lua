@@ -156,7 +156,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
     if filename == "" then
       filename = "NoName"
     end
-    local title = string.format("%s [nvim] - %s", os_icon, filename)
+    local title = string.format("%s [nvim] - %s", os_icon, filename)
     vim.opt.title = true
     vim.opt.titlestring = title
     vim.cmd("redraw")
