@@ -153,3 +153,8 @@ vim.keymap.set("n", "<leader>wi", function()
     vim.api.nvim_set_current_win(largest_win)
   end
 end, { desc = "Focus largest window" })
+
+-- Easier system yank
+map({ "n", "v" }, "<C-y>", function()
+  vim.fn.feedkeys('"+y')
+end, { desc = "Yank to system clipboard" })
