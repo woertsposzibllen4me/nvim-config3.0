@@ -69,7 +69,7 @@ return {
     local actions = require("diffview.actions")
     local default_wrap_state = vim.o.wrap
     local default_cursorline_state = vim.o.cursorline
-    local diff_clean = require("scripts.diff-sanitize")
+    local diff_sanitize = require("scripts.diff-sanitize")
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "DiffviewClose",
@@ -100,7 +100,7 @@ return {
         view_opened = function(view)
           default_wrap_state = vim.o.wrap
           default_cursorline_state = vim.o.cursorline
-          diff_clean.disable_diff_features()
+          diff_sanitize.disable_diff_features()
 
           -- Name tabpage with diffview info
           vim.schedule(function()
@@ -119,7 +119,7 @@ return {
           end)
         end,
         view_closed = function()
-          diff_clean.enable_diff_features()
+          diff_sanitize.re_enable_diff_features()
         end,
         --- @ diagnostic disable-next-line: unused-local
         diff_buf_read = function(bufnr)

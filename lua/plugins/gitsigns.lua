@@ -3,7 +3,7 @@ return {
   event = { "BufReadPost", "BufNewFile" },
   commit = "3c76f7fabac723aa682365ef782f88a83ccdb4ac", -- Locked for now due to Windows issues  TODO: Check upstream
   config = function()
-    local diff_clean = require("scripts.diff-sanitize")
+    local diff_sanitize = require("scripts.diff-sanitize")
     require("gitsigns").setup({
 
       -- Define signs for unstaged changes
@@ -71,7 +71,7 @@ return {
 
           vim.api.nvim_create_autocmd("TabClosed", {
             callback = function(args)
-              diff_clean.enable_diff_features()
+              diff_sanitize.re_enable_diff_features()
               local closed_tab_nr = tonumber(args.file)
               if closed_tab_nr == diff_tab_nr then
                 require("modules.gitsigns.restore-bindings").restore_gs_bindings()
@@ -149,7 +149,7 @@ return {
             local filename = vim.fn.expand("%:t")
             vim.t.custom_tabname = "gs diff: " .. filename
             gs.diffthis()
-            diff_clean.disable_diff_features()
+            diff_sanitize.disable_diff_features()
 
             local buffers_after = vim.api.nvim_list_bufs()
             local created_buffers = {}
@@ -186,7 +186,7 @@ return {
             local filename = vim.fn.expand("%:t")
             vim.t.custom_tabname = "gs diff(~): " .. filename
             gs.diffthis("~")
-            diff_clean.disable_diff_features()
+            diff_sanitize.disable_diff_features()
 
             local buffers_after = vim.api.nvim_list_bufs()
             local created_buffers = {}
