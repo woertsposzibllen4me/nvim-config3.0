@@ -198,7 +198,7 @@ return {
     -- { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
     { "<leader>sgll", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
     { "<leader>sglf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
-    { "<leader>sgla", function() Snacks.picker.git_log() end, desc = "Git Log" },
+    { "<leader>sgla", function() Snacks.picker.git_log() end, desc = "Git Log (All)" },
     { "<leader>sgb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
     { "<leader>sgs", function() Snacks.picker.git_status() end, desc = "Git Status" },
     { "<leader>sgt", function() Snacks.picker.git_stash() end, desc = "Git Stash" },

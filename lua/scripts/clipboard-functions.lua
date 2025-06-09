@@ -3,6 +3,7 @@ local function append_file_to_system_register()
   local current_clipboard = vim.fn.getreg("+")
   local m_register = vim.fn.getreg("m")
   vim.fn.setreg("+", current_clipboard .. m_register)
+  vim.notify("Appended file content to system clipboard", vim.log.levels.INFO, { title = "Clipboard" })
 end
 
 local function append_empty_reg_to_system_reg()
