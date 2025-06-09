@@ -6,14 +6,25 @@ return {
     "MunifTanjim/nui.nvim",
     "kwkarlwang/bufresize.nvim", -- for automatic resize support
   },
-  event = "VeryLazy",
-  config = function()
-    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", {
-      desc = "Toggle Neo-tree",
-      silent = true,
-      noremap = true,
+  lazy = true,
+  event = "BufReadPost",
+  init = function()
+    -- Open neo-tree automatically after reading our first ( non-dashboard, non-qf ) buffer of size >= 140 columns
+    local neo_tree_group = vim.api.nvim_create_augroup("NeoTreeAutoOpen", { clear = true })
+    vim.api.nvim_create_autocmd("BufReadPost", {
+      group = neo_tree_group,
+      callback = function()
+        local win_width = vim.api.nvim_win_get_width(0)
+        if vim.bo.filetype ~= "qf" and win_width >= 140 then
+          vim.defer_fn(function() -- defer 0 necessary to avoid visual bugs
+            vim.api.nvim_clear_autocmds({ group = neo_tree_group })
+            vim.cmd("Neotree show")
+          end, 0)
+        end
+      end,
     })
-
+  end,
+  config = function()
     -- Create base event handlers
     local event_handlers = {
       {
@@ -104,25 +115,16 @@ return {
       },
       event_handlers = event_handlers,
     })
-
-    -- Open neo-tree automatically when entering our first (filetype) buffer of size >= 140 columns
-    local neo_tree_opened = false
-    vim.api.nvim_create_autocmd("BufEnter", {
-      callback = function()
-        if neo_tree_opened then
-          return
-        end
-        local filetype = vim.bo.filetype
-        local buftype = vim.bo.buftype
-        local win_width = vim.api.nvim_win_get_width(0)
-
-        if filetype ~= "dashboard" and filetype ~= "" and buftype == "" and win_width >= 140 then
-          neo_tree_opened = true -- To run successfully only once
-          vim.defer_fn(function() -- defer 0 necessary to avoid bugs
-            vim.cmd("Neotree show")
-          end, 0)
-        end
-      end,
-    })
   end,
+  keys = {
+    -- stylua: ignore start
+    { "<leader>e", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
+    -- stylua: ignore end
+  },
+  cmd = {
+    "Neotree",
+    "Neotree show",
+    "Neotree toggle",
+    "Neotree reveal",
+  },
 }
