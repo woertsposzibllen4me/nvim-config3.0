@@ -20,7 +20,7 @@ return {
         preset = "none",
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
-        ["<C-f>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-g>"] = { "show", "show_documentation", "hide_documentation" },
         ["<C-e>"] = { "hide", "fallback" },
         ["<CR>"] = { "accept", "fallback" },
       },
