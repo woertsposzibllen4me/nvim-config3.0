@@ -121,6 +121,7 @@ wk.add({
   icon = { icon = "", color = "yellow" },
 })
 
+-- Quickfix navigation
 map("n", "[q", function()
   local ok, err = pcall(vim.cmd.cprev)
   if not ok then
@@ -134,3 +135,21 @@ map("n", "]q", function()
     vim.notify(err, vim.log.levels.ERROR)
   end
 end, { desc = "Next Quickfix Item" })
+
+-- Focus largest window to quikcly go back to main editing window
+vim.keymap.set("n", "<leader>wi", function()
+  local largest_win, largest_area = nil, 0
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "" then
+      local area = vim.api.nvim_win_get_width(win) * vim.api.nvim_win_get_height(win)
+      if area > largest_area then
+        largest_area, largest_win = area, win
+      end
+    end
+  end
+
+  if largest_win then
+    vim.api.nvim_set_current_win(largest_win)
+  end
+end, { desc = "Focus largest window" })
