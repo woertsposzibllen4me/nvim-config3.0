@@ -1,5 +1,4 @@
 --- This module allows to create pairs of functions that can be repeated or inverted.
---- @class RepeatablePairs
 local M = {}
 
 --- Track last function and its opposite
@@ -42,9 +41,10 @@ function M.track_pair(func1, func2)
   return tracked1, tracked2
 end
 
---- Setup repeat keybinds. We're using F13 and Shift+F13 since we cannot bind
---- Ctrl+; and Ctrl+ directly in Neovim.
---- F13 is setup in an AHK script to send F13 on Ctrl+; and Ctrl+, keypresses
+--- Setup repeat keybinds.
+--- We're using F13 and Shift+F13 since we cannot bind Ctrl+; and Ctrl+
+--- directly in Neovim. F13 is setup in an AHK script to send F13 on Ctrl+; and
+--- S-F13 on Ctrl+, keypresses
 function M.setup()
   vim.keymap.set({ "n", "t" }, "<F13>", repeat_last, { desc = "Repeat last" })
   vim.keymap.set({ "n", "t" }, "<S-F13>", repeat_opposite, { desc = "Repeat opposite" })
