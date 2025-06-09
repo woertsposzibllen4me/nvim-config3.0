@@ -17,7 +17,6 @@ return {
     vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CustomMatchFuzzy" })
     local cmp = require("cmp")
     local has_luasnip, luasnip = pcall(require, "luasnip")
-    local lspkind = require("lspkind")
     ---@diagnostic disable-next-line: redundant-parameter
     cmp.setup({
       window = {

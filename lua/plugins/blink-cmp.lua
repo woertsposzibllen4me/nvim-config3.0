@@ -13,7 +13,7 @@ return {
   version = "*", -- either use a release or use the build command below
   -- build = "cargo build --release",
   config = function()
-    local has_luasnip, luasnip = pcall(require, "luasnip")
+    local has_luasnip, _ = pcall(require, "luasnip")
     require("blink.cmp").setup({
       -- Keymap configuration matching your nvim-cmp setup
       keymap = {

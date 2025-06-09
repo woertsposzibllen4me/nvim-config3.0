@@ -1,3 +1,4 @@
+---@ diagnostic disable -- remove it once we start working on this again
 local M = {}
 
 -- Text object for commented code blocks

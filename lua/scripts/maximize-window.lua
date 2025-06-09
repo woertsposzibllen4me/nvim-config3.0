@@ -20,7 +20,7 @@ end
 
 local function maximize_window()
   restore_window()
-  local win_id = set_window()
+  set_window()
   vim.cmd("wincmd _")
   vim.cmd("wincmd |")
 end

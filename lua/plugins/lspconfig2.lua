@@ -91,7 +91,7 @@ return {
               globals = { "vim" },
             },
             workspace = {
-              library = vim.api.nvim_get_runtime_file("", true),
+              -- library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
             },
             telemetry = {
@@ -198,7 +198,7 @@ return {
       -- Ruff for formatting and diagnostics
       lspconfig.ruff.setup({
         capabilities = capabilities,
-        on_attach = function(client, bufnr)
+        on_attach = function(_, bufnr)
           vim.schedule(function()
             if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modifiable then
               -- Make a fake edit to trigger diagnostics directly after attaching

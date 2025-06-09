@@ -13,7 +13,6 @@ return {
       silent = true,
       noremap = true,
     })
-    local events = require("neo-tree.events")
 
     -- Create base event handlers
     local event_handlers = {

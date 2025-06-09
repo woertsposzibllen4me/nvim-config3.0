@@ -45,6 +45,7 @@ return {
           context_start_underline = false,
         },
       },
+      --- @ diagnostic disable: undefined-doc-name
       ---@param cs Colorscheme
       ---@param p ColorschemeOptions
       ---@param Config MonokaiProOptions

@@ -1,12 +1,15 @@
-function my_test_function(param1, param2, param3)
+local function my_test_function(param1, param2, param3)
   print(param1, param2, param3)
   return param1 + param2 * param3
 end
 
-function my_new_test_function(new_param1, new_param2, new_param3)
+local function my_new_test_function(new_param1, new_param2, new_param3)
   print(new_param1, new_param2, new_param3)
   return new_param1 + new_param2 * new_param3
 end
+
+my_test_function()
+my_new_test_function("1", "2", "3")
 
 -- Simple Lua code for testing a debugger
 local function factorial(n)
@@ -59,4 +62,4 @@ local res1, res2, res3, res4 = processData(data)
 print("Results:", res1, res2, res3, res4)
 
 -- Intentional error (uncomment to test error handling)
-print(undefinedVariable)
+-- print(undefinedVariable)
