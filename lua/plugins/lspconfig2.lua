@@ -39,6 +39,7 @@ return {
       local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
       local has_cmp, cmp = pcall(require, "cmp")
       local has_blink, blink = pcall(require, "blink.cmp")
+      local has_navic, navic = pcall(require, "nvim-navic")
       if has_blink then
         capabilities = blink.get_lsp_capabilities()
       else
@@ -49,24 +50,10 @@ return {
 
       --- @ diagnostic disable-next-line: unused-local
       local function custom_attach(client, bufnr)
-        -- NOTE: we prefer Noice's builtin signature help over this rn
-
-        -- require("lsp_signature").on_attach({
-        --   bind = true,
-        --   use_lspsaga = true,
-        --   -- floating_window = true,
-        --   fix_pos = true,
-        --   hint_enable = false,
-        --   hi_parameter = "MatchParen",
-        --   toggle_key = "<c-s>",
-        --   toggle_key_flip_floatwin_setting = true, -- toggle key will enable|disable floating_window flag
-        --   handler_opts = {
-        --     border = "rounded",
-        --   },
-        --   --   -- max_height = 12,
-        --   --   -- max_width = 80,
-        -- }, bufnr)
-
+        -- Navic setup
+        if has_navic and client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, bufnr)
+        end
         -- close completion menu when showing signature help
         vim.keymap.set("i", "<c-s>", function()
           if has_blink and blink.is_visible() then
@@ -91,7 +78,7 @@ return {
               globals = { "vim" },
             },
             workspace = {
-              -- library = vim.api.nvim_get_runtime_file("", true),
+              library = vim.api.nvim_get_runtime_file("", true),
               checkThirdParty = false,
             },
             telemetry = {

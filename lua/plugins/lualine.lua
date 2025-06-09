@@ -1,11 +1,12 @@
 return {
   {
     "nvim-lualine/lualine.nvim",
-    -- event = {"BufReadPost", "BufNewFile"},
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       -- Get default config first
       local lualine = require("lualine")
+      local _, navic = pcall(require, "nvim-navic")
       local config = lualine.get_config()
       -- lualine_c_normal = {
       --   bg = "#1E2030",
@@ -14,7 +15,27 @@ return {
       -- }
       vim.api.nvim_set_hl(0, "LualineFilename", { fg = "#949fd1", bold = true })
 
+      -- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+      --   callback = function()
+      --     -- This ensures winbar area is always allocated
+      --     if vim.wo.winbar == "" then
+      --       vim.wo.winbar = " "
+      --     end
+      --   end,
+      -- })
+
       config.options.theme = "tokyonight"
+
+      config.winbar.lualine_c = {
+        {
+          function()
+            return navic.get_location() .. " " -- White space string to make winbar always appear
+          end,
+          cond = function()
+            return navic.is_available()
+          end,
+        },
+      }
 
       config.sections.lualine_c = {
         {

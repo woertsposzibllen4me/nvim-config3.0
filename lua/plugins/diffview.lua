@@ -85,6 +85,7 @@ return {
     -- vim.api.nvim_create_autocmd("LspAttach", {
     --   callback = function(args)
     --     local bufnr = args.buf
+
     --     local client = vim.lsp.get_client_by_id(args.data.client_id)
     --     local name = vim.api.nvim_buf_get_name(bufnr)
     --     if client and client.name == "powershell_es" and name:match("^diffview://") then
@@ -123,6 +124,10 @@ return {
         end,
         --- @ diagnostic disable-next-line: unused-local
         diff_buf_read = function(bufnr)
+          -- Assure cleanup of potential winbar breadcrumbs residues
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            vim.wo[win].winbar = ""
+          end
           if vim.opt_local.wrap ~= false or vim.opt_local.cursorline ~= false then
             vim.opt_local.wrap = false
             vim.opt_local.cursorline = false
