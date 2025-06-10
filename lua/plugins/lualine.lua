@@ -50,6 +50,21 @@ return {
             return table.concat({ dir, separator, "%#LualineFilename#", filename, "%*" })
           end,
         },
+        {
+          function()
+            local buffer_marks = vim.fn.getmarklist(vim.api.nvim_get_current_buf())
+            local buffer_letters = {}
+
+            for _, mark in ipairs(buffer_marks) do
+              local letter = mark.mark:sub(2, 2)
+              if letter:match("[a-z]") then
+                table.insert(buffer_letters, letter)
+              end
+            end
+
+            return #buffer_letters > 0 and table.concat(buffer_letters, "") or ""
+          end,
+        },
       }
 
       local has_harpoon, _ = pcall(require, "harpoon")
@@ -63,6 +78,22 @@ return {
           no_harpoon = "Harpoon not loaded",
         })
       end
+
+      table.insert(config.sections.lualine_x, 1, {
+        function()
+          local global_marks = vim.fn.getmarklist()
+          local global_letters = {}
+
+          for _, mark in ipairs(global_marks) do
+            local letter = mark.mark:sub(2, 2)
+            if letter:match("[A-Z]") then
+              table.insert(global_letters, letter)
+            end
+          end
+
+          return #global_letters > 0 and table.concat(global_letters, "") or ""
+        end,
+      })
 
       table.insert(config.sections.lualine_x, 3, {
         function()
