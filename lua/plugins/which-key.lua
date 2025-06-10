@@ -44,6 +44,11 @@ return {
       { "gm", group = "Marks", icon = { icon = "✅", color = "yellow" } },
     },
   },
+  config = function(_, opts)
+    local wk = require("which-key")
+    wk.setup(opts)
+    wk.add({ { "gx", desc = "Open file with system app" } }) -- shorter desc for URL opening (fixes single column display)
+  end,
   keys = {
     {
       "<leader>?",
