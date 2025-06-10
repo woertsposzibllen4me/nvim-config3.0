@@ -60,7 +60,7 @@ return {
               ["]o"] = "@loop.outer",
               ["]z"] = "@function_name",
               ["]x"] = "@method_name",
-              ["]e"] = "@call_name", -- the verstalie one (method_name + function_name)
+              ["]e"] = "@call_name", -- the versatile one (method_name + function_name)
               ["]h"] = "@return_type",
               ["]p"] = "@function_parameters",
             },

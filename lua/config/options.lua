@@ -42,6 +42,7 @@ vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.fillchars:append({ eob = " " })
 -- vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
+vim.opt.spelloptions = "camel"
 
 vim.opt.smartcase = true
 vim.opt.ignorecase = true

@@ -136,7 +136,7 @@ map("n", "]q", function()
   end
 end, { desc = "Next Quickfix Item" })
 
--- Focus largest window to quikcly go back to main editing window
+-- Focus largest window to quickly go back to main editing window
 vim.keymap.set("n", "<leader>wi", function()
   local largest_win, largest_area = nil, 0
 
