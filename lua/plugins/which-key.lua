@@ -41,6 +41,7 @@ return {
       { "<leader>c", group = "QuickFix/Actions" },
       { "<Leader>u", group = "Utilities", icon = { icon = "🛠️", color = "yellow" } },
       { "gH", group = "Peek Definitions", icon = { icon = "👁️", color = "yellow" } },
+      { "gm", group = "Marks", icon = { icon = "✅", color = "yellow" } },
     },
   },
   keys = {
