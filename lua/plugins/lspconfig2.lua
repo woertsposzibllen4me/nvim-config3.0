@@ -39,7 +39,6 @@ return {
       local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
       local has_cmp, cmp = pcall(require, "cmp")
       local has_blink, blink = pcall(require, "blink.cmp")
-      local has_navic, navic = pcall(require, "nvim-navic")
       if has_blink then
         capabilities = blink.get_lsp_capabilities()
       else
@@ -48,20 +47,28 @@ return {
         end
       end
 
+      -- Setup document symbol features capabilities
+      local has_navic, navic = pcall(require, "nvim-navic")
+      local has_navbuddy, navbuddy = pcall(require, "nvim-navbuddy")
+
       --- @ diagnostic disable-next-line: unused-local
       local function custom_attach(client, bufnr)
-        -- Navic setup
-        if has_navic and client.server_capabilities.documentSymbolProvider then
-          navic.attach(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+          if has_navic then
+            navic.attach(client, bufnr)
+          end
+          if has_navbuddy then
+            navbuddy.attach(client, bufnr)
+          end
         end
+
         -- close completion menu when showing signature help
         vim.keymap.set("i", "<c-s>", function()
           if has_blink and blink.is_visible() then
             blink.hide()
-          else
-            if has_cmp and cmp.visible() then
-              cmp.close()
-            end
+          end
+          if has_cmp and cmp.visible() then
+            cmp.close()
           end
           vim.lsp.buf.signature_help()
         end, { buffer = bufnr })
@@ -200,7 +207,7 @@ return {
       })
       -- #### End of Python LSPs setup ####
 
-      -- AutoHotkey v2 LSP setup
+      -- AutoHotkey v2 LSP setup (for windows only rn)
       local ahk2_configs = {
         autostart = true,
         cmd = {
