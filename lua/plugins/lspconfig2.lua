@@ -102,31 +102,6 @@ return {
         end,
       })
 
-      -- powershell LSP setup
-      lspconfig.powershell_es.setup({
-        cmd = {
-          "pwsh",
-          "-NoLogo",
-          "-NoProfile",
-          "-Command",
-          "&'"
-            .. vim.fn.stdpath("data")
-            .. "/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1'",
-          "-Stdio",
-        },
-        settings = {
-          powershell = {
-            scriptAnalysis = { enable = true },
-            codeFormatting = { preset = "OTBS" },
-          },
-        },
-        capabilities = capabilities,
-        --- @ diagnostic disable-next-line: unused-local
-        on_attach = function(client, bufnr)
-          vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
-        end,
-      })
-
       --  #### Start of Python LSPs setup ####
       -- We use Pyright for completions, hover, signatures (it's faster at interactive stuff)
       lspconfig.pyright.setup({
@@ -207,29 +182,57 @@ return {
       })
       -- #### End of Python LSPs setup ####
 
-      -- AutoHotkey v2 LSP setup (for windows only rn)
-      local ahk2_configs = {
-        autostart = true,
-        cmd = {
-          "node",
-          vim.fn.expand("~/myfiles/programs/vscode-autohotkey2-lsp/server/dist/server.js"),
-          "--stdio",
-        },
-        filetypes = { "ahk", "autohotkey", "ah2" },
-        init_options = {
-          locale = "en-us",
-          InterpreterPath = "C:/Program Files/AutoHotkey/v2/AutoHotkey.exe",
-        },
-        single_file_support = true,
-        flags = { debounce_text_changes = 500 },
-        capabilities = capabilities,
-        on_attach = custom_attach,
-      }
-      local configs = require("lspconfig.configs")
-      if not configs.ahk2 then
-        configs.ahk2 = { default_config = ahk2_configs }
+      -- Windows specific LSPs
+      if OnWindows then
+        -- powershell LSP setup
+        lspconfig.powershell_es.setup({
+          cmd = {
+            "pwsh",
+            "-NoLogo",
+            "-NoProfile",
+            "-Command",
+            "&'"
+              .. vim.fn.stdpath("data")
+              .. "/mason/packages/powershell-editor-services/PowerShellEditorServices/Start-EditorServices.ps1'",
+            "-Stdio",
+          },
+          settings = {
+            powershell = {
+              scriptAnalysis = { enable = true },
+              codeFormatting = { preset = "OTBS" },
+            },
+          },
+          capabilities = capabilities,
+          --- @ diagnostic disable-next-line: unused-local
+          on_attach = function(client, bufnr)
+            vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
+          end,
+        })
+
+        -- AutoHotkey v2 LSP setup
+        local ahk2_configs = {
+          autostart = true,
+          cmd = {
+            "node",
+            vim.fn.expand("~/myfiles/programs/vscode-autohotkey2-lsp/server/dist/server.js"),
+            "--stdio",
+          },
+          filetypes = { "ahk", "autohotkey", "ah2" },
+          init_options = {
+            locale = "en-us",
+            InterpreterPath = "C:/Program Files/AutoHotkey/v2/AutoHotkey.exe",
+          },
+          single_file_support = true,
+          flags = { debounce_text_changes = 500 },
+          capabilities = capabilities,
+          on_attach = custom_attach,
+        }
+        local configs = require("lspconfig.configs")
+        if not configs.ahk2 then
+          configs.ahk2 = { default_config = ahk2_configs }
+        end
+        lspconfig.ahk2.setup({})
       end
-      lspconfig.ahk2.setup({})
     end,
 
     -- LSP enabling/disabling (for the newer 0.11+ syntax)
