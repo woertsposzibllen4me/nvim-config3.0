@@ -34,6 +34,19 @@ return {
           vim.keymap.set(mode, l, r, { desc = desc })
         end
 
+        -- Show old code that was removed as "deleted" in diff view
+        -- vim.schedule(function()
+        for _, winid in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local bufnr = vim.api.nvim_win_get_buf(winid)
+          local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+          -- Check if this is the "old" version (index/HEAD)
+          if bufname:match("^gitsigns://") then
+            vim.api.nvim_set_option_value("winhl", "DiffAdd:DiffDelete,DiffDelete:DiffDelete", { win = winid })
+          end
+        end
+        -- end)
+
         -- Helper function for setting tab-specific keymaps
         local function set_diff_tab_keymaps(new_tab, created_buffers)
           local diff_tab_nr = vim.api.nvim_tabpage_get_number(new_tab)

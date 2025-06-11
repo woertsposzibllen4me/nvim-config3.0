@@ -65,4 +65,4 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Diffing options
-vim.opt.fillchars:append({ diff = " " })
+vim.opt.fillchars:append({ diff = " " }) -- ╱
