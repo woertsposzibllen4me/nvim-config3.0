@@ -194,7 +194,7 @@ return {
         },
         file_panel = {
           { "n", "q", actions.close, { desc = "Close diffview" } },
-          { "n", "s", false, { desc = "diffview_ignore" } },
+          { "n", "s", false, { desc = "diffview_ignore" } }, -- lets us use flash in diffview
           { "n", "-", actions.toggle_stage_entry, { desc = "Toggle stage file" } },
         },
         file_history_panel = {
