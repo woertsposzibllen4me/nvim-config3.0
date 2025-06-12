@@ -157,4 +157,8 @@ end, { desc = "Focus largest window" })
 -- Easier system yank
 map({ "n", "v" }, "<C-y>", function()
   vim.fn.feedkeys('"+y')
-end, { desc = "Yank to system clipboard" })
+end, { desc = "Yank to system clipboard", noremap = true })
+
+-- Help scroll diff smoothly
+map("n", "<C-c>", "<C-y>", opts)
+map("n", "<C-m>", "<C-e>", opts)
