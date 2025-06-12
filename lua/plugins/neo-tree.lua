@@ -9,21 +9,12 @@ return {
   lazy = true,
   event = "BufReadPost",
   init = function()
-    -- Open neo-tree automatically after reading our first ( non-dashboard, non-qf ) buffer of size >= 140 columns
-    local neo_tree_group = vim.api.nvim_create_augroup("NeoTreeAutoOpen", { clear = true })
-    vim.api.nvim_create_autocmd("BufReadPost", {
-      group = neo_tree_group,
-      callback = function()
-        local win_width = vim.api.nvim_win_get_width(0)
-        if vim.bo.filetype ~= "qf" and win_width >= 140 then
-          vim.defer_fn(function() -- defer 0 necessary to avoid visual bugs
-            vim.api.nvim_clear_autocmds({ group = neo_tree_group })
-            vim.cmd("Neotree show")
-          end, 0)
-        end
-      end,
-    })
+    if false then
+      _G.MainFileExplorer = "neo-tree"
+    end
+    require("scripts.ui.open-file-explorer").open_on_startup()
   end,
+
   config = function()
     -- Create base event handlers
     local event_handlers = {
@@ -118,7 +109,7 @@ return {
   end,
   keys = {
     -- stylua: ignore start
-    { "<leader>E", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
+    { vim.g.maplocalleader .. "e", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
     -- stylua: ignore end
   },
   cmd = {

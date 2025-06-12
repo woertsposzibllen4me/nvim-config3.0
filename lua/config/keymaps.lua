@@ -65,37 +65,33 @@ map("n", "Q", "q", { noremap = true, desc = "Record macro" })
 -- Delete whole word with ctrl+backspace (interpreted as <C-h> in terminal)
 map("i", "<C-h>", "<C-w>", { noremap = true })
 
--- Close (non-entered) floating windows and disable search hl with esc
+-- Close (non-focused) floating windows and disable search hl with ESC
 map("n", "<esc>", function()
   local current_win = vim.api.nvim_get_current_win()
   local current_config = vim.api.nvim_win_get_config(current_win)
-
-  -- If currently in a floating window, don't close any floating windows
   if current_config.relative ~= "" then
-    vim.cmd("noh") -- just clear search highlights
+    vim.cmd("noh")
     return
   end
-
-  -- Otherwise, close any open floating windows (hover docs, diagnostics, etc.)
-  local wins = vim.api.nvim_list_wins()
-  for _, win in ipairs(wins) do
-    -- Check if window still exists before trying to get config
-    if vim.api.nvim_win_is_valid(win) then
-      local ok, config = pcall(vim.api.nvim_win_get_config, win)
-      if ok and config.relative ~= "" then -- floating window
-        pcall(vim.api.nvim_win_close, win, false)
-      end
-    end
-  end
-  vim.cmd("noh")
+  require("scripts.ui.close-floating-windows")
 end, { silent = true, desc = "Close floating windows/disable search highlight" })
 
--- Set focus on solo windows with neo-tree
+-- Set focus on solo windows + main filetree explorer
 map("n", "<leader>wo", function()
-  vim.cmd("Neotree close")
+  local win = vim.api.nvim_get_current_win()
+  local filetype = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
+  local excluded_filetypes = {
+    "snacks_picker_list",
+    "snacks_picker_input",
+    "neo-tree",
+  }
+  if vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then -- avoid exiting nvim with this like an idiot
+    vim.notify("Cannot focus on explorer window", vim.log.levels.WARN)
+    return
+  end
   vim.cmd("only")
-  vim.cmd("Neotree show")
-end, { desc = "Close others (and opens Neotree)" })
+  require("scripts.ui.open-file-explorer").open_main_explorer()
+end, { desc = "Close others (and opens File Explorer)" })
 
 -- force C-n and C-p to navigate cmd/search history (fixes cmp issues)
 map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history" })
