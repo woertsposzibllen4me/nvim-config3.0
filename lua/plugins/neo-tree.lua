@@ -108,9 +108,38 @@ return {
     })
   end,
   keys = {
-    -- stylua: ignore start
-    { vim.g.maplocalleader .. "e", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
-    -- stylua: ignore end
+    {
+      vim.g.maplocalleader .. "e",
+      function()
+        local snacks_explorer_ft = {
+          "snacks_picker_list",
+          "snacks_picker_input",
+        }
+
+        -- Close any snacks explorer buffers
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_valid(buf) then
+            local ft = vim.bo[buf].filetype
+            for _, snacks_ft in ipairs(snacks_explorer_ft) do
+              if ft == snacks_ft then
+                -- Find windows displaying this buffer and close them
+                local wins = vim.fn.win_findbuf(buf)
+                for _, win in ipairs(wins) do
+                  if vim.api.nvim_win_is_valid(win) then
+                    vim.api.nvim_win_close(win, false)
+                  end
+                end
+                break
+              end
+            end
+          end
+        end
+
+        -- Toggle Neo-tree
+        vim.cmd("Neotree toggle")
+      end,
+      desc = "Toggle Neo-tree",
+    },
   },
   cmd = {
     "Neotree",
