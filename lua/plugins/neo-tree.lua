@@ -118,7 +118,7 @@ return {
   end,
   keys = {
     -- stylua: ignore start
-    { "<leader>e", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
+    { "<leader>E", function() vim.cmd("Neotree toggle") end, desc = "Toggle Neo-tree", },
     -- stylua: ignore end
   },
   cmd = {

@@ -63,7 +63,7 @@ return {
       enabled = true,
       formatters = { file = { truncate = 80, filename_first = true } },
       layouts = require("modules.snacks.picker.custom-layouts"),
-      sources = {
+      sources = vim.tbl_deep_extend("force", {
         lsp_definitions = {
           jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.
         },
@@ -132,7 +132,7 @@ return {
             end,
           },
         },
-      },
+      }, require("modules.snacks.explorer.grep-for-file").setup_explorer_grep()),
       actions = {
         insert_absolute_path = function(picker)
           require("scripts.snacks-path-insert").insert_absolute_path(picker)
@@ -217,7 +217,7 @@ return {
    -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-    { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+    { "<leader>/", function() Snacks.picker.grep_word() end, desc = "Grep" },
     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
     { "<leader>s:", function() Snacks.picker.command_history() end, desc = "Command History" },
     -- { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
@@ -275,68 +275,68 @@ return {
     { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
 
     -- stylua: ignore end
-    {
-      "<leader>E",
-      function()
-        local function is_neotree_open()
-          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[buf].filetype == "neo-tree" then
-              return true
-            end
-          end
-          return false
-        end
-
-        local function is_snacks_explorer_open()
-          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[buf].filetype == "snacks_picker_list" then
-              return true
-            end
-          end
-          return false
-        end
-
-        local neotree_was_open = is_neotree_open()
-        local snacks_was_open = is_snacks_explorer_open()
-
-        -- Close Neotree if open
-        vim.cmd("Neotree close")
-
-        -- Track if we closed Neotree for this toggle
-        if neotree_was_open and not vim.g.neotree_closed_by_snacks then
-          vim.g.neotree_closed_by_snacks = true
-        end
-
-        -- Toggle Snacks explorer
-        require("snacks").explorer()
-
-        -- Handle state management
-        if snacks_was_open then
-          -- If Snacks was open and we're closing it, restore Neotree if needed
-          if vim.g.neotree_closed_by_snacks then
-            vim.cmd("Neotree show")
-            vim.g.neotree_closed_by_snacks = false
-          end
-        else
-          -- If we're opening Snacks, focus it
-          vim.defer_fn(function()
-            local snacks_buf = nil
-            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-              if vim.bo[buf].filetype == "snacks_picker_list" then
-                snacks_buf = buf
-                break
-              end
-            end
-            if snacks_buf then
-              local wins = vim.fn.win_findbuf(snacks_buf)
-              if #wins > 0 then
-                vim.api.nvim_set_current_win(wins[1])
-              end
-            end
-          end, 50)
-        end
-      end,
-      desc = "Toggle Snacks Explorer",
-    },
+    -- {
+    --   "<leader>e",
+    --   function()
+    --     local function is_neotree_open()
+    --       for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    --         if vim.bo[buf].filetype == "neo-tree" then
+    --           return true
+    --         end
+    --       end
+    --       return false
+    --     end
+    --
+    --     local function is_snacks_explorer_open()
+    --       for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    --         if vim.bo[buf].filetype == "snacks_picker_list" then
+    --           return true
+    --         end
+    --       end
+    --       return false
+    --     end
+    --
+    --     local neotree_was_open = is_neotree_open()
+    --     local snacks_was_open = is_snacks_explorer_open()
+    --
+    --     -- Close Neotree if open
+    --     vim.cmd("Neotree close")
+    --
+    --     -- Track if we closed Neotree for this toggle
+    --     if neotree_was_open and not vim.g.neotree_closed_by_snacks then
+    --       vim.g.neotree_closed_by_snacks = true
+    --     end
+    --
+    --     -- Toggle Snacks explorer
+    --     require("snacks").explorer()
+    --
+    --     -- Handle state management
+    --     if snacks_was_open then
+    --       -- If Snacks was open and we're closing it, restore Neotree if needed
+    --       if vim.g.neotree_closed_by_snacks then
+    --         vim.cmd("Neotree show")
+    --         vim.g.neotree_closed_by_snacks = false
+    --       end
+    --     else
+    --       -- If we're opening Snacks, focus it
+    --       vim.defer_fn(function()
+    --         local snacks_buf = nil
+    --         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    --           if vim.bo[buf].filetype == "snacks_picker_list" then
+    --             snacks_buf = buf
+    --             break
+    --           end
+    --         end
+    --         if snacks_buf then
+    --           local wins = vim.fn.win_findbuf(snacks_buf)
+    --           if #wins > 0 then
+    --             vim.api.nvim_set_current_win(wins[1])
+    --           end
+    --         end
+    --       end, 50)
+    --     end
+    --   end,
+    --   desc = "Toggle Snacks Explorer",
+    -- },
   },
 }
