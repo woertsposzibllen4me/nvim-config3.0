@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>xu", function()
 end, { desc = "Toggle diagnostics underlines" })
 
 vim.keymap.set("n", "K", function()
-  vim.lsp.buf.hover({ border = "rounded" })
+  vim.lsp.buf.hover()
 end, { desc = "Lsp Hover Info" })
 
 vim.keymap.set("n", "]d", function()
