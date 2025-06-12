@@ -30,8 +30,11 @@ return {
         Snacks.toggle.treesitter():map("<leader>uT")
         Snacks.toggle.inlay_hints():map("<leader>uh")
 
-        local virtual_text_toggle = require("modules.snacks.toggle.virtual_text").virtual_text_toggle
+        -- My custom toggles
+        local virtual_text_toggle = require("modules.snacks.toggle.virtual-text")
         virtual_text_toggle:map("<leader>xl")
+        local word_diff_hl_toggle = require("modules.snacks.toggle.word-diff-hl")
+        word_diff_hl_toggle:map("<leader>gw")
       end,
     })
   end,

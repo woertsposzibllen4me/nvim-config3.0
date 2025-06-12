@@ -1,5 +1,4 @@
-local M = {}
-M.virtual_text_toggle = Snacks.toggle.new({
+local virtual_text_toggle = Snacks.toggle.new({
   name = "Diagnostic Virtual Text",
   get = function()
     local config = vim.diagnostic.config()
@@ -10,4 +9,4 @@ M.virtual_text_toggle = Snacks.toggle.new({
   end,
 })
 
-return M
+return virtual_text_toggle
