@@ -138,16 +138,16 @@ return {
       }, require("modules.snacks.explorer.grep-for-file").setup_explorer_grep()),
       actions = {
         insert_absolute_path = function(picker)
-          require("scripts.snacks-path-insert").insert_absolute_path(picker)
+          require("modules.snacks.picker.path-inserts").insert_absolute_path(picker)
         end,
         insert_relative_path = function(picker)
-          require("scripts.snacks-path-insert").insert_relative_path(picker)
+          require("modules.snacks.picker.path-inserts").insert_relative_path(picker)
         end,
         insert_python_import_path = function(picker)
-          require("scripts.snacks-path-insert").insert_python_import_path(picker)
+          require("modules.snacks.picker.path-inserts").insert_python_import_path(picker)
         end,
         clip_full_path = function(picker)
-          require("scripts.snacks-path-insert").clip_full_path(picker)
+          require("modules.snacks.picker.path-inserts").clip_full_path(picker)
         end,
         flash = function(picker)
           require("flash").jump({
