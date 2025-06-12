@@ -11,7 +11,7 @@ local function get_panes()
 end
 
 local panes = get_panes()
-M = {
+return {
   enabled = true,
   width = 42,
   pane_gap = 4,
@@ -422,5 +422,3 @@ of our lord and savior.. ⢀⣾⣹⢟⣫⣪⢪⣿⣿⡟⠠⢂⣟⣶⣶⣶⢸⣿�
     --     end,
   },
 }
-
-return M

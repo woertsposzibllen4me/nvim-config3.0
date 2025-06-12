@@ -7,43 +7,12 @@ return {
     if true then
       _G.MainFileExplorer = "snacks"
     end
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "VeryLazy",
-      callback = function()
-        -- Setup some globals for debugging (lazy-loaded)
-        -- _G.Snacks = require("snacks") -- Necessary to stop lazydev from panicking 😰 lmfao NOTE: no longer needed anymore ? Windows only ?
-        ---@diagnostic disable-next-line: duplicate-set-field
-        _G.dd = function(...)
-          Snacks.debug.inspect(...)
-        end
-        ---@diagnostic disable-next-line: duplicate-set-field
-        _G.bt = function()
-          Snacks.debug.backtrace()
-        end
-        vim.print = _G.dd -- Override print to use snacks for `:=` command
-
-        -- Create some toggle mappings
-        Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-        Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-        Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-        Snacks.toggle.diagnostics():map("<leader>xd")
-        Snacks.toggle
-          .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
-          :map("<leader>uc")
-        Snacks.toggle.treesitter():map("<leader>uT")
-        Snacks.toggle.inlay_hints():map("<leader>uh")
-
-        -- My custom toggles
-        local virtual_text_toggle = require("modules.snacks.toggle.virtual-text")
-        virtual_text_toggle:map("<leader>xl")
-        local word_diff_hl_toggle = require("modules.snacks.toggle.word-diff-hl")
-        word_diff_hl_toggle:map("<leader>gw")
-      end,
-    })
+    require("modules.snacks.toggle.setup")
+    require("modules.snacks.setup-debug")
   end,
   opts = {
     -- bigfile = { enabled = true },
-    dashboard = require("modules.snacks.dashboard-config"),
+    dashboard = require("modules.snacks.dashboard.config"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     input = { enabled = false },
@@ -59,142 +28,12 @@ return {
     -- quickfile = { enabled = true },
     -- scope = { enabled = true },
     -- scroll = { enabled = true },
-    toggle = { enabled = true },
+    toggle = { enabled = true }, -- Setup is made in init, necessary? maybe idk why.
     statuscolumn = { enabled = true },
     words = { enabled = true },
-    picker = {
-      enabled = true,
-      formatters = { file = { truncate = 80, filename_first = true } },
-      layouts = require("modules.snacks.picker.custom-layouts"),
-      sources = vim.tbl_deep_extend("force", {
-        lsp_definitions = {
-          jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.
-        },
-        lsp_declarations = {
-          jump = { reuse_win = false },
-        },
-        lsp_implementations = {
-          jump = { reuse_win = false },
-        },
-        lsp_references = {
-          jump = { reuse_win = false },
-        },
-        lsp_type_definitions = {
-          jump = { reuse_win = false },
-        },
-        qflist = {
-          layout = "grep_vertical",
-        },
-        grep = {
-          layout = "grep_vertical",
-        },
-        grep_buffers = {
-          layout = "grep_vertical",
-        },
-        grep_word = {
-          layout = "grep_vertical",
-        },
-        jumps = {
-          layout = "grep_vertical",
-        },
-        command_history = {
-          layout = "midscreen_dropdown",
-        },
-        search_history = {
-          layout = "midscreen_dropdown",
-        },
-        recent = {
-          filter = {
-            cwd = true,
-            filter = function(item, _)
-              -- Skip if no file path
-              if not item.file then
-                return true
-              end
-
-              -- Paths to exclude
-              local exclude_patterns = {
-                -- Undo directory
-                vim.fn.stdpath("state") .. "/undo",
-                -- Git commit message files
-                "%.git/COMMIT_EDITMSG$",
-                "%.git/MERGE_MSG$",
-                "/COMMIT_EDITMSG$",
-                "/MERGE_MSG$",
-                -- Add any other patterns you want to exclude
-              }
-
-              -- Check if the file path matches any exclusion pattern
-              for _, pattern in ipairs(exclude_patterns) do
-                if item.file:match(pattern) then
-                  return false -- Exclude this file
-                end
-              end
-
-              return true -- Include this file
-            end,
-          },
-        },
-      }, require("modules.snacks.explorer.grep-for-file").setup_explorer_grep()),
-      actions = {
-        insert_absolute_path = function(picker)
-          require("modules.snacks.picker.path-inserts").insert_absolute_path(picker)
-        end,
-        insert_relative_path = function(picker)
-          require("modules.snacks.picker.path-inserts").insert_relative_path(picker)
-        end,
-        insert_python_import_path = function(picker)
-          require("modules.snacks.picker.path-inserts").insert_python_import_path(picker)
-        end,
-        clip_full_path = function(picker)
-          require("modules.snacks.picker.path-inserts").clip_full_path(picker)
-        end,
-        flash = function(picker)
-          require("flash").jump({
-            pattern = "^",
-            label = { after = { 0, 0 } },
-            search = {
-              mode = "search",
-              exclude = {
-                function(win)
-                  return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "snacks_picker_list"
-                end,
-              },
-            },
-            action = function(match)
-              local idx = picker.list:row2idx(match.pos[1])
-              picker.list:_move(idx, true, true)
-            end,
-          })
-        end,
-      },
-      win = {
-        input = {
-          keys = {
-            ["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
-            ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
-            ["-"] = { "insert_relative_path", mode = { "n" } },
-            ["="] = { "insert_absolute_path", mode = { "n" } },
-            ["<bs>"] = { "insert_python_import_path", mode = { "n" } },
-            ["+"] = { "clip_full_path", mode = { "n" } },
-            ["<c-l>"] = { "focus_preview", mode = { "i", "n" } },
-            ["<c-h>"] = { "focus_list", mode = { "i", "n" } },
-            ["<a-s>"] = { "flash", mode = { "n", "i" } },
-          },
-        },
-      },
-    },
+    picker = require("modules.snacks.picker.config"),
   },
   keys = {
-    -- stylua: ignore start
-
-    -- custom
-    { "<leader>c/", function() require("modules.snacks.picker.grep-quickfix-files") end, desc = "Grep Quickfix Files" },
-
-    -- Notifier
-    {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
-
-    -- stylua: ignore end
     -- Words
     {
       "]r",
@@ -216,6 +55,12 @@ return {
       desc = "Previous Snacks Word",
     },
    -- stylua: ignore start
+
+    -- Notifier
+    {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
+
+    -- Custom pickers
+    { "<leader>c/", function() require("modules.snacks.picker.grep-quickfix-files") end, desc = "Grep Quickfix Files" },
 
    -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
@@ -239,15 +84,8 @@ return {
     { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
     { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
     { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-    --stylua: ignore end
-    {
-      "<leader>sC",
-      function()
-        Snacks.picker.files({ cwd = vim.fn.stdpath("config"), title = "Config Files" })
-      end,
-      desc = "Find Config File",
-    },
-    -- stylua: ignore start
+    { "<leader>sC", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), title = "Config Files" }) end,
+    desc = "Find Config File", },
     { "<leader>sc", function() Snacks.picker.commands() end, desc = "Commands" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
