@@ -2,3 +2,4 @@ undo
 test/**
 PowerShellEditorServices.json
 .repro
+logs
