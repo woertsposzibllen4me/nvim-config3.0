@@ -1,12 +1,20 @@
-function CaptureCurrentBufferName()
+function CaptureCurrentBufferInfo()
   local bufname = vim.fn.bufname("%")
-  print("Current buffer name: " .. bufname)
-
   local raw_representation = vim.inspect(bufname)
-  print("Raw buffer name: " .. raw_representation)
-
   local title = vim.o.titlestring
+  local filetype = vim.bo.filetype
+  local buftype = vim.bo.buftype
+  local buf_vars = vim.b -- Buffer variables
+  local win_config = vim.api.nvim_win_get_config(0)
+
+  print("=== Buffer Info ===")
+  print("Current buffer name: " .. bufname)
+  print("Raw buffer name: " .. raw_representation)
   print("Current titlestring: " .. title)
+  print("Current buffer type: " .. filetype)
+  print("Current buffer type (buftype): " .. buftype)
+  print("Buffer variables: " .. vim.inspect(buf_vars))
+  print("Window configuration: " .. vim.inspect(win_config))
 
   -- Return the values so you can copy them from the messages
   return { bufname = bufname, raw = raw_representation, title = title }
@@ -33,4 +41,4 @@ function Make_window_floating()
 end
 
 vim.keymap.set("n", "<leader>uf", Make_window_floating, { desc = "Make window floating" })
-vim.keymap.set("n", "<Leader>uB", CaptureCurrentBufferName, { desc = "Capture current buffer name" })
+vim.keymap.set("n", "<Leader>uB", CaptureCurrentBufferInfo, { desc = "Capture current buffer name" })
