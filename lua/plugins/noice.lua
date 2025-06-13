@@ -28,6 +28,9 @@ return {
       signature = {
         enabled = true,
       },
+      hover = {
+        enabled = true,
+      },
       progress = {
         enabled = true,
       },
