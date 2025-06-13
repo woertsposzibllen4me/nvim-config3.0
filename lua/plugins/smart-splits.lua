@@ -32,7 +32,15 @@ return {
       {
         "<C-l>",
         function()
-          require("smart-splits").move_cursor_right()
+          if vim.bo.filetype == "snacks_picker_list" then
+            local win_config = vim.api.nvim_win_get_config(0)
+            if win_config.zindex == 33 then -- Snack explorer is on same zindex as main window
+              vim.cmd("wincmd l")
+              Logger:info("triggered wincmd l in snack explorer list", "smart-splits")
+            end
+          else
+            require("smart-splits").move_cursor_right()
+          end
         end,
         desc = "Move to right split",
       },
