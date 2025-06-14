@@ -55,7 +55,7 @@ return {
               ["]n"] = "@number.inner",
               ["]w"] = "@call.outer",
               ["]j"] = "@attribute.inner", -- Not available in python
-              ["]v"] = "@comment.inner",
+              ["]U"] = "@comment.inner",
               ["]i"] = "@conditional.outer",
               ["]o"] = "@loop.outer",
               ["]z"] = "@function_name",
@@ -63,6 +63,10 @@ return {
               ["]e"] = "@call_name", -- the versatile one (method_name + function_name)
               ["]h"] = "@return_type",
               ["]p"] = "@function_parameters",
+              ["]m"] = "@variable.member.inner",
+              -- alternatives
+              ["]'R"] = "@return.inner",
+              ["]'w"] = "@call.inner",
             },
             goto_next_end = {
               ["]F"] = "@function.outer",
@@ -71,7 +75,7 @@ return {
               ["]N"] = "@number.inner",
               ["]W"] = "@call.outer",
               ["]J"] = "@attribute.inner",
-              ["]V"] = "@comment.inner",
+              ["]u"] = "@comment.inner",
               ["]I"] = "@conditional.outer",
               ["]O"] = "@loop.outer",
               ["]Z"] = "@function_name",
@@ -79,6 +83,8 @@ return {
               ["]E"] = "@call_name",
               ["]H"] = "@return_type",
               ["]P"] = "@function_parameters",
+              ["]R"] = "@return.inner",
+              -- alternatives
             },
             goto_previous_start = {
               ["[f"] = "@function.outer",
@@ -87,7 +93,7 @@ return {
               ["[n"] = "@number.inner",
               ["[w"] = "@call.outer",
               ["[j"] = "@attribute.inner",
-              ["[v"] = "@comment.inner",
+              ["[U"] = "@comment.inner",
               ["[i"] = "@conditional.outer",
               ["[o"] = "@loop.outer",
               ["[z"] = "@function_name",
@@ -95,6 +101,9 @@ return {
               ["[e"] = "@call_name",
               ["[h"] = "@return_type",
               ["[p"] = "@function_parameters",
+              ["[m"] = "@variable.member.inner",
+              -- alternatives
+              ["['R"] = "@return.inner",
             },
             goto_previous_end = {
               ["[F"] = "@function.outer",
@@ -103,7 +112,7 @@ return {
               ["[N"] = "@number.inner",
               ["[W"] = "@call.outer",
               ["[J"] = "@attribute.inner",
-              ["[V"] = "@comment.inner",
+              ["[u"] = "@comment.inner",
               ["[I"] = "@conditional.outer",
               ["[O"] = "@loop.outer",
               ["[Z"] = "@function_name",
@@ -111,6 +120,8 @@ return {
               ["[E"] = "@call_name",
               ["[H"] = "@return_type",
               ["[P"] = "@function_parameters",
+              ["[R"] = "@return.inner",
+              -- alternatives
             },
           },
           lsp_interop = {
