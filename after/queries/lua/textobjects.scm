@@ -21,3 +21,6 @@
     (dot_index_expression field: (identifier) @call_name)
     (method_index_expression method: (identifier) @call_name)
   ])
+
+(dot_index_expression
+  field: (identifier) @variable.member.inner) @variable.member.outer

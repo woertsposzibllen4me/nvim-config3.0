@@ -24,3 +24,6 @@
 (function_definition
   parameters: (parameters) @function_parameters
   !return_type)
+
+(attribute
+  attribute: (identifier) @variable.member.inner) @variable.member.outer
