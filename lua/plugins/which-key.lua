@@ -26,6 +26,10 @@ return {
       { "<leader>o", desc = "Portal Jump Backward", icon = { icon = "󰩈", color = "azure" } },
       { "<leader>i", desc = "Portal Jump Forward", icon = { icon = "󰩈", color = "azure" } },
 
+      -- ] and [ keybinds Alternatives
+      { "]'", group = "Alternative next", icon = { icon = "⏭️", color = "blue" } },
+      { "['", group = "Alternative previous", icon = { icon = "⏮️", color = "blue" } },
+
       -- Standalones
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
