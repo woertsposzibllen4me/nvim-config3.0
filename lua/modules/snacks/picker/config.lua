@@ -30,9 +30,7 @@ return {
     qflist = {
       layout = "grep_vertical",
     },
-    grep = {
-      layout = "grep_vertical",
-    },
+    grep = require("modules.snacks.picker.grep-globs").setup_grep_with_globs(),
     grep_buffers = {
       layout = "grep_vertical",
     },
