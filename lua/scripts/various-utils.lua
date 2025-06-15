@@ -1,9 +1,10 @@
-function CaptureCurrentBufferInfo()
+function Capture_Current_Buffer_Info()
   local bufname = vim.fn.bufname("%")
   local raw_representation = vim.inspect(bufname)
   local title = vim.o.titlestring
   local filetype = vim.bo.filetype
   local buftype = vim.bo.buftype
+  local absolute_path = vim.fn.expand("%:p")
   local buf_vars = vim.b -- Buffer variables
   local win_config = vim.api.nvim_win_get_config(0)
 
@@ -13,6 +14,7 @@ function CaptureCurrentBufferInfo()
   print("Current titlestring: " .. title)
   print("Current buffer type: " .. filetype)
   print("Current buffer type (buftype): " .. buftype)
+  print("Absolute path: " .. absolute_path)
   print("Buffer variables: " .. vim.inspect(buf_vars))
   print("Window configuration: " .. vim.inspect(win_config))
 
@@ -41,4 +43,4 @@ function Make_window_floating()
 end
 
 vim.keymap.set("n", "<leader>uf", Make_window_floating, { desc = "Make window floating" })
-vim.keymap.set("n", "<Leader>uB", CaptureCurrentBufferInfo, { desc = "Capture current buffer name" })
+vim.keymap.set("n", "<Leader>uB", Capture_Current_Buffer_Info, { desc = "Capture current buffer name" })

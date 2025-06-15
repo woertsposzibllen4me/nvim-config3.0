@@ -132,22 +132,9 @@ map("n", "]q", function()
   end
 end, { desc = "Next Quickfix Item" })
 
--- Focus largest window to quickly go back to main editing window
+-- Focus main editing window
 vim.keymap.set("n", "<leader>wi", function()
-  local largest_win, largest_area = nil, 0
-
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_config(win).relative == "" then
-      local area = vim.api.nvim_win_get_width(win) * vim.api.nvim_win_get_height(win)
-      if area > largest_area then
-        largest_area, largest_win = area, win
-      end
-    end
-  end
-
-  if largest_win then
-    vim.api.nvim_set_current_win(largest_win)
-  end
+  require("scripts.ui.focus-largest-window")
 end, { desc = "Focus largest window" })
 
 -- Easier system yank
