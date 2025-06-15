@@ -42,6 +42,9 @@ return {
     jumps = {
       layout = "grep_vertical",
     },
+    todo_comments = {
+      layout = "grep_vertical",
+    },
     command_history = {
       layout = "midscreen_dropdown",
     },

@@ -121,6 +121,9 @@ return {
     { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
     { "<leader>sr", function() Snacks.picker.recent() end, desc = "Recent" },
     { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
+    { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo comments" },
+    { "<leader>sT", function () Snacks.picker.todo_comments({
+      keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
     { "zp", function() Snacks.picker.spelling() end, desc = "Spelling Picker" },
