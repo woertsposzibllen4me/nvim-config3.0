@@ -1,3 +1,14 @@
+-- helper to open snacks explorer without focusing it
+local function show_snacks_no_focus()
+  local current_win = vim.api.nvim_get_current_win()
+  require("snacks").explorer()
+  if vim.api.nvim_win_is_valid(current_win) then
+    vim.defer_fn(function()
+      vim.api.nvim_set_current_win(current_win)
+    end, 30)
+  end
+end
+
 return {
   "mbbill/undotree",
   cmd = "UndotreeToggle",
@@ -39,7 +50,7 @@ return {
             vim.g.neotree_closed_by_undo = false
           end
           if vim.g.snacks_closed_by_undo then
-            require("snacks").explorer.open()
+            show_snacks_no_focus()
             vim.g.snacks_closed_by_undo = false
           end
         elseif not undotree_was_open then
@@ -50,6 +61,7 @@ return {
     },
   },
   config = function()
+    vim.g.undotree_SplitWidth = 38
     if OnWindows then
       -- Check if diff is available in the PATH
       if vim.fn.executable("diff") == 1 then
@@ -69,7 +81,7 @@ return {
               vim.g.neotree_closed_by_undo = false
             end
             if vim.g.snacks_closed_by_undo then
-              require("snacks").explorer()
+              show_snacks_no_focus()
               vim.g.snacks_closed_by_undo = false
             end
           end)
