@@ -88,7 +88,7 @@ return {
     { "<leader>sgl", function() Snacks.picker.git_log() end, desc = "Git Log (All)" },
     { "<leader>sgb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
     { "<leader>sgs", function() Snacks.picker.git_status() end, desc = "Git Status" },
-    { "<leader>sgt", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
+    { "<leader>sgz", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
     { "<leader>sgd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader>s,", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
