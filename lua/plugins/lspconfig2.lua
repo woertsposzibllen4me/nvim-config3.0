@@ -133,7 +133,10 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              ignore = { "c:/Users/ville/appdata/local/programs/python/python312/lib/**" },
+              ignore = {
+                "c:/Users/ville/appdata/local/programs/python/python312/lib/**",
+                "/usr/lib/python*/**",
+              },
             },
           },
         },
