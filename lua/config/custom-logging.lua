@@ -19,19 +19,19 @@ M.config = {
   min_level = 2,
 }
 
-function M.init()
-  local log_dir = vim.fn.fnamemodify(M.config.file, ":h")
-  vim.fn.mkdir(log_dir, "p")
-  M._rotate_if_needed()
-end
-
 ---@private
-function M._rotate_if_needed()
+local function _rotate_if_needed()
   local stat = vim.loop.fs_stat(M.config.file)
   if stat and stat.size > M.config.max_file_size then
     local backup_file = M.config.file .. ".old"
     vim.loop.fs_rename(M.config.file, backup_file)
   end
+end
+
+function M.init()
+  local log_dir = vim.fn.fnamemodify(M.config.file, ":h")
+  vim.fn.mkdir(log_dir, "p")
+  _rotate_if_needed()
 end
 
 ---@param message string

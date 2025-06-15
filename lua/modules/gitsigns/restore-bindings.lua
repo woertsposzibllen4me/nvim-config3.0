@@ -23,12 +23,12 @@ end
 function M.restore_gs_bindings()
   vim.keymap.set("n", "q", "", { noremap = true, desc = "Quit most things" })
   vim.keymap.set("n", "Q", "q", { noremap = true, desc = "Record macro" })
-  local ok, wezmove = pcall(require, "wezterm-move")
-  if ok then
+  local has_wezmove, wezmove = pcall(require, "wezterm-move")
+  if has_wezmove then
     restore_wezmove_bindings(wezmove)
   end
-  local ok2, smsplit = pcall(require, "smart-splits")
-  if ok2 then
+  local has_smsplit, smsplit = pcall(require, "smart-splits")
+  if has_smsplit then
     restore_smart_splits_bindings(smsplit)
   end
 end

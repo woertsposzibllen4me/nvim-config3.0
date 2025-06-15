@@ -84,7 +84,8 @@ return {
         key = "g",
         desc = "Open LazyGit",
         action = function()
-          vim.cmd("lua StartLazygit()")
+          local lg = require("scripts.lazygit-terminal")
+          lg.start_lazygit()
         end,
       },
       {

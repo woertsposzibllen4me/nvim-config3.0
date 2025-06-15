@@ -1,7 +1,8 @@
+local M = {}
 -- Store original DiffText highlight
 local original_difftext = nil
 
-local word_diff_toggle = Snacks.toggle.new({
+M.word_diff_toggle = Snacks.toggle.new({
   name = "Word Diff Highlighting",
   get = function()
     local difftext_hl = vim.api.nvim_get_hl(0, { name = "DiffText" })
@@ -31,4 +32,4 @@ local word_diff_toggle = Snacks.toggle.new({
   end,
 })
 
-return word_diff_toggle
+return M

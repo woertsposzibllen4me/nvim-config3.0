@@ -1,4 +1,4 @@
-function Capture_Current_Buffer_Info()
+local function capture_current_buffer_info()
   local bufname = vim.fn.bufname("%")
   local raw_representation = vim.inspect(bufname)
   local title = vim.o.titlestring
@@ -22,7 +22,7 @@ function Capture_Current_Buffer_Info()
   return { bufname = bufname, raw = raw_representation, title = title }
 end
 
-function Make_window_floating()
+function Make_window_floating() -- Yes its used globally
   local buf = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()
   local width = math.floor(vim.o.columns * 0.9)
@@ -43,4 +43,4 @@ function Make_window_floating()
 end
 
 vim.keymap.set("n", "<leader>uf", Make_window_floating, { desc = "Make window floating" })
-vim.keymap.set("n", "<Leader>uB", Capture_Current_Buffer_Info, { desc = "Capture current buffer name" })
+vim.keymap.set("n", "<Leader>uB", capture_current_buffer_info, { desc = "Capture current buffer name" })

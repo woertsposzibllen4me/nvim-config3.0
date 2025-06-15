@@ -9,7 +9,7 @@ local function notify_error(msg)
 end
 
 -- Function to create a floating terminal
-function M.lg_float_term(opts)
+local function lg_float_term(opts)
   opts = vim.tbl_deep_extend("force", {
     size = { width = 0.96, height = 1.0 },
   }, opts or {})
@@ -94,7 +94,7 @@ function M.lg_float_term(opts)
 end
 
 -- Function to check clipboard with retries
-local function getRelativeFilepath(retries, delay)
+local function get_relative_file_path(retries, delay)
   local relative_filepath
   for _ = 1, retries do
     relative_filepath = vim.fn.getreg("+")
@@ -107,7 +107,7 @@ local function getRelativeFilepath(retries, delay)
 end
 
 -- Function to handle editing from Lazygit
-function M.LazygitEdit(original_buffer)
+function M.lazygit_edit(original_buffer)
   local current_bufnr = vim.fn.bufnr("%")
   local channel_id = vim.fn.getbufvar(current_bufnr, "terminal_job_id")
   if not channel_id then
@@ -117,7 +117,7 @@ function M.LazygitEdit(original_buffer)
   vim.fn.chansend(channel_id, "\15") -- \15 is <c-o>
   vim.cmd("close")
   vim.cmd("checktime")
-  local relative_filepath = getRelativeFilepath(5, 50)
+  local relative_filepath = get_relative_file_path(5, 50)
   if not relative_filepath then
     notify_error("Clipboard is empty or invalid.")
     return
@@ -132,21 +132,21 @@ function M.LazygitEdit(original_buffer)
 end
 
 -- Function to open Lazygit logs
-function M.StartLazygitLogs()
-  M.StartLazygit({ cmd_args = "log" })
+function M.start_lazygit_logs()
+  M.start_lazygit({ cmd_args = "log" })
 end
 
 -- Function to start Lazygit in a floating terminal
-function M.StartLazygit(opts)
+function M.start_lazygit(opts)
   local current_buffer = vim.api.nvim_get_current_buf()
-  local float_term = M.lg_float_term(opts)
+  local float_term = lg_float_term(opts)
 
   -- Keybind to edit the file in the current nvim instance
   vim.api.nvim_buf_set_keymap(
     float_term.buf,
     "t",
     vim.g.maplocalleader .. "e",
-    string.format([[<Cmd>lua require('scripts.lazygit-terminal').LazygitEdit(%d)<CR>]], current_buffer),
+    string.format([[<Cmd>lua require('scripts.lazygit-terminal').lazygit_edit(%d)<CR>]], current_buffer),
     { noremap = true, silent = true }
   )
 
@@ -217,12 +217,12 @@ end
 _G.RunTinygitSmartCommit = M.run_tinygit_smartcommit
 _G.RunTinygitAmendOnlyMessage = M.run_tinygit_amendonlymessage
 
-vim.keymap.set("n", "<leader>gg", M.StartLazygit, { noremap = true, silent = true, desc = "Open a Lazygit terminal" })
+vim.keymap.set("n", "<leader>gg", M.start_lazygit, { noremap = true, silent = true, desc = "Open a Lazygit terminal" })
 
 vim.keymap.set(
   "n",
   "<leader>gol",
-  M.StartLazygitLogs,
+  M.start_lazygit_logs,
   { noremap = true, silent = true, desc = "Open a Lazygit terminal logs" }
 )
 

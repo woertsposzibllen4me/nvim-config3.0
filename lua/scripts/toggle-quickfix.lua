@@ -1,4 +1,4 @@
-function ToggleQuickfix()
+local function toggle_quickfix()
   local qf_exists = false
   for _, win in pairs(vim.fn.getwininfo()) do
     if win.quickfix == 1 then
@@ -13,12 +13,7 @@ function ToggleQuickfix()
 end
 
 -- Toggle quickfix
-vim.keymap.set(
-  "n",
-  "<leader>C",
-  ":lua ToggleQuickfix()<CR>",
-  { noremap = true, silent = true, desc = "Toggle quickfix" }
-)
+vim.keymap.set("n", "<leader>C", toggle_quickfix, { noremap = true, silent = true, desc = "Toggle quickfix" })
 
 -- Add autocmd to map 'q' in quickfix window
 vim.api.nvim_create_autocmd("FileType", {

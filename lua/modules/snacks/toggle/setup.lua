@@ -14,7 +14,10 @@ vim.api.nvim_create_autocmd("User", {
     Snacks.toggle.inlay_hints():map("<leader>uh")
 
     -- My custom toggles
-    require("modules.snacks.toggle.virtual-text"):map("<leader>xl")
-    require("modules.snacks.toggle.word-diff-hl"):map("<leader>gw")
+
+    local vtt = require("modules.snacks.toggle.virtual-text").virtual_text_toggle
+    vtt:map("<leader>xl")
+    local wdtgl = require("modules.snacks.toggle.word-diff-hl").word_diff_toggle
+    wdtgl:map("<leader>gw")
   end,
 })

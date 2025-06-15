@@ -73,7 +73,8 @@ map("n", "<esc>", function()
     vim.cmd("noh")
     return
   end
-  require("scripts.ui.close-floating-windows")
+  local clear = require("scripts.ui.close-floating-windows")
+  clear.clear_stuff()
 end, { silent = true, desc = "Close floating windows/disable search highlight" })
 
 -- Set focus on solo windows + main filetree explorer
@@ -134,7 +135,8 @@ end, { desc = "Next Quickfix Item" })
 
 -- Focus main editing window
 vim.keymap.set("n", "<leader>wi", function()
-  require("scripts.ui.focus-largest-window")
+  local focus = require("scripts.ui.focus-largest-window")
+  focus.focus()
 end, { desc = "Focus largest window" })
 
 -- Easier system yank
