@@ -76,7 +76,7 @@ function M.ai_whichkey(opts)
     { "`", desc = "` string" },
     { "a", desc = "argument" },
     { "b", desc = ")]} block" },
-    { "C", desc = "class" },
+    { "c", desc = "class" },
     { "d", desc = "digit(s)" },
     { "e", desc = "CamelCase / snake_case" },
     { "f", desc = "function" },
@@ -88,7 +88,7 @@ function M.ai_whichkey(opts)
     { "u", desc = "use/call" },
     { "{", desc = "{} block" },
     { "}", desc = "{} with ws" },
-    { "c", desc = "comment block" },
+    { "C", desc = "comment block" },
   }
 
   local ret = { mode = { "o", "x" } }
