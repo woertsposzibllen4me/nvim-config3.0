@@ -66,13 +66,19 @@ return {
       end,
       desc = "Previous Snacks Word",
     },
+    -- Custom pickers
+    {
+      "<leader>c/",
+      function()
+        local grep_qfix = require("modules.snacks.picker.grep-quickfix-files")
+        grep_qfix.grep_qf_files()
+      end,
+      desc = "Grep Quickfix Files",
+    },
    -- stylua: ignore start
 
     -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},
-
-    -- Custom pickers
-    { "<leader>c/", function() require("modules.snacks.picker.grep-quickfix-files") end, desc = "Grep Quickfix Files" },
 
    -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
