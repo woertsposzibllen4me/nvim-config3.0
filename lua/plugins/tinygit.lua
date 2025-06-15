@@ -14,6 +14,11 @@ return {
       desc = "Smart commit",
     },
     {
+      "<leader>gp",
+      "<cmd>Tinygit push<cr>",
+      desc = "Push",
+    },
+    {
       "<leader>ga",
       "<cmd>Tinygit amendOnlyMsg<cr>",
       desc = "Amend last commit message",
