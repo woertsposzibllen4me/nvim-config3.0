@@ -43,6 +43,7 @@ vim.opt.fillchars:append({ eob = " " })
 -- vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 vim.opt.spelloptions = "camel"
+vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
 
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
