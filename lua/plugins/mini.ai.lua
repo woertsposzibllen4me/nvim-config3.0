@@ -1,5 +1,5 @@
 local mini_utils = require("modules.mini-ai.mini-utils")
-local mini_comments = require("modules.mini-ai.mini-utils-comment")
+local mini_comments = require("modules.mini-ai.comment-textobject")
 return {
   "echasnovski/mini.ai",
   opts = function()
@@ -23,7 +23,7 @@ return {
         g = mini_utils.ai_buffer, -- buffer
         u = ai.gen_spec.function_call(), -- u for "Usage"
         U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
-        C = mini_comments.ai_comment, -- comment block (doenst work yet)
+        C = mini_comments.ai_comment, -- comment custom textobject
       },
     }
   end,
