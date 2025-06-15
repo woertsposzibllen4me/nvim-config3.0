@@ -4,39 +4,43 @@ return {
   keys = {
     {
       "<leader>U",
+
       function()
-        local function is_neotree_open()
+        local function is_buffer_open(buftype)
           for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[buf].filetype == "neo-tree" then
+            if vim.bo[buf].filetype == buftype then
               return true
             end
           end
           return false
         end
 
-        local function is_undotree_open()
-          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[buf].filetype == "undotree" then
-              return true
-            end
-          end
-          return false
+        local snacks_explorer_was_open = is_buffer_open("snacks_picker_list")
+        local neotree_was_open = is_buffer_open("neo-tree")
+        local undotree_was_open = is_buffer_open("undotree")
+
+        -- Close explorers if they're open and undotree is being opened
+        if neotree_was_open and not vim.g.neotree_closed_by_undo then
+          vim.g.neotree_closed_by_undo = true
+          vim.cmd("Neotree close")
         end
 
-        local neotree_was_open = is_neotree_open()
-        local undotree_was_open = is_undotree_open()
-
-        vim.cmd("Neotree close")
-
-        if neotree_was_open and not vim.g.neotree_closed_by_undotree then
-          vim.g.neotree_closed_by_undotree = true
+        if snacks_explorer_was_open and not vim.g.snacks_closed_by_undo then
+          vim.g.snacks_closed_by_undo = true
+          require("snacks").explorer()
         end
 
         vim.cmd("UndotreeToggle")
 
+        -- If undotree was open (now closing), restore previously open explorers
         if undotree_was_open then
-          if vim.g.neotree_closed_by_undotree then
+          if vim.g.neotree_closed_by_undo then
             vim.cmd("Neotree show")
+            vim.g.neotree_closed_by_undo = false
+          end
+          if vim.g.snacks_closed_by_undo then
+            require("snacks").explorer.open()
+            vim.g.snacks_closed_by_undo = false
           end
         elseif not undotree_was_open then
           vim.cmd("UndotreeFocus")
@@ -58,10 +62,16 @@ return {
     -- Create an autocmd to handle when Undotree is closed by any method
     vim.api.nvim_create_autocmd("BufWinLeave", {
       callback = function(ev)
-        if vim.bo[ev.buf].filetype == "undotree" and vim.g.neotree_closed_by_undotree then
+        if vim.bo[ev.buf].filetype == "undotree" then
           vim.schedule(function()
-            vim.cmd("Neotree show")
-            vim.g.neotree_closed_by_undotree = false
+            if vim.g.neotree_closed_by_undo then
+              vim.cmd("Neotree show")
+              vim.g.neotree_closed_by_undo = false
+            end
+            if vim.g.snacks_closed_by_undo then
+              require("snacks").explorer()
+              vim.g.snacks_closed_by_undo = false
+            end
           end)
         end
       end,
