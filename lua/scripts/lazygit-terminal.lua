@@ -214,22 +214,15 @@ function M.run_tinygit_amendonlymessage()
 end
 
 -- Make specific functions available globally
-_G.StartLazygitLogs = M.StartLazygitLogs
-_G.StartLazygit = M.StartLazygit
 _G.RunTinygitSmartCommit = M.run_tinygit_smartcommit
 _G.RunTinygitAmendOnlyMessage = M.run_tinygit_amendonlymessage
 
-vim.api.nvim_set_keymap(
-  "n",
-  "<leader>gg",
-  [[<Cmd>lua StartLazygit()<CR>]],
-  { noremap = true, silent = true, desc = "Open a Lazygit terminal" }
-)
+vim.keymap.set("n", "<leader>gg", M.StartLazygit, { noremap = true, silent = true, desc = "Open a Lazygit terminal" })
 
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   "n",
-  "<leader>gl",
-  [[<Cmd>lua StartLazygitLogs()<CR>]],
+  "<leader>gol",
+  M.StartLazygitLogs,
   { noremap = true, silent = true, desc = "Open a Lazygit terminal logs" }
 )
 

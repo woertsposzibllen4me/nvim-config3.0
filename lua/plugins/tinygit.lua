@@ -39,7 +39,7 @@ return {
       desc = "Undo last commit or amend",
     },
     {
-      "<leader>gf",
+      "<leader>gF",
       "<cmd>Tinygit fixupCommit<cr>",
       desc = "Fixup commit",
     },

@@ -130,8 +130,8 @@ return {
       end, "First Hunk")
 
       -- Buffer operations
-      map("n", "<leader>gs", gs.stage_buffer, "Stage Buffer")
-      map("n", "<leader>gr", gs.reset_buffer, "Reset Buffer")
+      map("n", "<leader>gS", gs.stage_buffer, "Stage Buffer")
+      map("n", "<leader>gR", gs.reset_buffer, "Reset Buffer")
 
       -- Hunk operations
       map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
