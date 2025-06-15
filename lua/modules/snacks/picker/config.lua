@@ -2,6 +2,15 @@ return {
   enabled = true,
   formatters = { file = { truncate = 80, filename_first = true } },
   layouts = require("modules.snacks.picker.custom-layouts"),
+  previewers = {
+    diff = {
+      builtin = false,
+      cmd = { "delta" },
+    },
+    git = {
+      builtin = false,
+    },
+  },
   sources = vim.tbl_deep_extend("force", {
     lsp_definitions = {
       jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.
