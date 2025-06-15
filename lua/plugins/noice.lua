@@ -4,7 +4,7 @@ return {
   enabled = true,
   opts = {
     presets = {
-      lsp_doc_border = false,
+      lsp_doc_border = true,
     },
     routes = {
       {
