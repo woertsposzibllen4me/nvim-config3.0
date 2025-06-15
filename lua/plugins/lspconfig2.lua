@@ -134,7 +134,7 @@ return {
           basedpyright = {
             analysis = {
               ignore = {
-                "c:/Users/ville/appdata/local/programs/python/python312/lib/**",
+                "c:/Users/ville/appdata/local/programs/python/python*/lib/**",
                 "/usr/lib/python*/**",
               },
             },
