@@ -1,5 +1,6 @@
 local mini_utils = require("modules.mini-ai.mini-utils")
 local mini_comments = require("modules.mini-ai.comment-textobject")
+local word_with_case = require("modules.mini-ai.word-with-case")
 return {
   "echasnovski/mini.ai",
   opts = function()
@@ -15,10 +16,11 @@ return {
         c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }), -- class
         t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
         d = { "%f[%d]%d+" }, -- digits
-        e = { -- Word with case
-          { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
-          "^().*()$",
-        },
+        -- e = { -- Word with case (og version)
+        --   { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
+        --   "^().*()$",
+        -- },
+        e = word_with_case.v_2, -- Word with case (amped up version)
         i = mini_utils.ai_indent, -- indent
         g = mini_utils.ai_buffer, -- buffer
         u = ai.gen_spec.function_call(), -- u for "Usage"
