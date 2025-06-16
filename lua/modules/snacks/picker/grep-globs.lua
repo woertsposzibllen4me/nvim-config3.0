@@ -29,7 +29,9 @@ local function reposition_dressing()
   end
 end
 
-M.setup_grep_with_globs = function()
+---@param dirs? table<string>
+---@param title? string
+M.setup_grep_with_globs = function(dirs, title)
   return {
     finder = "grep",
     regex = true,
@@ -44,22 +46,31 @@ M.setup_grep_with_globs = function()
           ["<F1>"] = {
             function(picker)
               local current_search = vim.api.nvim_buf_get_lines(0, 0, -1, false)[1] or ""
-
-              -- Get the last used patterns from vim global variable (more stable)
               local last_patterns = vim.g.snacks_multigrep_patterns or ""
+              local current_dirs = dirs or {}
+              local current_title = title
 
               picker:close()
 
               vim.ui.input({
-                prompt = "File patterns (comma-separated, e.g., *.lua,*.js,*.py): ",
+                prompt = "File patterns (comma-separated, e.g., *.lua,*.py,src/**,*/dir/*): ",
                 default = last_patterns,
               }, function(input)
                 if not input then
                   -- User cancelled, restart picker without patterns
+                  local restart_options = {
+                    search = current_search,
+                    dirs = current_dirs,
+                  }
+
+                  if current_title then
+                    restart_options.title = current_title
+                  end
+
                   vim.schedule(function()
-                    Snacks.picker.grep({
-                      search = current_search,
-                    })
+                    local new_config = M.setup_grep_with_globs(current_dirs, current_title)
+                    local final_config = vim.tbl_deep_extend("force", new_config, restart_options)
+                    Snacks.picker.grep(final_config)
                   end)
                   return
                 end
@@ -74,14 +85,24 @@ M.setup_grep_with_globs = function()
                 local grep_options = {
                   search = current_search,
                   glob = patterns,
+                  dirs = current_dirs,
                 }
 
                 if #patterns > 0 then
-                  grep_options.title = "Grep (" .. table.concat(patterns, ", ") .. ")"
+                  local glob_suffix = " (" .. table.concat(patterns, ", ") .. ")"
+                  if current_title then
+                    grep_options.title = current_title .. glob_suffix
+                  else
+                    grep_options.title = "Grep" .. glob_suffix
+                  end
+                else
+                  grep_options.title = current_title
                 end
 
                 vim.schedule(function()
-                  Snacks.picker.grep(grep_options)
+                  local new_config = M.setup_grep_with_globs(current_dirs, current_title)
+                  local final_config = vim.tbl_deep_extend("force", new_config, grep_options)
+                  Snacks.picker.grep(final_config)
                 end)
               end)
               vim.schedule(function()

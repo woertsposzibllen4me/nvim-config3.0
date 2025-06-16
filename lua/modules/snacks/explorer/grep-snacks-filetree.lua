@@ -48,17 +48,19 @@ M.grep_in_dir = function(picker, item)
   end
 
   local title = "Grep in: " .. vim.fn.fnamemodify(path, ":~:.")
+  local dirs = { path }
 
   vim.schedule(function()
     focus_large_win.focus()
-    Snacks.picker.grep({
+    local grep_config = require("modules.snacks.picker.grep-globs").setup_grep_with_globs(dirs, title)
+
+    -- Add the directory-specific options
+    local extended_config = vim.tbl_deep_extend("force", grep_config, {
       title = title,
-      dirs = { path },
-      live = true,
-      regex = true,
-      format = "file",
-      show_empty = true,
+      dirs = dirs,
     })
+
+    Snacks.picker.grep(extended_config)
   end)
 end
 
