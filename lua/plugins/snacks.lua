@@ -15,7 +15,13 @@ return {
     dashboard = require("modules.snacks.dashboard.config"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
-    input = { enabled = false },
+    input = {
+      enabled = false,
+      win = {
+        relative = "cursor",
+        -- row = math.floor(vim.o.lines * 0.5) - 2,
+      },
+    },
     notifier = {
       enabled = true,
       filter = function(notif)
