@@ -81,7 +81,7 @@ return {
         end,
       },
     },
-  }, require("modules.snacks.explorer.grep-filetree").setup_explorer_grep()),
+  }, require("modules.snacks.explorer.grep-snacks-filetree").setup_explorer_grep()),
   actions = {
     insert_absolute_path = function(picker)
       require("modules.snacks.picker.path-inserts").insert_absolute_path(picker)

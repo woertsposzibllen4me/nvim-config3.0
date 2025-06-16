@@ -1,15 +1,16 @@
--- Snacks Explorer: Enhanced grep functionality
 local M = {}
 
--- Function to grep for the current item's filename in cwd
+-- Used to fix focus bug that happens if we run pickers while having the Snacks Explorer in focus
+local focus_large_win = require("scripts.ui.focus-largest-window")
+
 M.grep_for_filename = function(picker, item)
   if not item or not item.file then
     return
   end
   -- Extract just the filename without path and extension
   local filename = vim.fn.fnamemodify(item.file, ":t:r")
-  -- Open grep picker with the filename as search term
   vim.schedule(function()
+    focus_large_win.focus()
     Snacks.picker.grep_word({
       title = "Grep for: " .. filename,
       search = filename,
@@ -18,7 +19,6 @@ M.grep_for_filename = function(picker, item)
   end)
 end
 
--- Function to grep for the full filename (with extension)
 M.grep_for_full_filename = function(picker, item)
   if not item or not item.file then
     return
@@ -26,6 +26,7 @@ M.grep_for_full_filename = function(picker, item)
   -- Extract filename with extension
   local filename = vim.fn.fnamemodify(item.file, ":t")
   vim.schedule(function()
+    focus_large_win.focus()
     Snacks.picker.grep_word({
       title = "Grep for: " .. filename,
       search = filename,
@@ -34,7 +35,6 @@ M.grep_for_full_filename = function(picker, item)
   end)
 end
 
--- Function to grep inside the current directory or parent directory of a file
 M.grep_in_dir = function(picker, item)
   if not item or not item.file then
     return
@@ -50,6 +50,7 @@ M.grep_in_dir = function(picker, item)
   local title = "Grep in: " .. vim.fn.fnamemodify(path, ":~:.")
 
   vim.schedule(function()
+    focus_large_win.focus()
     Snacks.picker.grep({
       title = title,
       dirs = { path },
@@ -61,7 +62,6 @@ M.grep_in_dir = function(picker, item)
   end)
 end
 
--- Configuration to add these actions to the explorer
 M.setup_explorer_grep = function()
   return {
     explorer = {
