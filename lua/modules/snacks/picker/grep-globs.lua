@@ -41,36 +41,39 @@ M.setup_grep_with_globs = function()
     win = {
       input = {
         keys = {
-          ["<F2>"] = {
+          ["<F1>"] = {
             function(picker)
               local current_search = vim.api.nvim_buf_get_lines(0, 0, -1, false)[1] or ""
 
               -- Get the last used patterns from vim global variable (more stable)
-              local last_patterns = vim.g.snacks_multigrep_patterns or "*.glob"
+              local last_patterns = vim.g.snacks_multigrep_patterns or ""
 
               picker:close()
 
-              -- Remove vim.schedule and call directly
               vim.ui.input({
                 prompt = "File patterns (comma-separated, e.g., *.lua,*.js,*.py): ",
                 default = last_patterns,
               }, function(input)
-                if input and input ~= "" then
-                  local patterns = {}
-                  for pattern in input:gmatch("([^,]+)") do
-                    table.insert(patterns, vim.trim(pattern))
-                  end
-                  vim.g.snacks_multigrep_patterns = table.concat(patterns, ",")
-                  vim.schedule(function()
-                    Snacks.picker.grep({
-                      search = current_search,
-                      glob = patterns,
-                      title = "Grep (" .. table.concat(patterns, ", ") .. ")",
-                    })
-                  end)
+                local patterns = {}
+                for pattern in input:gmatch("([^,]+)") do
+                  table.insert(patterns, vim.trim(pattern))
                 end
-              end)
+                vim.g.snacks_multigrep_patterns = table.concat(patterns, ",")
 
+                -- Create grep options with conditional title
+                local grep_options = {
+                  search = current_search,
+                  glob = patterns,
+                }
+
+                if #patterns > 0 then
+                  grep_options.title = "Grep (" .. table.concat(patterns, ", ") .. ")"
+                end
+
+                vim.schedule(function()
+                  Snacks.picker.grep(grep_options)
+                end)
+              end)
               vim.schedule(function()
                 local has_dressing, _ = pcall(require, "dressing")
                 if has_dressing then
@@ -86,4 +89,5 @@ M.setup_grep_with_globs = function()
     },
   }
 end
+
 return M
