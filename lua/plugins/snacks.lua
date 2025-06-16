@@ -7,12 +7,12 @@ return {
     if true then
       _G.MainFileExplorer = "snacks"
     end
-    require("modules.snacks.toggle.setup")
+    require("modules.snacks.toggle.toggle-setup")
     require("modules.snacks.setup-debug")
   end,
   opts = {
     -- bigfile = { enabled = true },
-    dashboard = require("modules.snacks.dashboard.config"),
+    dashboard = require("modules.snacks.dashboard.dashboard-config"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     input = {
@@ -37,7 +37,7 @@ return {
     toggle = { enabled = true }, -- Setup is made in init, necessary? maybe idk why.
     statuscolumn = { enabled = true },
     words = { enabled = true },
-    picker = require("modules.snacks.picker.config"),
+    picker = require("modules.snacks.picker.picker-config"),
   },
   keys = {
     -- Explorer
