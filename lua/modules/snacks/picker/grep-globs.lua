@@ -54,6 +54,16 @@ M.setup_grep_with_globs = function()
                 prompt = "File patterns (comma-separated, e.g., *.lua,*.js,*.py): ",
                 default = last_patterns,
               }, function(input)
+                if not input then
+                  -- User cancelled, restart picker without patterns
+                  vim.schedule(function()
+                    Snacks.picker.grep({
+                      search = current_search,
+                    })
+                  end)
+                  return
+                end
+
                 local patterns = {}
                 for pattern in input:gmatch("([^,]+)") do
                   table.insert(patterns, vim.trim(pattern))
