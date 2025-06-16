@@ -118,21 +118,6 @@ wk.add({
   icon = { icon = "", color = "yellow" },
 })
 
--- Quickfix navigation
-map("n", "[q", function()
-  local ok, err = pcall(vim.cmd.cprev)
-  if not ok then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Previous Quickfix Item" })
-
-map("n", "]q", function()
-  local ok, err = pcall(vim.cmd.cnext)
-  if not ok then
-    vim.notify(err, vim.log.levels.ERROR)
-  end
-end, { desc = "Next Quickfix Item" })
-
 -- Focus main editing window
 vim.keymap.set("n", "<leader>wi", function()
   local focus = require("scripts.ui.focus-largest-window")
@@ -147,3 +132,18 @@ end, { desc = "Yank to system clipboard", noremap = true })
 -- Help scroll diff smoothly
 map("n", "<C-c>", "<C-y>", opts)
 map("n", "<C-m>", "<C-e>", opts)
+
+-- Quickfix navigation
+map("n", "<Up>", function()
+  local ok, err = pcall(vim.cmd.cprev)
+  if not ok then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Previous Quickfix Item" })
+
+map("n", "<Down>", function()
+  local ok, err = pcall(vim.cmd.cnext)
+  if not ok then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Next Quickfix Item" })
