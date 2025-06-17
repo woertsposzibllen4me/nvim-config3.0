@@ -103,6 +103,10 @@ return {
       })
 
       --  #### Start of Python LSPs setup ####
+      local python_std_lib_paths = {
+        "c:/Users/*/appdata/local/programs/python/python*/lib/**",
+        "/usr/lib/python*/**",
+      }
       -- We use Pyright for completions, hover, signatures (it's faster at interactive stuff)
       lspconfig.pyright.setup({
         capabilities = capabilities,
@@ -133,10 +137,7 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              ignore = {
-                "c:/Users/*/appdata/local/programs/python/python*/lib/**",
-                "/usr/lib/python*/**",
-              },
+              ignore = python_std_lib_paths,
             },
           },
         },
@@ -182,6 +183,11 @@ return {
         end,
         enabled = true,
         autostart = true,
+        init_options = {
+          settings = {
+            exclude = python_std_lib_paths,
+          },
+        },
       })
       -- #### End of Python LSPs setup ####
 
