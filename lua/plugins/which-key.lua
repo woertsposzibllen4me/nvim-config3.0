@@ -30,6 +30,12 @@ return {
       { "]'", group = "Alternative next", icon = { icon = "⏭️", color = "blue" } },
       { "['", group = "Alternative previous", icon = { icon = "⏮️", color = "blue" } },
 
+      -- Yazi/Yank
+      { "<leader>yo", icon = { icon = "💥" }, desc = "Open yazi at current file" },
+      { "<leader>yw", icon = { icon = "💥" }, desc = "Open yazi in working directory" },
+      { "<leader>Y", icon = { icon = "💥" }, desc = "Resume yazi session" },
+      { "<leader>y", group = "Yank/Yazi", icon = { icon = "", color = "yellow" } },
+
       -- Standalones
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
@@ -37,7 +43,6 @@ return {
       { "<leader>b", group = "Bring Open..", icon = { icon = "", color = "yellow" } },
       { "<leader>q", group = "Quit/Session", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
-      { "<leader>y", group = "Yank", icon = { icon = "", color = "yellow" } },
       { "<leader>x", group = "Diagnostics" },
       { "<leader>w", group = "Windows" },
       { "<leader>D", group = "DadBod UI" },
