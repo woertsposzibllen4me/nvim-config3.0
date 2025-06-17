@@ -9,7 +9,7 @@ return {
   },
   enabled = true,
   event = "VeryLazy",
-  keys = { -- Disabled for now in favor of snack pickers
+  keys = {
     {
       "<leader>fF",
       "<cmd>Telescope find_files<cr>",
@@ -201,9 +201,15 @@ return {
           override_file_sorter = true,
           case_mode = "smart_case",
         },
+        egrepify = {
+          results_ts_hl = true,
+          -- filename_hl = "EgrepifyFile", -- default, not required, links to `Title`
+          filename_hl = "lualine_b_normal",
+        },
       },
     })
 
     telescope.load_extension("fzf")
+    telescope.load_extension("egrepify")
   end,
 }
