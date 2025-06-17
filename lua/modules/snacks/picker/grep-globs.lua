@@ -90,11 +90,7 @@ M.setup_grep_with_globs = function(dirs, title)
 
                 if #patterns > 0 then
                   local glob_suffix = " (" .. table.concat(patterns, ", ") .. ")"
-                  if current_title then
-                    grep_options.title = current_title .. glob_suffix
-                  else
-                    grep_options.title = "Grep" .. glob_suffix
-                  end
+                  grep_options.title = (current_title or "Grep") .. glob_suffix
                 else
                   grep_options.title = current_title
                 end
