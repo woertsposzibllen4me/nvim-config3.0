@@ -49,8 +49,8 @@ vim.api.nvim_create_autocmd("WinEnter", {
   end,
 })
 
--- Automatically switch to the help window when opening help files to the right and allow quitting with q
--- Needs some extra considerations to avoid bugging out with snacks buffer-grep
+-- Automatically switch to the help window when opening help files to the right and allow quitting
+-- with q Needs some extra considerations to avoid bugging out with snacks buffer-grep
 _G.processed_help_buffers = _G.processed_help_buffers or {}
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -86,6 +86,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Set textwidth to 100 for Lua files (for longer comments in the config)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.bo.textwidth = 100
+  end,
+})
+
 -- Ensure it is enabled and activates highlighting of spelling errors.
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
@@ -114,8 +122,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- Set user var "in_windows_nvim" to "1" in WezTerm when entering Neovim on windows
--- This is used to have dynamic pane navigation keybinds with wezterm, to use C-hjkl everywhere
+-- Set user var "in_windows_nvim" to "1" in WezTerm when entering Neovim on windows. This is used to
+-- have dynamic pane navigation keybinds with wezterm, to use C-hjkl everywhere
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if OnWindows then
