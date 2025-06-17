@@ -143,3 +143,16 @@ map("n", "<Down>", function()
     vim.notify(err, vim.log.levels.ERROR)
   end
 end, { desc = "Next Quickfix Item" })
+
+-- Format with custom width
+local function format_with_width()
+  local width = vim.fn.input("Format to width: ")
+  if width ~= "" and tonumber(width) and tonumber(width) > 0 then
+    local old_tw = vim.o.textwidth
+    vim.o.textwidth = tonumber(width)
+    vim.cmd("normal! gw")
+    vim.o.textwidth = old_tw
+  end
+end
+
+vim.keymap.set({ "v" }, "gW", format_with_width, { desc = "Format with custom width" })
