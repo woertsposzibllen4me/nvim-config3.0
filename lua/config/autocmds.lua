@@ -197,3 +197,14 @@ if ok then
     end,
   })
 end
+
+-- Help scroll diff smoothly
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    if vim.wo.diff then
+      vim.keymap.set("n", "<C-c>", "<C-y>", { buffer = true })
+      vim.keymap.set("n", "<C-m>", "<C-e>", { buffer = true })
+    end
+  end,
+})
