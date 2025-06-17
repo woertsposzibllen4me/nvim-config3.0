@@ -53,12 +53,12 @@ vim.api.nvim_create_autocmd("WinEnter", {
 -- Needs some extra considerations to avoid bugging out with snacks buffer-grep
 _G.processed_help_buffers = _G.processed_help_buffers or {}
 
--- TODO: consider changing this to no longer delete the help buffer
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.txt", "*.md" },
   callback = function(args)
     local bufnr = args.buf
-    -- Only process help buffers we haven't seen before
+    -- Only process help buffers we haven't seen before (avoid auto-repositioning the buffer when
+    -- re-entering it after we moved it manually)
     if vim.bo[bufnr].buftype == "help" and not _G.processed_help_buffers[bufnr] then
       vim.cmd("wincmd L")
       vim.api.nvim_buf_set_keymap(bufnr, "n", "q", ":q<CR>", { noremap = true })
