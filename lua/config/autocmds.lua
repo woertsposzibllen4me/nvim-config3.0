@@ -19,8 +19,7 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
   callback = function()
     -- Allow quitting cmdline window with q
     vim.api.nvim_buf_set_keymap(0, "n", "q", ":q<CR>", { noremap = true })
-    -- Enter puts text in cmdline rather than immediately executes
-    vim.api.nvim_buf_set_keymap(0, "n", "<CR>", "A<C-c><Right>", { noremap = true, silent = true })
+
     -- Configure window to be floating
     local win_id = vim.api.nvim_get_current_win()
     local width = 90
@@ -160,7 +159,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
     local title = string.format("%s [nvim] - %s", os_icon, filename)
     vim.opt.title = true
     vim.opt.titlestring = title
-    vim.cmd("redraw")
   end,
 })
 
