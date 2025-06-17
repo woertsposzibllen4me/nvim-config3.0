@@ -79,7 +79,6 @@ return {
           ["<Up>"] = { "select_prev", "fallback" },
           ["<Down>"] = { "select_next", "fallback" },
           ["<Tab>"] = { "accept", "fallback" },
-          ["<CR>"] = { "select_and_accept" },
         },
         -- Configure sources for different command line modes
         --- @ type function
