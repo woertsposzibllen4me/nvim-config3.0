@@ -54,6 +54,7 @@ vim.api.nvim_create_autocmd("WinEnter", {
 -- Needs some extra considerations to avoid bugging out with snacks buffer-grep
 _G.processed_help_buffers = _G.processed_help_buffers or {}
 
+-- TODO: consider changing this to no longer delete the help buffer
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.txt", "*.md" },
   callback = function(args)
