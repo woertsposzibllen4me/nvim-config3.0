@@ -178,25 +178,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Fix noice lsps hover window having a weird line on top/bottom
--- TODO: check if still needed now and then
-local ok = pcall(require, "noice")
-if ok then
-  vim.api.nvim_create_autocmd("WinEnter", {
-    pattern = "*",
-    callback = function()
-      if vim.bo.filetype == "noice" then
-        vim.schedule(function()
-          vim.defer_fn(function()
-            vim.cmd("wincmd >")
-            vim.cmd("wincmd <")
-          end, 50)
-        end)
-      end
-    end,
-  })
-end
-
 -- Help scroll diff smoothly
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
