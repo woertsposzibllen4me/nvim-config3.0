@@ -81,6 +81,16 @@ return {
         end,
       },
     },
+    explorer = {
+      win = {
+        list = {
+          keys = {
+            ["<c-j>"] = false,
+            ["<c-k>"] = false,
+          },
+        },
+      },
+    },
   }, require("modules.snacks.explorer.grep-snacks-filetree").setup_explorer_grep()),
   actions = {
     insert_absolute_path = function(picker)
