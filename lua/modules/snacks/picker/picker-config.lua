@@ -85,6 +85,7 @@ return {
         end,
       })
     end,
+    flash = require("modules.snacks.picker.setup-flash"),
   },
   win = {
     input = {
