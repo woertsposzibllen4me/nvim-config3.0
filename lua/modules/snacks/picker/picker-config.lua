@@ -1,3 +1,5 @@
+local M = {}
+M.path_inserts = require("modules.snacks.picker.path-inserts")
 return {
   enabled = true,
   formatters = { file = { truncate = 80, filename_first = true } },
@@ -56,34 +58,16 @@ return {
   },
   actions = {
     insert_absolute_path = function(picker)
-      require("modules.snacks.picker.path-inserts").insert_absolute_path(picker)
+      M.path_inserts.insert_absolute_path(picker)
     end,
     insert_relative_path = function(picker)
-      require("modules.snacks.picker.path-inserts").insert_relative_path(picker)
+      M.path_inserts.insert_relative_path(picker)
     end,
     insert_python_import_path = function(picker)
-      require("modules.snacks.picker.path-inserts").insert_python_import_path(picker)
+      M.path_inserts.insert_python_import_path(picker)
     end,
     clip_full_path = function(picker)
-      require("modules.snacks.picker.path-inserts").clip_full_path(picker)
-    end,
-    flash = function(picker)
-      require("flash").jump({
-        pattern = "^",
-        label = { after = { 0, 0 } },
-        search = {
-          mode = "search",
-          exclude = {
-            function(win)
-              return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "snacks_picker_list"
-            end,
-          },
-        },
-        action = function(match)
-          local idx = picker.list:row2idx(match.pos[1])
-          picker.list:_move(idx, true, true)
-        end,
-      })
+      M.path_inserts.clip_full_path(picker)
     end,
     flash = require("modules.snacks.picker.setup-flash"),
   },
