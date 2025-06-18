@@ -64,7 +64,7 @@ return {
               ["]h"] = { query = "@return_type", desc = "Next return type" },
               ["]p"] = { query = "@function_parameters", desc = "Next params" },
               ["]m"] = { query = "@variable.member.inner", desc = "Next member" },
-              ["]'R"] = { query = "@return.inner", desc = "Next return" },
+              ["]R"] = { query = "@return.inner", desc = "Next return" },
               ["]'w"] = { query = "@call.inner", desc = "Next call inner" },
             },
             goto_next_end = {
@@ -82,7 +82,7 @@ return {
               ["]E"] = { query = "@call_name", desc = "Next call name end" },
               ["]H"] = { query = "@return_type", desc = "Next return type end" },
               ["]P"] = { query = "@function_parameters", desc = "Next params end" },
-              ["]R"] = { query = "@return.inner", desc = "Next return end" },
+              ["]'R"] = { query = "@return.inner", desc = "Next return end" },
             },
             goto_previous_start = {
               ["[f"] = { query = "@function.outer", desc = "Prev. function start" },
@@ -100,7 +100,7 @@ return {
               ["[h"] = { query = "@return_type", desc = "Prev. return type" },
               ["[p"] = { query = "@function_parameters", desc = "Prev. params" },
               ["[m"] = { query = "@variable.member.inner", desc = "Prev. member" },
-              ["['R"] = { query = "@return.inner", desc = "Prev. return" },
+              ["[R"] = { query = "@return.inner", desc = "Prev. return" },
             },
             goto_previous_end = {
               ["[F"] = { query = "@function.outer", desc = "Prev. function end" },
@@ -117,7 +117,7 @@ return {
               ["[E"] = { query = "@call_name", desc = "Prev. call name end" },
               ["[H"] = { query = "@return_type", desc = "Prev. return type end" },
               ["[P"] = { query = "@function_parameters", desc = "Prev. params end" },
-              ["[R"] = { query = "@return.inner", desc = "Prev. return end" },
+              ["['R"] = { query = "@return.inner", desc = "Prev. return end" },
             },
           },
           lsp_interop = {
