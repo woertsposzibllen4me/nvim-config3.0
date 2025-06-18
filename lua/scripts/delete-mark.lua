@@ -17,6 +17,10 @@ require("which-key").add({
         end)
       end)
       local char = vim.fn.getchar()
+      if type(char) ~= "number" then
+        vim.notify("Failed to get character input", vim.log.levels.ERROR, { title = "delete-mark" })
+        return
+      end
       if not timed_out then
         timer:close()
         if char == 27 then -- 27 is the character code for ESC
