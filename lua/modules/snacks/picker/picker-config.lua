@@ -1,9 +1,9 @@
 local M = {}
-M.path_inserts = require("modules.snacks.picker.path-inserts")
+M.path_inserts = require("modules.snacks.picker.actions.path-inserts")
 return {
   enabled = true,
   formatters = { file = { truncate = 80, filename_first = true } },
-  layouts = require("modules.snacks.picker.custom-layouts"),
+  layouts = require("modules.snacks.picker.layouts.custom-layouts"),
   previewers = {
     diff = {
       builtin = false,
@@ -51,7 +51,10 @@ return {
       layout = "midscreen_dropdown",
     },
     recent = {
-      filter = require("modules.snacks.picker.filter-builtins").filter_recent,
+      filter = require("modules.snacks.picker.filters.filter-builtins").filter_recent,
+    },
+    explorer = require("modules.snacks.explorer.explorer-config"),
+    grep = require("modules.snacks.picker.grep-with-globs").setup_grep_with_globs(),
     egrepify = {
       format = "file",
       live = true,

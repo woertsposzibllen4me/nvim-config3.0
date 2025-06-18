@@ -52,7 +52,7 @@ M.grep_in_dir = function(picker, item)
 
   vim.schedule(function()
     focus_large_win.focus()
-    local grep_config = require("modules.snacks.picker.grep-globs").setup_grep_with_globs(dirs, title)
+    local grep_config = require("modules.snacks.picker.grep-with-globs").setup_grep_with_globs(dirs, title)
 
     -- Add the directory-specific options
     local extended_config = vim.tbl_deep_extend("force", grep_config, {

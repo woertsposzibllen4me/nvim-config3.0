@@ -15,9 +15,9 @@ vim.api.nvim_create_autocmd("User", {
 
     -- My custom toggles
 
-    local vtt = require("modules.snacks.toggle.virtual-text").virtual_text_toggle
+    local vtt = require("modules.snacks.toggle.custom-toggles.virtual-text").virtual_text_toggle
     vtt:map("<leader>xl")
-    local wdtgl = require("modules.snacks.toggle.word-diff-hl").word_diff_toggle
+    local wdtgl = require("modules.snacks.toggle.custom-toggles.word-diff-hl").word_diff_toggle
     wdtgl:map("<leader>gw")
   end,
 })
