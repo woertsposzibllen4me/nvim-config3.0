@@ -1,7 +1,5 @@
 local M = {}
 
---NOTE: THis is shamelessly stolen from LazyVim and might be worth checking out upstream every now and then
-
 -- Mini.ai indent text object
 -- For "a", it will include the non-whitespace line surrounding the indent block.
 -- "a" is line-wise, "i" is character-wise.
