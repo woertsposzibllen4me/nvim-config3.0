@@ -11,7 +11,7 @@ return {
       builtin = false,
     },
   },
-  sources = vim.tbl_deep_extend("force", {
+  sources = {
     lsp_definitions = {
       jump = { reuse_win = false }, -- Prevent using a different window for gd, etc.
     },
@@ -52,17 +52,8 @@ return {
     recent = {
       filter = require("modules.snacks.picker.filter-builtins").filter_recent,
     },
-    explorer = {
-      win = {
-        list = {
-          keys = {
-            ["<c-j>"] = false,
-            ["<c-k>"] = false,
-          },
-        },
-      },
-    },
-  }, require("modules.snacks.explorer.grep-snacks-filetree").setup_explorer_grep()),
+    explorer = require("modules.snacks.picker.explorer-config"),
+  },
   actions = {
     insert_absolute_path = function(picker)
       require("modules.snacks.picker.path-inserts").insert_absolute_path(picker)

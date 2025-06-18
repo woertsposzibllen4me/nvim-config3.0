@@ -64,25 +64,38 @@ M.grep_in_dir = function(picker, item)
   end)
 end
 
-M.setup_explorer_grep = function()
-  return {
-    explorer = {
-      actions = {
-        grep_filename = M.grep_for_filename,
-        grep_full_filename = M.grep_for_full_filename,
-        grep_in_dir = M.grep_in_dir,
-      },
-      win = {
-        list = {
-          keys = {
-            ["gf"] = { "grep_filename", desc = "Grep fname" },
-            ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
-            ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
-          },
+return {
+  actions = {
+    grep_filename = M.grep_for_filename,
+    grep_full_filename = M.grep_for_full_filename,
+    grep_in_dir = M.grep_in_dir,
+  },
+  win = {
+    list = {
+      keys = {
+        ["gf"] = { "grep_filename", desc = "Grep fname" },
+        ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
+        ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
+        ["<c-j>"] = false,
+        ["<c-k>"] = false,
+        ["<esc>"] = {
+          function()
+            vim.cmd("wincmd l")
+          end,
+          desc = "Swap to right window", -- it looks like, because explorer is a float, going to the
+          -- right window actually just goes to the last window used, which is pretty handy
         },
       },
     },
-  }
-end
-
-return M
+    input = {
+      keys = {
+        ["<esc>"] = {
+          function()
+            vim.cmd("wincmd l")
+          end,
+          desc = "Swap to right window",
+        },
+      },
+    },
+  },
+}
