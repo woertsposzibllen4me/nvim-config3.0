@@ -32,7 +32,6 @@ return {
     qflist = {
       layout = "grep_vertical",
     },
-    grep = require("modules.snacks.picker.grep-globs").setup_grep_with_globs(),
     grep_buffers = {
       layout = "grep_vertical",
     },
@@ -53,8 +52,13 @@ return {
     },
     recent = {
       filter = require("modules.snacks.picker.filter-builtins").filter_recent,
+    egrepify = {
+      format = "file",
+      live = true,
+      supports_live = true,
+      layout = "grep_vertical",
+      finder = require("modules.snacks.picker.finders.egrepify").egrepify,
     },
-    explorer = require("modules.snacks.picker.explorer-config"),
   },
   actions = {
     insert_absolute_path = function(picker)
