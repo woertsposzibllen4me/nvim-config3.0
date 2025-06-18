@@ -46,5 +46,13 @@ vim.keymap.set(
 local wk = require("which-key")
 
 wk.add({
-  { "<leader>+", append_empty_reg_to_system_reg, desc = "Append unnamed reg to system clipboard", icon = "󰆏" },
+  { "<leader>+", append_empty_reg_to_system_reg, desc = "Append unnamed reg to clipboard", icon = "📋" },
+  {
+    "<leader>=",
+    function() -- ( leader + = ) without ligatures
+      vim.fn.setreg("+", vim.fn.getreg('"'))
+    end,
+    desc = "Copy unnamed reg to clipboard",
+    icon = "📋",
+  },
 })
