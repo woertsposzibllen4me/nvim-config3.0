@@ -52,15 +52,19 @@ M.grep_in_dir = function(picker, item)
 
   vim.schedule(function()
     focus_large_win.focus()
-    local grep_config = require("modules.snacks.picker.grep-with-globs").setup_grep_with_globs(dirs, title)
 
-    -- Add the directory-specific options
-    local extended_config = vim.tbl_deep_extend("force", grep_config, {
+    local grep_config = {
       title = title,
       dirs = dirs,
-    })
+      win = {
+        input = {
+          -- We explicitly pass dirs and title to the key setup
+          keys = require("modules.snacks.picker.keys.setup-all-keys").setup_grep_input_keys(dirs, title),
+        },
+      },
+    }
 
-    Snacks.picker.grep(extended_config)
+    Snacks.picker.grep(grep_config)
   end)
 end
 

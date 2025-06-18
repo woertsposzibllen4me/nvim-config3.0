@@ -57,7 +57,7 @@ local uv = vim.uv or vim.loop
 ---@field grep_word fun(opts?: snacks.picker.grep.Config): snacks.Picker
 ---@field grep_buffers fun(opts?: snacks.picker.grep.Config): snacks.Picker
 
----@param opts snacks.picker.grep.Config
+---@param opts snacks.picker.grep.Config |{and_search?: boolean}
 ---@param filter snacks.picker.Filter
 local function get_cmd(opts, filter)
   local cmd = "rg"
@@ -112,7 +112,7 @@ local function get_cmd(opts, filter)
   end
 
   local permutations = false
-  local AND = true
+  local AND = opts.and_search ~= false -- defaults to true unless explicitly disabled
   local prompt = filter.search or ""
   local prompt_args = {}
   local tokens = tokenize(prompt)

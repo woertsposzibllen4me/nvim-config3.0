@@ -1,5 +1,6 @@
 local M = {}
 M.path_inserts = require("modules.snacks.picker.actions.path-inserts")
+M.setup_all_keys = require("modules.snacks.picker.keys.setup-all-keys")
 return {
   enabled = true,
   formatters = { file = { truncate = 80, filename_first = true } },
@@ -54,13 +55,17 @@ return {
       filter = require("modules.snacks.picker.filters.filter-builtins").filter_recent,
     },
     explorer = require("modules.snacks.explorer.explorer-config"),
-    grep = require("modules.snacks.picker.grep-with-globs").setup_grep_with_globs(),
-    egrepify = {
-      format = "file",
-      live = true,
-      supports_live = true,
-      layout = "grep_vertical",
+    grep = {
       finder = require("modules.snacks.picker.finders.egrepify").egrepify,
+      layout = "grep_vertical",
+      win = {
+        input = {
+          keys = M.setup_all_keys.setup_grep_input_keys(),
+        },
+      },
+      actions = {
+        toggle_and_search = require("modules.snacks.picker.actions.toggle-grep-and-search"),
+      },
     },
   },
   actions = {

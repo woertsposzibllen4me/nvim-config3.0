@@ -82,7 +82,9 @@ return {
       desc = "Grep Quickfix Files",
     },
    -- stylua: ignore start
-    { "<leader>so", function() Snacks.picker("egrepify") end, },
+
+    -- Default grepping (without the finder overriden by egrepify)
+    { "<leader>sg", function() Snacks.picker.grep({ finder = "grep", }) end, },
 
     -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},

@@ -24,9 +24,14 @@ M.grep_qf_files = function()
     or ("Grep in: " .. files_str)
 
   Snacks.picker.grep({
-    dirs = filetable,
-    live = true,
+    dirs = filetable, -- note that the fact we use files directly seems to make globs pattern not
+    -- work (either from egrepify or from the grep-globs-input solution we made)
     title = title,
+    win = {
+      input = {
+        keys = require("modules.snacks.picker.keys.setup-all-keys").setup_grep_input_keys(filetable, title),
+      },
+    },
   })
 end
 return M
