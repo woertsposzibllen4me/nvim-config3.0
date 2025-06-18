@@ -94,10 +94,9 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Ensure it is enabled and activates highlighting of spelling errors.
+-- Define highlighting of spelling errors.
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    -- vim.opt.spell = true
     vim.opt.spelllang = "en"
 
     vim.api.nvim_set_hl(0, "SpellBad", {
@@ -122,30 +121,31 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- Set user var "in_windows_nvim" to "1" in WezTerm when entering Neovim on windows. This is used to
--- have dynamic pane navigation keybinds with wezterm, to use C-hjkl everywhere
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    if OnWindows then
+-- Set user var "in_windows_nvim" to "1" in WezTerm via OSC 1337 when entering Neovim on windows.
+-- Those vars are used in my wezterm config file to define dynamic pane navigation keybinds, as to
+-- use C-hjkl everywhere. On Linux, we run tmux for multiplexing so this is not used.
+if OnWindows then
+  vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
       local function set_in_windows_nvim(b64_val)
         io.write(string.format("\x1b]1337;SetUserVar=in_Windows_nvim=%s\x07", b64_val))
         io.flush()
+
+        -- set to "1" (MQ==) when Neovim starts
+        set_in_windows_nvim("MQ==")
+
+        -- set to "0" (MA==) just before Neovim exits
+        vim.api.nvim_create_autocmd("VimLeavePre", {
+          callback = function()
+            set_in_windows_nvim("MA==")
+          end,
+        })
       end
+    end,
+  })
+end
 
-      -- set to "1" (MQ==) when Neovim starts
-      set_in_windows_nvim("MQ==")
-
-      -- set to "0" (MA==) just before Neovim exits
-      vim.api.nvim_create_autocmd("VimLeavePre", {
-        callback = function()
-          set_in_windows_nvim("MA==")
-        end,
-      })
-    end
-  end,
-})
-
--- Send out a name for the wezterm tab through OSC sequence
+-- Send out a name for the terminal title with OSC 0
 vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
   callback = function()
     -- Detect operating system and set icon

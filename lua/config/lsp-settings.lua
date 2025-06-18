@@ -1,4 +1,4 @@
--- Extra settings for LSP clients / general config
+-- General settings for LSPs / overall diagnostics config
 local M = {}
 
 -- General diagnostic settings

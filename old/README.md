@@ -1,2 +1,2 @@
-For stuff that we don't use anymore but really could still use later at some
-point.
+"old" is for old code that is currently not leveraged in the config but is
+useful to keep around.

@@ -1,2 +1,3 @@
 "modules" is for extending plugin capabilities with various custom
-implementations.
+implementations (or simply modularizing more involved setups for better
+readability).

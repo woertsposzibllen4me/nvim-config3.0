@@ -26,7 +26,7 @@ map("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, silent = true })
 -- map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
 -- map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
 
--- leader q to quit
+-- leader qq to quit all
 vim.keymap.set({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", silent = true })
 
 -- undo on U
@@ -50,7 +50,7 @@ map("n", "#", "#zz", opts)
 map("n", "%", "%zz", opts)
 -- map("n", "``", "``zz", opts)
 
--- Lazy
+-- Open Lazy floating window
 wk.add({
   "<leader>L",
   "<cmd>Lazy<cr>",
@@ -98,13 +98,10 @@ end, { desc = "Close others (and opens File Explorer)" })
 map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history" })
 map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history" })
 
-map("n", vim.g.maplocalleader .. "i", function()
-  vim.notify("test")
-end, { desc = "test" })
-
 -- Search within visual selection
 vim.keymap.set("x", "<leader>/", "<Esc>/\\%V")
 
+-- Open file in PyCharm at current line
 wk.add({
   "<leader>bp",
   function()
@@ -154,5 +151,4 @@ local function format_with_width()
     vim.o.textwidth = old_tw
   end
 end
-
-vim.keymap.set({ "v" }, "gW", format_with_width, { desc = "Format with custom width" })
+map({ "v" }, "gW", format_with_width, { desc = "Format with custom width" })
