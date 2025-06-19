@@ -16,7 +16,7 @@ return {
   keys = {
     { "<leader>A", "<cmd>Grapple toggle<cr>", desc = "Grapple toggle tag" },
     { "<leader>H", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple toggle tags" },
-    { "<leader>G", "<cmd>Grapple toggle_scopes<cr>", desc = "Grapple toggle scopes" },
+    { "<leader>T", "<cmd>Grapple toggle_scopes<cr>", desc = "Grapple toggle scopes" },
     { "<leader>1", "<cmd>Grapple select index=1<cr>", desc = "Grapple select 1" },
     { "<leader>2", "<cmd>Grapple select index=2<cr>", desc = "Grapple select 2" },
     { "<leader>3", "<cmd>Grapple select index=3<cr>", desc = "Grapple select 3" },

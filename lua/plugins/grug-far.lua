@@ -2,36 +2,50 @@ return {
   "MagicDuck/grug-far.nvim",
   cmd = "GrugFar",
   keys = {
+    -- {
+    --   "<leader>rgr",
+    --   function()
+    --     local grug = require("grug-far")
+    --     local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+    --     grug.open({
+    --       transient = true,
+    --       prefills = {
+    --         filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+    --       },
+    --     })
+    --   end,
+    --   mode = { "n", "v" },
+    --   desc = "GrugFar (rg)",
+    -- },
+    -- {
+    --   "<leader>rga",
+    --   function()
+    --     local grug = require("grug-far")
+    --     local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+    --     grug.open({
+    --       transient = true,
+    --       engine = "astgrep",
+    --       prefills = {
+    --         filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+    --       },
+    --     })
+    --   end,
+    --   mode = { "n", "v" },
+    --   desc = "GrugFar (ast-grep)",
+    -- },
     {
-      "<leader>rgr",
+      "<leader>rg",
       function()
-        local grug = require("grug-far")
-        local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-        grug.open({
-          transient = true,
-          prefills = {
-            filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-          },
-        })
+        require("grug-far").open()
       end,
       mode = { "n", "v" },
-      desc = "GrugFar (rg)",
+      desc = "GrugFar",
     },
     {
-      "<leader>rga",
-      function()
-        local grug = require("grug-far")
-        local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-        grug.open({
-          transient = true,
-          engine = "astgrep",
-          prefills = {
-            filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-          },
-        })
-      end,
+      "<leader>rw",
+      ":GrugFarWithin<CR>",
       mode = { "n", "v" },
-      desc = "GrugFar (ast-grep)",
+      desc = "GrugFar Within",
     },
   },
   config = function()
