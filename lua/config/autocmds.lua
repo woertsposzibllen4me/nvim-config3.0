@@ -130,17 +130,17 @@ if OnWindows then
       local function set_in_windows_nvim(b64_val)
         io.write(string.format("\x1b]1337;SetUserVar=in_Windows_nvim=%s\x07", b64_val))
         io.flush()
-
-        -- set to "1" (MQ==) when Neovim starts
-        set_in_windows_nvim("MQ==")
-
-        -- set to "0" (MA==) just before Neovim exits
-        vim.api.nvim_create_autocmd("VimLeavePre", {
-          callback = function()
-            set_in_windows_nvim("MA==")
-          end,
-        })
       end
+
+      -- set to "1" (MQ==) when Neovim starts
+      set_in_windows_nvim("MQ==")
+
+      -- set to "0" (MA==) just before Neovim exits
+      vim.api.nvim_create_autocmd("VimLeavePre", {
+        callback = function()
+          set_in_windows_nvim("MA==")
+        end,
+      })
     end,
   })
 end
