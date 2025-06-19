@@ -95,6 +95,8 @@ return {
         ["<c-l>"] = { "focus_preview", mode = { "i", "n" } },
         ["<c-h>"] = { "focus_list", mode = { "i", "n" } },
         ["<a-s>"] = { "flash", mode = { "n", "i" } },
+        -- adjust binds to match ahk remaps
+        ["<Left>"] = { "toggle_hidden", mode = { "i", "n" } }, -- ["<a-h>"]
       },
     },
   },
