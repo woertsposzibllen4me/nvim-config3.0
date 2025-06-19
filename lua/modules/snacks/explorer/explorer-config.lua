@@ -68,11 +68,36 @@ M.grep_in_dir = function(picker, item)
   end)
 end
 
+M.search_files_in_dir = function(picker, item)
+  if not item or not item.file then
+    return
+  end
+
+  local path
+  if vim.fn.isdirectory(item.file) == 1 then
+    path = item.file
+  else
+    path = vim.fn.fnamemodify(item.file, ":h")
+  end
+
+  local title = "Search files in: " .. vim.fn.fnamemodify(path, ":~:.")
+  local dirs = { path }
+
+  vim.schedule(function()
+    -- focus_large_win.focus()
+    Snacks.picker.files({
+      title = title,
+      dirs = dirs,
+    })
+  end)
+end
+
 return {
   actions = {
     grep_filename = M.grep_for_filename,
     grep_full_filename = M.grep_for_full_filename,
     grep_in_dir = M.grep_in_dir,
+    search_files_in_dir = M.search_files_in_dir,
   },
   win = {
     list = {
@@ -80,6 +105,7 @@ return {
         ["gf"] = { "grep_filename", desc = "Grep fname" },
         ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
+        ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<c-j>"] = false,
         ["<c-k>"] = false,
         ["<esc>"] = {
