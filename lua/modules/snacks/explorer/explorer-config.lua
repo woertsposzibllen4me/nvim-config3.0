@@ -1,7 +1,16 @@
 local M = {}
 
--- Used to fix focus bug that happens if we run pickers while having the Snacks Explorer in focus
+-- Used to fix a visual bug that happens if we run another snack picker while having the Snacks
+-- Explorer in focus right before their launch.
 local focus_large_win = require("scripts.ui.focus-largest-window")
+
+local create_return_action = function(current_win, cursor_pos)
+  return function(picker)
+    picker:close()
+    vim.api.nvim_set_current_win(current_win)
+    vim.api.nvim_win_set_cursor(current_win, cursor_pos)
+  end
+end
 
 M.grep_for_filename = function(picker, item)
   if not item or not item.file then
@@ -73,6 +82,9 @@ M.search_files_in_dir = function(picker, item)
     return
   end
 
+  local current_win = vim.api.nvim_get_current_win()
+  local cursor_pos = vim.api.nvim_win_get_cursor(current_win)
+
   local path
   if vim.fn.isdirectory(item.file) == 1 then
     path = item.file
@@ -84,10 +96,20 @@ M.search_files_in_dir = function(picker, item)
   local dirs = { path }
 
   vim.schedule(function()
-    -- focus_large_win.focus()
+    focus_large_win.focus()
     Snacks.picker.files({
       title = title,
       dirs = dirs,
+      actions = {
+        return_to_explorer = create_return_action(current_win, cursor_pos),
+      },
+      win = {
+        input = {
+          keys = {
+            ["<esc>"] = "return_to_explorer",
+          },
+        },
+      },
     })
   end)
 end
