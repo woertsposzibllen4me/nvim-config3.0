@@ -95,8 +95,14 @@ return {
         ["<c-l>"] = { "focus_preview", mode = { "i", "n" } },
         ["<c-h>"] = { "focus_list", mode = { "i", "n" } },
         ["<a-s>"] = { "flash", mode = { "n", "i" } },
-        -- adjust binds to match ahk remaps
+        -- adjust binds to match ahk remaps (orinal default key in [brackets])
         ["<Left>"] = { "toggle_hidden", mode = { "i", "n" } }, -- ["<a-h>"]
+        ["O"] = { { "pick_win", "jump" }, mode = { "n", "i" } },
+      },
+    },
+    list = {
+      keys = {
+        ["O"] = { { "pick_win", "jump" } },
       },
     },
   },
