@@ -125,11 +125,6 @@ map("n", "<leader>wi", function()
   focus.focus()
 end, { desc = "Focus largest window" })
 
--- Easier system yank
-map({ "n", "v" }, "<C-y>", function()
-  vim.fn.feedkeys('"+y')
-end, { desc = "Yank to system clipboard" })
-
 -- Quickfix navigation
 map("n", "<Up>", function()
   local ok, err = pcall(vim.cmd.cprev)
@@ -156,3 +151,22 @@ local function format_with_width()
   end
 end
 map("v", "gW", format_with_width, { desc = "Format with custom width" })
+
+-- Clipboard operations
+map({ "n", "v" }, "<C-y>", function()
+  vim.fn.feedkeys('"+y')
+end, { desc = "Yank to system clipboard" })
+
+map("n", "<leader>ya", 'ggVG"+y', { noremap = true, silent = true, desc = "Copy file content to system clipboard" })
+
+map("n", "<leader>yA", function()
+  require("scripts.utils.clipboard-functions").append_file_to_system_register()
+end, { noremap = true, silent = true, desc = "Append file content to system clipboard" })
+
+map("n", "<leader>+", function()
+  require("scripts.utils.clipboard-functions").append_empty_reg_to_system_reg()
+end, { desc = "Append unnamed reg to clipboard", icon = "📋" })
+
+map("n", "<leader>=", function()
+  vim.fn.setreg("+", vim.fn.getreg('"'))
+end, { desc = "Copy unnamed reg to clipboard", icon = "📋" })

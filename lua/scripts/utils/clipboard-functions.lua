@@ -1,4 +1,5 @@
-local function append_file_to_system_register()
+local M = {}
+M.append_file_to_system_register = function()
   vim.cmd('normal! ggVG"my')
   local current_clipboard = vim.fn.getreg("+")
   local m_register = vim.fn.getreg("m")
@@ -6,7 +7,7 @@ local function append_file_to_system_register()
   vim.notify("Appended file content to system clipboard", vim.log.levels.INFO, { title = "Clipboard" })
 end
 
-local function append_empty_reg_to_system_reg()
+M.append_empty_reg_to_system_reg = function()
   local unnamed_register = vim.fn.getreg('"')
   local system_register = vim.fn.getreg("+")
 
@@ -29,30 +30,4 @@ local function append_empty_reg_to_system_reg()
   vim.notify(notification_message, vim.log.levels.INFO, { title = "Register Update" })
 end
 
-vim.keymap.set(
-  "n",
-  "<leader>ya",
-  'ggVG"+y',
-  { noremap = true, silent = true, desc = "Copy file content to system clipboard" }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>yA",
-  append_file_to_system_register,
-  { noremap = true, silent = true, desc = "Append file content to system clipboard" }
-)
-
-local wk = require("which-key")
-
-wk.add({
-  { "<leader>+", append_empty_reg_to_system_reg, desc = "Append unnamed reg to clipboard", icon = "📋" },
-  {
-    "<leader>=",
-    function() -- ( leader + = ) without ligatures
-      vim.fn.setreg("+", vim.fn.getreg('"'))
-    end,
-    desc = "Copy unnamed reg to clipboard",
-    icon = "📋",
-  },
-})
+return M
