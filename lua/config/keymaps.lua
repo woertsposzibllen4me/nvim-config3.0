@@ -1,69 +1,78 @@
-local opts = { noremap = true, silent = true }
-local wk = require("which-key")
-local map = vim.keymap.set
+local has_wk, wk = pcall(require, "which-key")
+
+-- Enhanced map function that handles both vim keymaps and which-key
+local function map(mode, lhs, rhs, options)
+  options = options or {}
+
+  local icon = options.icon
+  local vim_options = vim.tbl_deep_extend("force", {}, options)
+  vim_options.icon = nil -- Remove icon from vim keymap options
+
+  vim.keymap.set(mode, lhs, rhs, vim_options)
+
+  if has_wk and options.icon then
+    local wk_spec = {
+      lhs,
+      rhs,
+      desc = options.desc,
+      icon = icon,
+      mode = mode,
+    }
+
+    wk.add({ wk_spec })
+  end
+end
 
 -- lateral movement with H and L except in neo-tree
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
     if vim.bo.buftype ~= "neo-tree" then
-      map("n", "H", "15zh", { desc = "Move cursor 10 spaces to the left" })
-      map("n", "L", "15zl", { desc = "Move cursor 10 spaces to the right" })
+      map("n", "H", "15zh", { desc = "Move cursor 15 spaces to the left" })
+      map("n", "L", "15zl", { desc = "Move cursor 15 spaces to the right" })
     end
   end,
 })
 
 -- better indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
+map("v", "<", "<gv", { desc = "Indent left and reselect" })
+map("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 -- Exit terminal mode
-map("t", "<C-q>", [[<C-\><C-n>]], { noremap = true, silent = true })
-
--- window change made simpler (might be disabled w/ smart-splits)
--- map("n", "<C-h>", "<C-w>h", { desc = "Move to left window", silent = true })
--- map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window", silent = true })
--- map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window", silent = true })
--- map("n", "<C-l>", "<C-w>l", { desc = "Move to right window", silent = true })
+map("t", "<C-q>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- leader qq to quit all
-vim.keymap.set({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", silent = true })
+map({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", silent = true })
 
 -- undo on U
-map("n", "U", "<C-r>")
+map("n", "U", "<C-r>", { desc = "Redo" })
 
 -- save with C-S
-map("n", "<C-s>", "<cmd>w<cr><esc>", { silent = true })
+map("n", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file", silent = true })
 
 -- Center after most code navigation commands
-map("n", "G", "Gzz", opts)
-map("n", "<C-d>", "<C-d>zz", opts)
-map("n", "<C-u>", "<C-u>zz", opts)
-map("n", "<C-O>", "<C-O>zz", opts)
-map("n", "<C-I>", "<C-I>zz", opts)
-map("n", "{", "{zz", opts)
-map("n", "}", "}zz", opts)
-map("n", "n", "nzz", opts)
-map("n", "N", "Nzz", opts)
-map("n", "*", "*zz", opts)
-map("n", "#", "#zz", opts)
-map("n", "%", "%zz", opts)
--- map("n", "``", "``zz", opts)
+map("n", "G", "Gzz", { desc = "Go to end and center" })
+map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+map("n", "<C-O>", "<C-O>zz", { desc = "Jump back and center" })
+map("n", "<C-I>", "<C-I>zz", { desc = "Jump forward and center" })
+map("n", "{", "{zz", { desc = "Previous paragraph and center" })
+map("n", "}", "}zz", { desc = "Next paragraph and center" })
+map("n", "n", "nzz", { desc = "Next search and center" })
+map("n", "N", "Nzz", { desc = "Previous search and center" })
+map("n", "*", "*zz", { desc = "Search word under cursor and center" })
+map("n", "#", "#zz", { desc = "Search word under cursor backward and center" })
+map("n", "%", "%zz", { desc = "Match bracket and center" })
 
 -- Open Lazy floating window
-wk.add({
-  "<leader>L",
-  "<cmd>Lazy<cr>",
-  desc = "Lazy",
-  icon = "󰒲",
-})
+map("n", "<leader>L", "<cmd>Lazy<cr>", { desc = "Lazy", icon = "󰒲" })
 
 -- Rebind macro key cause mistakes are made too often lol
-map("n", "q", "", { noremap = true, desc = "Quit most things" })
-map("n", "Q", "q", { noremap = true, desc = "Record macro" })
+map("n", "q", "", { desc = "Disabled (use Q for macros)" })
+map("n", "Q", "q", { desc = "Record macro" })
 
 -- Delete whole word with ctrl+backspace (interpreted as <C-h> in terminal)
-map("i", "<C-h>", "<C-w>", { noremap = true })
+map("i", "<C-h>", "<C-w>", { desc = "Delete word backward" })
 
 -- Close (non-focused) floating windows and disable search hl with ESC
 map("n", "<esc>", function()
@@ -75,7 +84,7 @@ map("n", "<esc>", function()
   end
   local clear = require("scripts.ui.close-floating-windows")
   clear.clear_stuff()
-end, { silent = true, desc = "Close floating windows/disable search highlight" })
+end, { desc = "Close floating windows/disable search highlight" })
 
 -- Set focus on solo windows + main filetree explorer
 map("n", "<leader>wo", function()
@@ -86,7 +95,7 @@ map("n", "<leader>wo", function()
     "snacks_picker_input",
     "neo-tree",
   }
-  if vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then -- avoid exiting nvim with this like an idiot
+  if vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then
     vim.notify("Cannot focus on explorer window", vim.log.levels.WARN)
     return
   end
@@ -95,28 +104,23 @@ map("n", "<leader>wo", function()
 end, { desc = "Close others (and opens File Explorer)" })
 
 -- force C-n and C-p to navigate cmd/search history (fixes cmp issues)
-map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history" })
-map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history" })
+map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history (next)" })
+map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history (previous)" })
 
 -- Search within visual selection
-vim.keymap.set("x", "<leader>/", "<Esc>/\\%V")
+map("x", "<leader>/", "<Esc>/\\%V", { desc = "Search within selection" })
 
 -- Open file in PyCharm at current line
-wk.add({
-  "<leader>bp",
-  function()
-    local path = vim.api.nvim_buf_get_name(0)
-    local row = unpack(vim.api.nvim_win_get_cursor(0))
-    local command = ("pycharm --line " .. row .. " " .. path .. "")
-    print(command)
-    os.execute(command)
-  end,
-  desc = "Open line in PyCharm",
-  icon = { icon = "", color = "yellow" },
-})
+map("n", "<leader>bp", function()
+  local path = vim.api.nvim_buf_get_name(0)
+  local row = unpack(vim.api.nvim_win_get_cursor(0))
+  local command = ("pycharm --line " .. row .. " " .. path .. "")
+  print(command)
+  os.execute(command)
+end, { desc = "Open line in PyCharm", icon = { icon = "", color = "yellow" } })
 
 -- Focus main editing window
-vim.keymap.set("n", "<leader>wi", function()
+map("n", "<leader>wi", function()
   local focus = require("scripts.ui.focus-largest-window")
   focus.focus()
 end, { desc = "Focus largest window" })
@@ -124,7 +128,7 @@ end, { desc = "Focus largest window" })
 -- Easier system yank
 map({ "n", "v" }, "<C-y>", function()
   vim.fn.feedkeys('"+y')
-end, { desc = "Yank to system clipboard", noremap = true })
+end, { desc = "Yank to system clipboard" })
 
 -- Quickfix navigation
 map("n", "<Up>", function()
@@ -151,4 +155,4 @@ local function format_with_width()
     vim.o.textwidth = old_tw
   end
 end
-map({ "v" }, "gW", format_with_width, { desc = "Format with custom width" })
+map("v", "gW", format_with_width, { desc = "Format with custom width" })
