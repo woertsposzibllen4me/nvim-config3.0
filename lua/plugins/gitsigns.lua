@@ -26,7 +26,7 @@ return {
     --- @diagnostic disable-next-line: unused-local
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
-      local diff_sanitize = require("scripts.diff-sanitize")
+      local diff_sanitize = require("scripts.ui.diff-sanitize")
 
       -- Helper function for mapping keys
       local function map(mode, l, r, desc)

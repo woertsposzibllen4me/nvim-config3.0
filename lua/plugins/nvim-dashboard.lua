@@ -129,7 +129,7 @@ return {
             key = "q",
           },
           {
-            action = require("scripts.delete-temp-shadas").Delete_shada_temp_files,
+            action = require("scripts.utils.delete-temp-shadas").Delete_shada_temp_files,
             desc = " Delete Shada Temp Files",
             icon = "󱕖",
             key = "d",

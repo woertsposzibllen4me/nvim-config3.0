@@ -69,7 +69,7 @@ return {
     local actions = require("diffview.actions")
     local default_wrap_state = vim.o.wrap
     local default_cursorline_state = vim.o.cursorline
-    local diff_sanitize = require("scripts.diff-sanitize")
+    local diff_sanitize = require("scripts.ui.diff-sanitize")
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "DiffviewClose",

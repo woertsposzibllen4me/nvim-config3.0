@@ -84,7 +84,7 @@ return {
         key = "g",
         desc = "Open LazyGit",
         action = function()
-          local lg = require("scripts.lazygit-terminal")
+          local lg = require("scripts.ux.lazygit-terminal")
           lg.start_lazygit()
         end,
       },
@@ -95,7 +95,7 @@ return {
         desc = "Delete Shada Temp Files",
         enabled = OnWindows,
         action = function()
-          require("scripts.delete-temp-shadas").Delete_shada_temp_files()
+          require("scripts.utils.delete-temp-shadas").Delete_shada_temp_files()
         end,
       },
       {

@@ -56,7 +56,7 @@ return {
       "<leader>na",
       function()
         vim.cmd("NoiceAll")
-        require("scripts.maximize-window").half_size_window()
+        require("scripts.ui.maximize-window").half_size_window()
         vim.schedule(function()
           Make_window_floating()
           vim.cmd("normal! G")
