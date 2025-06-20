@@ -12,7 +12,9 @@ return {
   end,
   opts = {
     -- bigfile = { enabled = true },
-    dashboard = require("modules.snacks.dashboard.dashboard-config-11-font"),
+    dashboard = (tonumber(vim.env.WEZTERM_FONT_SIZE or "12") < 12) and require(
+      "modules.snacks.dashboard.dashboard-config-11-font"
+    ) or require("modules.snacks.dashboard.dashboard-config-12-font"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     input = {
