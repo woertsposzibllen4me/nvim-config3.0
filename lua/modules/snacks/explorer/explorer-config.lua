@@ -61,7 +61,7 @@ M.grep_for_filename_with_ext = function(picker, item)
   })
 end
 
-M.grep_in_dir = function(picker, item)
+M.grep_in_dir = function(picker, item, opts)
   if not item or not item.file then
     return
   end
@@ -76,7 +76,7 @@ M.grep_in_dir = function(picker, item)
   local title = "Grep in: " .. vim.fn.fnamemodify(path, ":~:.")
   local dirs = { path }
 
-  launch_picker_with_return(Snacks.picker.grep, {
+  local config = {
     title = title,
     dirs = dirs,
     win = {
@@ -84,7 +84,13 @@ M.grep_in_dir = function(picker, item)
         keys = require("modules.snacks.picker.keys.setup-all-keys").setup_grep_input_keys(dirs, title),
       },
     },
-  })
+  }
+
+  if opts and opts.default_grep == true then
+    config.finder = "grep" -- override our default finder (egrep rn)
+  end
+
+  launch_picker_with_return(Snacks.picker.grep, config)
 end
 
 M.search_files_in_dir = function(picker, item)
@@ -111,6 +117,9 @@ return {
     grep_filename = M.grep_for_filename,
     grep_full_filename = M.grep_for_filename_with_ext,
     grep_in_dir = M.grep_in_dir,
+    grep_in_dir_default = function(picker, item)
+      return M.grep_in_dir(picker, item, { default_grep = true })
+    end,
     search_files_in_dir = M.search_files_in_dir,
   },
   win = {
@@ -119,6 +128,7 @@ return {
         ["gf"] = { "grep_filename", desc = "Grep fname" },
         ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
+        ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
         ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<c-j>"] = false,
         ["<c-k>"] = false,
