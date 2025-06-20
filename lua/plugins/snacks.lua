@@ -12,7 +12,7 @@ return {
   end,
   opts = {
     -- bigfile = { enabled = true },
-    dashboard = require("modules.snacks.dashboard.dashboard-config"),
+    dashboard = require("modules.snacks.dashboard.dashboard-config-11-font"),
     -- explorer = { enabled = true },
     -- indent = { enabled = true },
     input = {
