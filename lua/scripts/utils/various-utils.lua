@@ -1,4 +1,5 @@
-local function capture_current_buffer_info()
+local M = {}
+M.capture_current_buffer_info = function()
   local bufname = vim.fn.bufname("%")
   local raw_representation = vim.inspect(bufname)
   local title = vim.o.titlestring
@@ -18,11 +19,10 @@ local function capture_current_buffer_info()
   print("Buffer variables: " .. vim.inspect(buf_vars))
   print("Window configuration: " .. vim.inspect(win_config))
 
-  -- Return the values so you can copy them from the messages
   return { bufname = bufname, raw = raw_representation, title = title }
 end
 
-function Make_window_floating() -- Yes its used globally
+M.make_window_floating = function()
   local buf = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()
   local width = math.floor(vim.o.columns * 0.9)
@@ -41,6 +41,4 @@ function Make_window_floating() -- Yes its used globally
     vim.api.nvim_set_current_win(win)
   end
 end
-
-vim.keymap.set("n", "<leader>uf", Make_window_floating, { desc = "Make window floating" })
-vim.keymap.set("n", "<Leader>uB", capture_current_buffer_info, { desc = "Capture current buffer name" })
+return M

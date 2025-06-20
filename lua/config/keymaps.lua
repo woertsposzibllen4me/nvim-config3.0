@@ -168,3 +168,12 @@ end, { desc = "Append unnamed reg to clipboard", icon = "📋" })
 map("n", "<leader>=", function()
   vim.fn.setreg("+", vim.fn.getreg('"'))
 end, { desc = "Copy unnamed reg to clipboard", icon = "📋" })
+
+-- Various uitilities
+map("n", "<leader>uf", function()
+  require("scripts.utils.various-utils").create_float()
+end, { desc = "Make window floating" })
+
+map("n", "<Leader>uB", function()
+  require("scripts.utils.various-utils").capture_current_buffer_info()
+end, { desc = "Capture current buffer name" })

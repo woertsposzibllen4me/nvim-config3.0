@@ -58,7 +58,7 @@ return {
         vim.cmd("NoiceAll")
         require("scripts.ui.maximize-window").half_size_window()
         vim.schedule(function()
-          Make_window_floating()
+          require("scripts.utils.various-utils").make_window_floating()
           vim.cmd("normal! G")
           vim.cmd("normal! M")
         end)
