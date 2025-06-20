@@ -146,7 +146,7 @@ function M.start_lazygit(opts)
     float_term.buf,
     "t",
     vim.g.maplocalleader .. "e",
-    string.format([[<Cmd>lua require('scripts.lazygit-terminal').lazygit_edit(%d)<CR>]], current_buffer),
+    string.format([[<Cmd>lua require('scripts.ux.lazygit-terminal').lazygit_edit(%d)<CR>]], current_buffer),
     { noremap = true, silent = true }
   )
 
