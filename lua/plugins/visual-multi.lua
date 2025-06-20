@@ -1,7 +1,6 @@
 return {
   "mg979/vim-visual-multi",
   enabled = true,
-  -- event = "BufReadPost",
   keys = {
     { "<C-Right>", desc = "Add cursor at position" },
     { "<C-Left>", desc = "Toggle cursor mappings" },
@@ -35,12 +34,17 @@ return {
       ["I Return"] = "<S-CR>",
     }
 
-    vim.cmd([[
-      highlight link VM_Extend IncSearch 
-      highlight link VM_Insert IncSearch 
-      highlight link VM_Cursor IncSearch 
-      highlight link MultiCursor IncSearch 
-      ]])
+    local incsearch_hl = vim.api.nvim_get_hl(0, { name = "IncSearch" })
+
+    vim.api.nvim_set_hl(0, "VMCustom", {
+      fg = incsearch_hl.fg, -- black fg text from IncSearch
+      bg = "#ff59f4", -- bright pink background that contrasts well with IncSearch's orange
+    })
+
+    vim.api.nvim_set_hl(0, "VM_Extend", { link = "VMCustom" })
+    vim.api.nvim_set_hl(0, "VM_Insert", { link = "VMCustom" })
+    vim.api.nvim_set_hl(0, "VM_Cursor", { link = "VMCustom" })
+    vim.api.nvim_set_hl(0, "VM_Mono", { link = "VMCustom" })
 
     -- Dropoff cursor at current position
     vim.keymap.set("n", "<C-Right>", "<Plug>(VM-Add-Cursor-At-Pos)", { noremap = true, silent = true })
