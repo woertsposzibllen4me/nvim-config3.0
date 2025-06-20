@@ -88,8 +88,6 @@ end, { desc = "Close floating windows/disable search highlight" })
 
 -- Set focus on solo windows + main filetree explorer
 map("n", "<leader>wo", function()
-  local win = vim.api.nvim_get_current_win()
-  local filetype = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
   local excluded_filetypes = {
     "snacks_picker_list",
     "snacks_picker_input",
