@@ -16,7 +16,7 @@ local launch_picker_with_return = function(picker_fn, config)
   vim.schedule(function()
     -- Fix a visual bug that happens if we run another Snacks picker while having the Snacks
     -- explorer in focus right before their launch.
-    vim.cmd("wincmd l")
+    vim.cmd("wincmd p")
 
     -- Merge the return action into the config
     config.actions = config.actions or {}
@@ -124,9 +124,9 @@ return {
         ["<c-k>"] = false,
         ["<esc>"] = {
           function()
-            vim.cmd("wincmd l")
+            vim.cmd("wincmd p")
           end,
-          desc = "Exit to right window",
+          desc = "Exit to prev window",
         },
       },
     },
@@ -134,9 +134,9 @@ return {
       keys = {
         ["<esc>"] = {
           function()
-            vim.cmd("wincmd l")
+            vim.cmd("wincmd p")
           end,
-          desc = "Exit to right window",
+          desc = "Exit to prev window",
         },
       },
     },
