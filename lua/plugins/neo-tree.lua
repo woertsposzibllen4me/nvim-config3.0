@@ -98,6 +98,7 @@ return {
           ["<space>"] = "none", -- unbind to be able to use leader key
           ["S"] = "open_vsplit",
           ["L"] = "focus_preview",
+          ["X"] = "expand_all_subnodes",
           ["Y"] = "copy_selector",
           ["h"] = "close_towards_up", -- Navigate to parent directory / Close current directory
           ["l"] = "open_towards_down", -- Open current directory / Navigate to first child
