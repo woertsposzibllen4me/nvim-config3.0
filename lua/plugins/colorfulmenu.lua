@@ -1,6 +1,6 @@
 return {
   "xzbdmw/colorful-menu.nvim",
-  enabled = false,
+  enabled = true,
   opts = {},
   event = { "BufReadPost", "BufNewFile" },
 }

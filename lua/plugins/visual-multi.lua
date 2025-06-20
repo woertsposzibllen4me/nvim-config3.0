@@ -1,6 +1,6 @@
 return {
   "mg979/vim-visual-multi",
-  enabled = false,
+  enabled = true,
   keys = {
     { "<C-Right>", desc = "Add cursor at position" },
     { "<C-Left>", desc = "Toggle cursor mappings" },

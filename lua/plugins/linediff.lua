@@ -1,6 +1,6 @@
 return {
   "AndrewRadev/linediff.vim",
-  enabled = false,
+  enabled = true,
   lazy = true,
   event = { "BufReadPost", "BufNewFile" },
   keys = {

@@ -1,6 +1,6 @@
 return {
   "L3MON4D3/LuaSnip",
-  enabled = false,
+  enabled = true,
   keys = {
     { "<C-k>", mode = { "i", "s" } },
     { "<C-j>", mode = { "i", "s" } },

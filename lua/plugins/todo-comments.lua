@@ -1,6 +1,6 @@
 return {
   "folke/todo-comments.nvim",
-  enabled = false,
+  enabled = true,
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufReadPost", "BufNewFile" },
   cmd = { "TodoTrouble", "TodoTelescope", "TodoQuickFix", "TodoLocList", "TodoFzfLua" },

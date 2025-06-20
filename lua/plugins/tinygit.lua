@@ -1,6 +1,6 @@
 return {
   "chrisgrieser/nvim-tinygit",
-  enabled = false,
+  enabled = true,
   dependencies = { "nvim-telescope/telescope.nvim" },
   cmd = { "Tinygit" },
   keys = {

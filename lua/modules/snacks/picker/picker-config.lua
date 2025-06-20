@@ -2,7 +2,6 @@ local M = {}
 M.path_inserts = require("modules.snacks.picker.actions.path-inserts")
 M.setup_all_keys = require("modules.snacks.picker.keys.setup-all-keys")
 return {
-  enabled = false,
   formatters = { file = { truncate = 80, filename_first = true } },
   layouts = require("modules.snacks.picker.layouts.custom-layouts"),
   previewers = {

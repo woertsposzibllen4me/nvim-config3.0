@@ -1,6 +1,6 @@
 return {
   "folke/persistence.nvim",
-  enabled = false,
+  enabled = true,
   lazy = false,
   event = "BufReadPre",
   opts = {},

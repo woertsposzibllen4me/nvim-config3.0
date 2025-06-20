@@ -1,7 +1,7 @@
 vim.api.nvim_set_hl(0, "GrappleActive", { fg = "#ff6186", bold = true })
 return {
   "cbochs/grapple.nvim",
-  enabled = false,
+  enabled = true,
   opts = {
     scope = "git", -- also try out "git_branch"
     statusline = {

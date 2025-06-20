@@ -1,7 +1,7 @@
 return {
   -- I'm using this standalone version because the LazyVim version seems to not work.
   "hedyhli/outline.nvim",
-  enabled = false,
+  enabled = true,
   lazy = true,
   cmd = { "Outline", "OutlineOpen" },
   keys = {

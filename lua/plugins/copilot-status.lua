@@ -1,6 +1,6 @@
 return {
   "jonahgoldwastaken/copilot-status.nvim",
-  enabled = false,
+  enabled = true,
   dependencies = { "zbirenbaum/copilot.lua" },
   event = "InsertEnter",
   config = function()

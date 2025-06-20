@@ -1,6 +1,6 @@
 return {
   "folke/flash.nvim",
-  enabled = false,
+  enabled = true,
   event = { "BufReadPost", "BufNewFile" },
   vscode = true,
   opts = {

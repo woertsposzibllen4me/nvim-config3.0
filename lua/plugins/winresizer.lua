@@ -1,6 +1,6 @@
 return {
   "simeji/winresizer",
-  enabled = false,
+  enabled = true,
   config = function()
     vim.g.winresizer_horiz_resize = 1
     vim.g.winresizer_vert_resize = 1

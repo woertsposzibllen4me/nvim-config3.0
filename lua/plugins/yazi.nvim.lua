@@ -1,7 +1,7 @@
 return ---@type LazySpec
 {
   "mikavilpas/yazi.nvim",
-  enabled = false,
+  enabled = true,
   event = "VeryLazy",
   dependencies = {
     -- check the installation instructions at

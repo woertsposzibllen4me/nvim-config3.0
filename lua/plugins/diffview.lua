@@ -1,6 +1,6 @@
 return {
   "sindrets/diffview.nvim",
-  enabled = false,
+  enabled = true,
   keys = {
     { "<leader>gov", "<cmd>DiffviewOpen<cr>", desc = "DiffView" },
     { "<leader>goh", mode = { "n" }, "<cmd>DiffviewFileHistory<cr>", desc = "File history" },

@@ -1,6 +1,6 @@
 return {
   "Chaitanyabsprip/fastaction.nvim",
-  enabled = false,
+  enabled = true,
   opts = {
     priority = {
       ruff = {
