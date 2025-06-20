@@ -1,15 +1,16 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = true,
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     lazy = true,
     event = { "BufReadPost", "BufNewFile" },
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    enabled = true,
     build = ":TSUpdate",
     event = "VeryLazy",
-    enabled = true,
     config = function()
       local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
       vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)

@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim",
+  enabled = false,
   event = { "BufReadPre" },
   opts = {
     formatters_by_ft = {

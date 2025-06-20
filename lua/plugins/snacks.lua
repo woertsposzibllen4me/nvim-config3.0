@@ -1,7 +1,7 @@
 return {
   "folke/snacks.nvim",
-  lazy = false,
   enabled = true,
+  lazy = false,
   init = function()
     vim.api.nvim_set_hl(0, "SnacksPickerMatch", { link = "CustomMatch" })
     if true then

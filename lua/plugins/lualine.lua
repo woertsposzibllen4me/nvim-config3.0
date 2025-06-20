@@ -1,9 +1,9 @@
 return {
   {
     "nvim-lualine/lualine.nvim",
+    enabled = true,
     event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    enabled = true,
     config = function()
       -- Get default config first
       local lualine = require("lualine")

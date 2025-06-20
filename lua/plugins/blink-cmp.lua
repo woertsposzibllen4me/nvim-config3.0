@@ -1,5 +1,6 @@
 return {
   "saghen/blink.cmp",
+  enabled = false,
   lazy = true,
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
@@ -9,7 +10,6 @@ return {
   -- test:
   -- lua_ls
   -- blink-cmp-introduction-special-thanks
-  enabled = true,
   version = "*", -- either use a release or use the build command below
   -- build = "cargo build --release",
   config = function()

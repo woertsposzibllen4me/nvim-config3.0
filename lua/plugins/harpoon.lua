@@ -3,8 +3,8 @@ return {
   -- branch = "harpoon2",
   dir = "C:/Users/ville/myfiles/various-github-repos/harpoon",
   name = "local-harpoon",
-  dependencies = { "nvim-lua/plenary.nvim" },
   enabled = false,
+  dependencies = { "nvim-lua/plenary.nvim" },
   -- event = "VeryLazy",
   config = function()
     local harpoon = require("harpoon")

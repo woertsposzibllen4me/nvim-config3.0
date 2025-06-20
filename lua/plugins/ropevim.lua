@@ -1,5 +1,5 @@
 return {
   "python-rope/ropevim",
-  enabled = true,
+  enabled = false,
   ft = "python",
 }

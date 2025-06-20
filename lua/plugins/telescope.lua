@@ -1,5 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     {
@@ -7,7 +8,6 @@ return {
       build = "make",
     },
   },
-  enabled = true,
   event = "VeryLazy",
   keys = {
     {

@@ -1,5 +1,6 @@
 return {
   "akinsho/toggleterm.nvim",
+  enabled = false,
   version = "*",
   config = function()
     local original_height = 10 -- Store the original height

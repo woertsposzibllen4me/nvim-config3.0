@@ -1,5 +1,6 @@
 return {
   "L3MON4D3/LuaSnip",
+  enabled = false,
   keys = {
     { "<C-k>", mode = { "i", "s" } },
     { "<C-j>", mode = { "i", "s" } },
@@ -9,7 +10,6 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
   },
-  enabled = true,
   config = function()
     local ls = require("luasnip")
 

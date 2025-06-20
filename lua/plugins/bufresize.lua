@@ -1,6 +1,6 @@
 return {
   "kwkarlwang/bufresize.nvim",
-  enabled = true,
+  enabled = false,
   init = function()
     _G.Bufresize = require("bufresize")
   end,

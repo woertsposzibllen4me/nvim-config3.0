@@ -1,5 +1,6 @@
 return {
   "cbochs/portal.nvim",
+  enabled = false,
   dependencies = {
     "cbochs/grapple.nvim",
     -- "ThePrimeagen/harpoon",

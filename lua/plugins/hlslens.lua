@@ -1,6 +1,7 @@
 local kopts = { noremap = true, silent = true }
 return {
   "kevinhwang91/nvim-hlslens",
+  enabled = false,
   opts = {},
   keys = {
     {

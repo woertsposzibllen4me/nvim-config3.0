@@ -12,7 +12,7 @@ end
 
 local panes = get_panes()
 return {
-  enabled = true,
+  enabled = false,
   width = 42,
   pane_gap = 4,
   preset = {

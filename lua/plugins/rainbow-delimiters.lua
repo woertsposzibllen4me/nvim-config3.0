@@ -1,8 +1,8 @@
 return {
   {
     "HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
     dependencies = "nvim-treesitter/nvim-treesitter",
-    enabled = true,
     event = { "BufRead", "BufNewFile" },
     config = function()
       local rainbow_delimiters = require("rainbow-delimiters")

@@ -1,5 +1,6 @@
 return {
   "echasnovski/mini.surround",
+  enabled = false,
   lazy = false,
   recommended = true,
   opts = {

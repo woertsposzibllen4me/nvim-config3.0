@@ -3,6 +3,7 @@ local mini_comments = require("modules.mini-ai.comment-textobject")
 local word_with_case = require("modules.mini-ai.word-with-case")
 return {
   "echasnovski/mini.ai",
+  enabled = false,
   opts = function()
     local ai = require("mini.ai")
     return {

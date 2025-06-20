@@ -1,6 +1,6 @@
 return {
   "MTDL9/vim-log-highlighting",
-  enabled = true,
+  enabled = false,
   ft = {
     "log",
     "txt",

@@ -1,5 +1,6 @@
 return {
   "aznhe21/actions-preview.nvim",
+  enabled = false,
   opts = {
     backend = {
       "snacks",

@@ -1,5 +1,6 @@
 return {
   "artemave/workspace-diagnostics.nvim",
+  enabled = false,
   keys = {
     {
       "<leader>xw",

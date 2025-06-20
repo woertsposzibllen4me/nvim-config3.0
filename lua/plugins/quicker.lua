@@ -1,7 +1,7 @@
 return {
   "stevearc/quicker.nvim",
+  enabled = false,
   event = "FileType qf",
-  enabled = true,
   ---@module "quicker"
   ---@type quicker.SetupOptions
   opts = {

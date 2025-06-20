@@ -11,6 +11,7 @@ end
 
 return {
   "mbbill/undotree",
+  enabled = false,
   cmd = "UndotreeToggle",
   keys = {
     {
