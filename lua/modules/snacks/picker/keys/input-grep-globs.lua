@@ -11,10 +11,7 @@ local function reposition_input_buffer()
       local editor_height = vim.o.lines
       local win_config = vim.api.nvim_win_get_config(win)
       -- Set dressing width to at least 70, but not more than editor width
-      local win_width = math.max(70, math.min(win_config.width, editor_width))
-      if editor_width < 70 then
-        win_width = editor_width
-      end
+      local win_width = math.min(70, editor_width - 4)
       local win_height = win_config.height
 
       -- Calculate center position

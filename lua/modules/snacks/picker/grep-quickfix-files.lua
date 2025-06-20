@@ -25,7 +25,7 @@ M.grep_qf_files = function()
 
   Snacks.picker.grep({
     dirs = filetable, -- note that the fact we use files directly seems to make globs pattern not
-    -- work (either from egrepify or from the grep-globs-input solution we made)
+    -- work (either from egrepify or from the grep globs solution we made)
     title = title,
     win = {
       input = {
