@@ -1,6 +1,7 @@
+local M = {}
 local original_dimensions = {}
 
-local function restore_window()
+M.restore_window = function()
   local win_id = vim.api.nvim_get_current_win()
   if original_dimensions[win_id] then
     vim.api.nvim_win_set_width(win_id, original_dimensions[win_id].width)
@@ -9,7 +10,7 @@ local function restore_window()
   end
 end
 
-local function set_window()
+M.set_window = function()
   local win_id = vim.api.nvim_get_current_win()
   original_dimensions[win_id] = {
     width = vim.api.nvim_win_get_width(win_id),
@@ -18,32 +19,21 @@ local function set_window()
   return win_id
 end
 
-local function maximize_window()
-  restore_window()
-  set_window()
+M.maximize_window = function()
+  M.restore_window()
+  M.set_window()
   vim.cmd("wincmd _")
   vim.cmd("wincmd |")
 end
 
-local function half_size_window()
-  restore_window()
-  local win_id = set_window()
-  maximize_window()
+M.half_size_window = function()
+  M.restore_window()
+  local win_id = M.set_window()
+  M.maximize_window()
   local max_width = vim.api.nvim_win_get_width(win_id)
   local max_height = vim.api.nvim_win_get_height(win_id)
   vim.api.nvim_win_set_width(win_id, math.floor(max_width / 2))
   vim.api.nvim_win_set_height(win_id, math.floor(max_height / 2))
 end
 
-vim.keymap.set("n", "<leader>wm", maximize_window, { desc = "Maximize window size" })
-vim.keymap.set("n", "<leader>ws", set_window, { desc = "Set window size" })
-vim.keymap.set("n", "<leader>wr", restore_window, { desc = "Restore window size" })
-vim.keymap.set("n", "<leader>wh", half_size_window, { desc = "Set window to half size" })
-
-return {
-  -- exported functions
-  maximize_window = maximize_window,
-  half_size_window = half_size_window,
-  restore_window = restore_window,
-  set_window = set_window,
-}
+return M

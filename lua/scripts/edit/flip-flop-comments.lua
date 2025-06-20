@@ -58,11 +58,3 @@ function _G.__flip_flop_comment()
   vim.api.nvim_buf_set_mark(0, ">", vmark_end[1], vmark_end[2], {})
   vim.o.operatorfunc = "v:lua.__flip_flop_comment" -- make it dot-repeatable
 end
-
--- Invert (flip flop) comments with gC, in normal and visual mode
-vim.keymap.set(
-  { "n", "x" },
-  "gC",
-  "<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>g@",
-  { silent = true, desc = "Invert comments" }
-)

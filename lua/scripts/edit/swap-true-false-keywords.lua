@@ -1,4 +1,5 @@
-vim.keymap.set("n", "<leader>S", function()
+local M = {}
+M.swap_keywords = function()
   local line = vim.api.nvim_get_current_line()
 
   local replacements = {
@@ -20,8 +21,6 @@ vim.keymap.set("n", "<leader>S", function()
   end
 
   return false
-end, { desc = "Swap true/false keywords" })
+end
 
-require("which-key").add({
-  { "<leader>S", group = "Swap true/false keywords", icon = "" },
-})
+return M

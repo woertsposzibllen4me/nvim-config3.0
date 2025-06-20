@@ -131,11 +131,6 @@ function M.lazygit_edit(original_buffer)
   vim.cmd("e " .. relative_filepath)
 end
 
--- Function to open Lazygit logs
-function M.start_lazygit_logs()
-  M.start_lazygit({ cmd_args = "log" })
-end
-
 -- Function to start Lazygit in a floating terminal
 function M.start_lazygit(opts)
   local current_buffer = vim.api.nvim_get_current_buf()
@@ -213,17 +208,8 @@ function M.run_tinygit_amendonlymessage()
   M.run_tinygit_command("amendOnlyMsg")
 end
 
--- Make specific functions available globally
+-- Make specific functions available globally to use from the floating terminal directly
 _G.RunTinygitSmartCommit = M.run_tinygit_smartcommit
 _G.RunTinygitAmendOnlyMessage = M.run_tinygit_amendonlymessage
-
-vim.keymap.set("n", "<leader>gg", M.start_lazygit, { noremap = true, silent = true, desc = "Open a Lazygit terminal" })
-
-vim.keymap.set(
-  "n",
-  "<leader>gol",
-  M.start_lazygit_logs,
-  { noremap = true, silent = true, desc = "Open a Lazygit terminal logs" }
-)
 
 return M

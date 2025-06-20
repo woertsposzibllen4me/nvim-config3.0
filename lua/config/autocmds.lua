@@ -196,3 +196,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+-- Quit quickfix window with 'q'
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, silent = true })
+  end,
+})

@@ -155,11 +155,11 @@ map({ "n", "v" }, "<C-y>", function()
   vim.fn.feedkeys('"+y')
 end, { desc = "Yank to system clipboard" })
 
-map("n", "<leader>ya", 'ggVG"+y', { noremap = true, silent = true, desc = "Copy file content to system clipboard" })
+map("n", "<leader>ya", 'ggVG"+y', { desc = "Copy file content to system clipboard" })
 
 map("n", "<leader>yA", function()
   require("scripts.utils.clipboard-functions").append_file_to_system_register()
-end, { noremap = true, silent = true, desc = "Append file content to system clipboard" })
+end, { desc = "Append file content to system clipboard" })
 
 map("n", "<leader>+", function()
   require("scripts.utils.clipboard-functions").append_empty_reg_to_system_reg()
@@ -177,3 +177,70 @@ end, { desc = "Make window floating" })
 map("n", "<Leader>uB", function()
   require("scripts.utils.various-utils").capture_current_buffer_info()
 end, { desc = "Capture current buffer name" })
+
+-- Path quick conversion
+map("n", "<leader>\\", function()
+  require("scripts.edit.edit-path-separators").convert_path_separators()
+end, { desc = "Convert path separators", icon = "🔀" })
+
+-- Invert (flip flop) comments with gC, in normal and visual mode
+map(
+  { "n", "x" },
+  "gC",
+  "<cmd>set operatorfunc=v:lua.__flip_flop_comment<cr>g@",
+  { silent = true, desc = "Invert comments" }
+)
+
+-- Swap true/false keywords
+map("n", "<leader>S", function()
+  require("scripts.edit.swap-true-false-keywords").swap_keywords()
+end, { desc = "Swap true/false keywords", icon = "" })
+
+-- Manipulate windows size
+map("n", "<leader>wm", function()
+  require("scripts.ui.maximize-window").maximize_window()
+end, { desc = "Maximize window size" })
+
+map("n", "<leader>ws", function()
+  require("scripts.ui.maximize-window").set_window()
+end, { desc = "Set window size" })
+
+map("n", "<leader>wr", function()
+  require("scripts.ui.maximize-window").restore_window()
+end, { desc = "Restore window size" })
+
+map("n", "<leader>wh", function()
+  require("scripts.ui.maximize-window").half_size_window()
+end, { desc = "Set window to half size" })
+
+-- Toggle quickfix window
+map("n", "<leader>C", function()
+  require("scripts.ui.toggle-quickfix").toggle_quickfix()
+end, { desc = "Toggle quickfix window" })
+
+-- Yank buffer's paths to clipboard
+map("n", "<leader>yp", function()
+  local relative_path = vim.fn.expand("%:p:~:.")
+  vim.fn.setreg("+", relative_path)
+  vim.notify("Relative path copied to clipboard: " .. relative_path, vim.log.levels.INFO)
+end, { desc = "Yank buffer relative path to clipboard" })
+
+map("n", "<leader>yP", function()
+  local absolute_path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", absolute_path)
+  vim.notify("Absolute path copied to clipboard: " .. absolute_path, vim.log.levels.INFO)
+end, { desc = "Yank buffer absolute path to clipboard" })
+
+-- Delete marks with gmd
+map("n", "gmd", function()
+  require("scripts.ux.delete-mark").delete_mark()
+end, { desc = "Delete mark(s)", icon = { icon = "❌", color = "red" } })
+
+-- Open Lazygit in a floating terminal
+map("n", "<leader>gg", function()
+  require("scripts.ux.lazygit-terminal").start_lazygit({ cmd_args = "" })
+end, { desc = "Open Lazygit in floating terminal" })
+
+map("n", "<leader>gol", function()
+  require("scripts.ux.lazygit-terminal").start_lazygit({ cmd_args = "log" })
+end, { desc = "Open Lazygit logs in floating term" })

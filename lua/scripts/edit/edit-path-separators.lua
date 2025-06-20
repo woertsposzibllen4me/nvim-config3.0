@@ -1,4 +1,5 @@
-local function convert_path_separators()
+local M = {}
+M.convert_path_separators = function()
   -- Get content from unnamed register (last yank/delete)
   local content = vim.fn.getreg('"')
 
@@ -36,10 +37,6 @@ local function convert_path_separators()
   -- Set buffer options
   vim.bo[buf].modifiable = true
   vim.bo[buf].buftype = "nofile"
-
-  -- Show instructions
-  vim.notify("Path content loaded. Choose conversion:")
-  vim.notify("1 - \\ to /  |  2 - / to \\  |  3 - Custom  |  ESC - Cancel")
 
   -- Set up key mappings for the buffer
   local opts = { buffer = buf, nowait = true, silent = true }
@@ -127,9 +124,4 @@ local function convert_path_separators()
     end,
   })
 end
-
--- Bind to \ key in normal mode
-vim.keymap.set("n", "<leader>\\", convert_path_separators, {
-  desc = "Convert path separators from register",
-  silent = true,
-})
+return M
