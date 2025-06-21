@@ -37,7 +37,7 @@ return {
       { "<leader>Y", icon = { icon = "💥" }, desc = "Resume yazi session" },
       { "<leader>y", group = "Yank/Yazi", icon = { icon = "", color = "yellow" } },
 
-      -- Standalones
+      -- Standalone groups
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
       { "<leader>l", group = "Line diffs", icon = { icon = "󰈙", color = "blue" } },
@@ -52,6 +52,11 @@ return {
       { "<Leader>u", group = "Utilities", icon = { icon = "🛠️", color = "yellow" } },
       { "gH", group = "Peek Definitions", icon = { icon = "👁️", color = "yellow" } },
       { "gm", group = "Marks", icon = { icon = "✅", color = "yellow" } },
+
+      -- Standalone descs
+
+      -- Unused but considered:
+      -- { "<leader>N", desc = "Toggle No Neck Pain", icon = { icon = "☕", color = "blue" } },
     },
   },
   config = function(_, opts)
