@@ -1,5 +1,4 @@
 if OnWindows then
-  vim.opt.undodir = os.getenv("USERPROFILE") .. "/AppData/Local/nvim/undo/"
   local powershell_options = {
     shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
     shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command "
