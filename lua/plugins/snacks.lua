@@ -86,7 +86,7 @@ return {
    -- stylua: ignore start
 
     -- Default grepping (without the finder overriden by egrepify)
-    { "<leader>sg", function() Snacks.picker.grep({ finder = "grep", }) end, },
+    { "<leader>sg", function() Snacks.picker.grep({ finder = "grep", }) end, desc = "Grep (default)", },
 
     -- Notifier
     {"<leader>nn", function() Snacks.notifier.show_history() end, desc = "Notifier History"},

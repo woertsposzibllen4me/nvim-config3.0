@@ -36,6 +36,7 @@ return {
       layout = "grep_vertical",
     },
     grep_word = {
+      finder = require("modules.snacks.picker.finders.egrepify").egrepify,
       layout = "grep_vertical",
     },
     jumps = {
