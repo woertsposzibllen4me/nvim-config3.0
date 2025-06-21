@@ -112,6 +112,17 @@ M.search_files_in_dir = function(picker, item)
   })
 end
 
+local focus_right_win = function()
+  vim.cmd("stopinsert")
+  vim.cmd("wincmd l")
+  -- if we are still in the Snacks picker list, go right again
+  vim.schedule(function()
+    if vim.bo.filetype == "snacks_picker_list" then
+      vim.cmd("wincmd l")
+    end
+  end)
+end
+
 return {
   actions = {
     grep_filename = M.grep_for_filename,
@@ -120,7 +131,7 @@ return {
     grep_in_dir_default = function(picker, item)
       return M.grep_in_dir(picker, item, { default_grep = true })
     end,
-    search_files_in_dir = M.search_files_in_dir,
+    focus_right_win = focus_right_win,
   },
   win = {
     list = {
@@ -148,6 +159,7 @@ return {
           end,
           desc = "Exit to prev window",
         },
+        ["<c-l>"] = { "focus_right_win", desc = "Focus right window", mode = { "i", "n" } },
       },
     },
   },
