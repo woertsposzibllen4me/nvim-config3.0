@@ -1,6 +1,7 @@
 return {
-  "letieu/wezterm-move.nvim",
-  enabled = OnWindows and true, -- Better fitted for Windows
+  -- "letieu/wezterm-move.nvim",
+  "woertsposzibllen4me/wezterm-move.nvim",
+  enabled = OnWindows and true, -- Better fitted for Windows.  NOTE: forked for custom functionality
   keys = {
     {
       "<C-h>",

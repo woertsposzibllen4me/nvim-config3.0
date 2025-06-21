@@ -1,8 +1,8 @@
 return {
   {
     "mrjones2014/smart-splits.nvim",
-    enabled = not OnWindows and true, -- We don't use it on Windows (slow
-    -- and inconsistent, we have an alternative plugin)
+    enabled = not OnWindows and true, -- We don't use it on Windows (a bit slow, we have an
+    -- alternative plugin)
     lazy = false,
     opts = {
       at_edge = "stop",
