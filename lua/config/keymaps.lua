@@ -88,18 +88,8 @@ end, { desc = "Close floating windows/disable search highlight" })
 
 -- Set focus on solo windows + main filetree explorer
 map("n", "<leader>wo", function()
-  local excluded_filetypes = {
-    "snacks_picker_list",
-    "snacks_picker_input",
-    "neo-tree",
-  }
-  if vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then
-    vim.notify("Cannot focus on explorer window", vim.log.levels.WARN)
-    return
-  end
-  vim.cmd("only")
-  require("scripts.ui.open-file-explorer").open_main_explorer()
-end, { desc = "Close others (and opens File Explorer)" })
+  require("scripts.ui.close-other-windows").solo_window_with_filetree()
+end, { desc = "Close others (and opens File Explorer)", icon = "" })
 
 -- force C-n and C-p to navigate cmd/search history (fixes cmp issues)
 map("c", "<C-n>", "<C-Down>", { desc = "Navigate cmd history (next)" })
