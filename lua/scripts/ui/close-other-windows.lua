@@ -9,7 +9,7 @@ M.solo_window_with_filetree = function()
     vim.notify("Cannot focus on explorer window", vim.log.levels.WARN)
     return
   end
-  vim.cmd("only")
+  vim.cmd("only!")
   vim.schedule(function()
     pcall(function()
       require("scripts.ui.open-file-explorer").open_main_explorer()
