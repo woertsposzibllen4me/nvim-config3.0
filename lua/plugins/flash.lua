@@ -1,7 +1,7 @@
 return {
   "folke/flash.nvim",
   enabled = true,
-  event = { "BufReadPost", "BufNewFile" },
+  event = "VeryLazy", -- Needs to be loaded soon for jump labels to work when doing "nvim file" in terminal
   vscode = true,
   opts = {
     modes = {
