@@ -8,6 +8,7 @@ return {
       ["yaml"] = { "prettier" },
       ["toml"] = { "taplo" },
       ["lua"] = { "stylua" },
+      ["zsh"] = { "beautysh" },
     },
     formatters = {
       stylua = {
