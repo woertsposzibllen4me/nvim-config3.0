@@ -131,6 +131,7 @@ return {
     grep_in_dir_default = function(picker, item)
       return M.grep_in_dir(picker, item, { default_grep = true })
     end,
+    search_files_in_dir = M.search_files_in_dir,
     focus_right_win = focus_right_win,
   },
   win = {
