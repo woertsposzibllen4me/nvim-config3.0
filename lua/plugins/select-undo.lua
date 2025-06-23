@@ -2,7 +2,7 @@ return {
   "SunnyTamang/select-undo.nvim",
   enabled = true,
   opts = {
-    line_mapping = "gu",
-    partial_mapping = "gU",
+    line_mapping = "gsu",
+    partial_mapping = "gsU",
   },
 }
