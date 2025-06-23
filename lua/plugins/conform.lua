@@ -14,6 +14,9 @@ return {
       stylua = {
         prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
       },
+      beautysh = {
+        prepend_args = { "--indent-size", "2" },
+      },
     },
     format_on_save = {
       timer = 500,
