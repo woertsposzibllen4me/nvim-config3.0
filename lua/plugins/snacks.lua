@@ -46,13 +46,23 @@ return {
     {
       "<leader>e",
       function()
-        local ok = pcall(require, "neo-tree")
-        if ok then
+        if pcall(require, "neo-tree") then
           vim.cmd("Neotree close")
         end
         require("snacks").explorer()
       end,
       desc = "Toggle Snacks Explorer",
+    },
+
+    {
+      "<leader>E",
+      function()
+        if pcall(require, "neo-tree") then
+          vim.cmd("Neotree close")
+        end
+        require("snacks").explorer({ follow_file = false })
+      end,
+      desc = "Toggle Snacks Explorer (No Follow File)",
     },
 
     -- Words
