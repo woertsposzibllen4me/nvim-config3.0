@@ -31,7 +31,7 @@ return {
 
       -- Helper function for mapping keys
       local function map(mode, l, r, desc)
-        vim.keymap.set(mode, l, r, { desc = desc })
+        vim.keymap.set(mode, l, r, { desc = desc, silent = true })
       end
 
       -- Show old code that was removed as "deleted" in diff view
