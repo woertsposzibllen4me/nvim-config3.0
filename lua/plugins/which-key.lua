@@ -28,14 +28,18 @@ return {
       { "<leader>i", desc = "Portal Jump Forward", icon = { icon = "󰩈", color = "azure" } },
 
       -- ] and [ keybinds Alternatives
-      { "]'", group = "Alternative next", icon = { icon = "⏭️", color = "blue" } },
-      { "['", group = "Alternative previous", icon = { icon = "⏮️", color = "blue" } },
+      { "]'", group = "Alternative next", icon = { icon = "⏭️" } },
+      { "['", group = "Alternative previous", icon = { icon = "⏮️" } },
 
       -- Yazi/Yank
       { "<leader>yo", icon = { icon = "💥" }, desc = "Open yazi at current file" },
       { "<leader>yw", icon = { icon = "💥" }, desc = "Open yazi in working directory" },
       { "<leader>Y", icon = { icon = "💥" }, desc = "Resume yazi session" },
       { "<leader>y", group = "Yank/Yazi", icon = { icon = "", color = "yellow" } },
+
+      -- Upper/lowercase
+      { "gU", desc = "UPPERCASE", icon = { icon = "🔠" }, mode = { "n", "v" } },
+      { "gu", desc = "lowercase", icon = { icon = "🔡" }, mode = { "n", "v" } },
 
       -- Standalone groups
       { "<leader>f", group = "Telescope" },
@@ -49,9 +53,9 @@ return {
       { "<leader>D", group = "DadBod UI" },
       { "<leader>d", group = "Debug", icon = { icon = "🪲" } },
       { "<leader>c", group = "QuickFix/Actions" },
-      { "<Leader>u", group = "Utilities", icon = { icon = "🛠️", color = "yellow" } },
-      { "gH", group = "Peek Definitions", icon = { icon = "👁️", color = "yellow" } },
-      { "gm", group = "Marks", icon = { icon = "✅", color = "yellow" } },
+      { "<Leader>u", group = "Utilities", icon = { icon = "🛠️" } },
+      { "gH", group = "Peek Definitions", icon = { icon = "👁️" } },
+      { "gm", group = "Marks", icon = { icon = "✅" } },
 
       -- Standalone descs
 
