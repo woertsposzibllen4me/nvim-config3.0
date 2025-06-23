@@ -154,6 +154,11 @@ return {
     },
     input = {
       keys = {
+        ["gf"] = { "grep_filename", desc = "Grep fname" },
+        ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
+        ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
+        ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
+        ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<esc>"] = {
           function()
             vim.cmd("wincmd p")
