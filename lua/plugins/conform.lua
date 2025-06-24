@@ -9,6 +9,7 @@ return {
       ["toml"] = { "taplo" },
       ["lua"] = { "stylua" },
       ["zsh"] = { "beautysh" },
+      ["sh"] = { "shfmt" },
     },
     formatters = {
       stylua = {

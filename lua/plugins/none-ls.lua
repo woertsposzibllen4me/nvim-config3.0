@@ -16,7 +16,7 @@ return {
         -- "pylint",
         "stylua",
         "prettier",
-        -- "shfmt",
+        "shfmt",
         "beautysh",
       },
       automatic_installation = true,
