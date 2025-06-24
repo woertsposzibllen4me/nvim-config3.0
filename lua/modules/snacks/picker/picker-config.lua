@@ -97,7 +97,7 @@ return {
         ["<a-s>"] = { "flash", mode = { "n", "i" } },
         -- adjust binds to match ahk remaps (orinal default key in [brackets])
         ["<Left>"] = { "toggle_hidden", mode = { "i", "n" } }, -- ["<a-h>"]
-        ["O"] = { { "pick_win", "jump" }, mode = { "n", "i" } },
+        ["O"] = { { "pick_win", "jump" }, mode = { "n" } },
       },
     },
     list = {
