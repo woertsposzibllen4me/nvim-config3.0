@@ -80,7 +80,7 @@ return {
       end,
     })
 
-    -- NOTE: might not be needed if not using recent switch to vim.lsp.config syntax
+    -- FIX: might not be needed if not using recent switch to vim.lsp.config syntax
 
     -- -- Prevent powershell_es mess
     -- vim.api.nvim_create_autocmd("LspAttach", {
