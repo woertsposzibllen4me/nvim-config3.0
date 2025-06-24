@@ -1,8 +1,8 @@
 return {
-  -- "ThePrimeagen/harpoon",
-  -- branch = "harpoon2",
-  dir = "C:/Users/ville/myfiles/various-github-repos/harpoon",
-  name = "local-harpoon",
+  "ThePrimeagen/harpoon",
+  branch = "harpoon2",
+  -- dir = "C:/Users/ville/myfiles/temp-git-repos/harpoon",
+  -- name = "local-harpoon",
   enabled = false,
   dependencies = { "nvim-lua/plenary.nvim" },
   -- event = "VeryLazy",
