@@ -1,0 +1,205 @@
+-- local terms_width = 60
+local left_girl_header = ""
+local right_girl_header = ""
+local headers = nil
+
+local font_size = (tonumber(vim.env.WEZTERM_FONT_SIZE or "12"))
+if font_size == 12 then
+  headers = require("modules.snacks.dashboard.headers-12-font")
+  right_girl_header = headers.right_girl_header
+  left_girl_header = headers.left_girl_header
+else
+  headers = require("modules.snacks.dashboard.headers-11-font")
+  right_girl_header = headers.right_girl_header
+  left_girl_header = headers.left_girl_header
+end
+
+local height_limit = 40
+local top_padding = vim.o.lines > height_limit and 7 or -1
+local function get_panes()
+  local fullscreen = vim.o.columns >= 190
+  return {
+    left = fullscreen and 1 or nil,
+    center = fullscreen and 2 or 1,
+    right = fullscreen and 4 or nil,
+  }
+end
+
+local panes = get_panes()
+return {
+  enabled = true,
+  width = 42,
+  pane_gap = 4,
+  preset = {
+    keys = {
+      {
+        icon = "🧠",
+        key = "s",
+        desc = "Smart Find",
+        action = function()
+          vim.cmd("lua Snacks.picker.smart()")
+        end,
+      },
+      {
+        icon = "📁",
+        key = "f",
+        desc = "Find File",
+        action = function()
+          vim.cmd("lua Snacks.picker.files()")
+        end,
+      },
+      {
+        icon = "🔤",
+        key = "/",
+        desc = "Find Word",
+        action = function()
+          vim.cmd("lua Snacks.picker.grep()")
+        end,
+      },
+      {
+        icon = "⌚",
+        key = "r",
+        desc = "Recent Files",
+        action = function()
+          vim.cmd("lua Snacks.picker.recent()")
+        end,
+      },
+      {
+        icon = "",
+        key = "c",
+        desc = "Changed files",
+        action = function()
+          vim.cmd("lua Snacks.picker.git_status()")
+        end,
+      },
+      {
+        icon = "📜",
+        key = "t",
+        desc = "TODO comments",
+        action = function()
+          vim.cmd("TodoQuickFix keywords=TODO")
+        end,
+      },
+      {
+        icon = "💾",
+        key = "S",
+        desc = "Restore Session",
+        section = "session",
+      },
+      {
+        icon = "💤",
+        key = "l",
+        desc = "Open Lazy",
+        action = function()
+          vim.cmd("Lazy")
+        end,
+      },
+      {
+        icon = { "󰊢 ", hl = "DevIconGitLogo" },
+        key = "g",
+        desc = "Open LazyGit",
+        action = function()
+          local lg = require("scripts.ux.lazygit-terminal")
+          lg.start_lazygit()
+        end,
+      },
+      {
+        icon = { "󱕖 ", hl = "DevIcon3gp" },
+        -- icon = "🗑",
+        key = "d",
+        desc = "Delete Shada Temp Files",
+        enabled = OnWindows,
+        action = function()
+          require("scripts.utils.delete-temp-shadas").Delete_shada_temp_files()
+        end,
+      },
+      {
+        icon = { "✖️", hl = "DevIconAstro" },
+        key = "q",
+        desc = "Quit Neovim",
+        action = function()
+          vim.cmd("quit")
+        end,
+      },
+    },
+  },
+  formats = {
+    header = { "%s", align = "left", hl = "@annotation" }, -- Add the hl property here
+  },
+  sections = {
+    {
+      pane = panes.left,
+      enabled = panes.left ~= nil,
+      header = left_girl_header,
+    },
+    { pane = panes.center, padding = top_padding },
+    {
+      pane = panes.center,
+      header = [[
+  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+                                  ..Btw 😎
+]],
+      enabled = vim.o.lines > height_limit,
+      padding = 0,
+      width = 25,
+    },
+    {
+      pane = panes.center,
+      header = [[
+                             _         
+      ____  ___  ____ _   __(_)___ ___ 
+     / __ \/ _ \/ __ \ | / / / __ `__ \
+    / / / /  __/ /_/ / |/ / / / / / / /
+   /_/ /_/\___/\____/|___/_/_/ /_/ /_/ 
+]],
+      enabled = vim.o.lines < 40,
+      padding = 0,
+      width = 25,
+    },
+    { pane = panes.center, section = "keys", gap = 1, padding = 1, width = 15 },
+    {
+      pane = panes.center,
+      icon = " ",
+      desc = "Browse Repo on GitHub",
+      padding = 1,
+      key = "B",
+      enabled = function()
+        vim.cmd(":setlocal scrolloff=0")
+        return Snacks.git.get_root() ~= nil
+      end,
+      action = function()
+        Snacks.gitbrowse()
+      end,
+    },
+    {
+      pane = panes.center,
+      icon = "󰊢",
+      desc = "Not in a Git Repo",
+      padding = 1,
+      enabled = function()
+        return Snacks.git.get_root() == nil
+      end,
+    },
+    {
+      pane = panes.center,
+      icon = "📂",
+      width = 25,
+      title = "Recent Files",
+      section = "recent_files",
+      cwd = true,
+      indent = 2,
+      padding = 1,
+    },
+    { pane = panes.center, section = "startup", padding = 900 },
+    {
+      pane = panes.right,
+      enabled = panes.right ~= nil,
+      header = right_girl_header,
+    },
+  },
+}

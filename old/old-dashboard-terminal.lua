@@ -1,3 +1,4 @@
+local height_limit = 40
 local terms_width = 60
 local top_padding = vim.o.lines > height_limit and 7 or -1
 return {
