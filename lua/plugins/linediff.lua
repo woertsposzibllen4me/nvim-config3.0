@@ -40,14 +40,35 @@ return {
     vim.api.nvim_create_autocmd("User", {
       pattern = "LinediffBufferReady",
       callback = function()
+        local diff_sanitize = require("scripts.ui.diff-sanitize")
+        diff_sanitize.disable_diff_features()
         vim.api.nvim_buf_set_keymap(0, "n", "q", ":LinediffReset<CR>", { noremap = true })
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
-        for _, client in pairs(clients) do
-          vim.lsp.buf_detach_client(0, client.id)
-        end
-        vim.defer_fn(function()
-          vim.cmd("Noice dismiss") -- dismiss notifications for LSP detach (noisy warnings from lsp)
-        end, 100)
+
+        vim.keymap.set("n", "<C-j>", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          end
+        end, { buffer = 0 })
+
+        vim.keymap.set("n", "<C-k>", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          end
+        end, { buffer = 0 })
+
+        -- local clients = vim.lsp.get_clients({ bufnr = 0 })
+        -- for _, client in pairs(clients) do
+        --   vim.lsp.buf_detach_client(0, client.id)
+        -- end
+        -- vim.defer_fn(function()
+        --   vim.cmd("Noice dismiss") -- dismiss notifications for LSP detach (noisy warnings from lsp)
+        -- end, 100) -- FIX: this might not be needed anymore
+
+        vim.api.nvim_create_autocmd("TabClosed", {
+          callback = function()
+            diff_sanitize.re_enable_diff_features()
+          end,
+        })
       end,
     })
   end,
