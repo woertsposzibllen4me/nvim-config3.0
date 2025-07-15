@@ -141,7 +141,7 @@ end
 map("v", "gW", format_with_width, { desc = "Format with custom width" })
 
 -- Clipboard operations
-map({ "n", "v" }, "<C-y>", function()
+map({ "n", "v" }, "<C-c>", function()
   vim.fn.feedkeys('"+y')
 end, { desc = "Yank to system clipboard" })
 
