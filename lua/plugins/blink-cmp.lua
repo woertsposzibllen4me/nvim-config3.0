@@ -71,6 +71,12 @@ return {
         end,
       },
 
+      enabled = function()
+        return not vim.list_contains({ "DressingInput" }, vim.bo.filetype)
+          and vim.bo.buftype ~= "prompt"
+          and vim.b.completion ~= false
+      end,
+
       -- Cmdline configuration with buffer search support
       cmdline = {
         enabled = true,
