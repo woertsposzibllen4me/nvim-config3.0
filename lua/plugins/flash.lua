@@ -2,6 +2,8 @@ return {
   "folke/flash.nvim",
   enabled = true,
   event = "VeryLazy", -- Needs to be loaded soon for jump labels to work when doing "nvim file" in terminal
+  lazy = true,
+  priority = 49, -- Needs to load after treesitter text objects to correctly override the "f" and "t" keys
   vscode = true,
   opts = {
     modes = {
