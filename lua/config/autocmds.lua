@@ -49,8 +49,8 @@ vim.api.nvim_create_autocmd("WinEnter", {
   end,
 })
 
--- Automatically switch to the help window when opening help files to the right and allow quitting
--- with q Needs some extra considerations to avoid bugging out with snacks buffer-grep
+-- Automatically switch to the help window when opening help files to the right side.
+-- Needs some extra considerations to avoid bugging out with snacks buffer-grep
 _G.processed_help_buffers = _G.processed_help_buffers or {}
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -61,7 +61,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     -- re-entering it after we moved it manually)
     if vim.bo[bufnr].buftype == "help" and not _G.processed_help_buffers[bufnr] then
       vim.cmd("wincmd L")
-      vim.api.nvim_buf_set_keymap(bufnr, "n", "q", ":q<CR>", { noremap = true })
       -- Mark this buffer as processed
       _G.processed_help_buffers[bufnr] = true
 
@@ -69,7 +68,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
       vim.api.nvim_create_autocmd("BufDelete", {
         buffer = bufnr,
         callback = function()
-          -- Remove from our tracking table when buffer is deleted
           _G.processed_help_buffers[bufnr] = nil
         end,
         once = true, -- This autocmd can be one-time since it's specific to this buffer
@@ -186,10 +184,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Quit quickfix window with 'q'
+-- Quit certain buffer types with 'q'
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "qf",
+  pattern = { "qf", "oil", "checkhealth", "help" },
   callback = function()
-    vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "q", ":q<CR>", { buffer = true, silent = true })
   end,
 })
