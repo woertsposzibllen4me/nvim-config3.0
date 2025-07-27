@@ -6,6 +6,7 @@ return {
     formatters_by_ft = {
       ["python"] = { "ruff_format" },
       ["yaml"] = { "prettier" },
+      ["json"] = { "prettier" },
       ["toml"] = { "taplo" },
       ["lua"] = { "stylua" },
       ["zsh"] = { "beautysh" },
