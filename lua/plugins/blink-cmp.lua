@@ -41,13 +41,16 @@ return {
         },
         -- Define custom providers
         providers = {
-          -- Custom buffer source for current buffer only
-          current_buffer = {
+          -- Custom buffer source for current buffer only (text search)
+          current_buffer_search = {
             name = "Current Buffer",
             module = "blink.cmp.sources.buffer",
             opts = {
+              -- Hight limits for when on powerful machine
+              max_sync_buffer_size = 90000,
+              max_async_buffer_size = 4000000,
+              max_total_buffer_size = 9000000,
               -- Only get completions from the current buffer
-              max_sync_buffer_size = math.huge,
               get_bufnrs = function()
                 return { vim.api.nvim_get_current_buf() }
               end,
@@ -72,7 +75,7 @@ return {
       },
 
       enabled = function()
-        return not vim.list_contains({ "DressingInput" }, vim.bo.filetype)
+        return not vim.list_contains({ "DressingInput", "oil" }, vim.bo.filetype)
           and vim.bo.buftype ~= "prompt"
           and vim.b.completion ~= false
       end,
@@ -92,7 +95,7 @@ return {
           local type = vim.fn.getcmdtype()
           -- Search forward and backward - show CURRENT buffer completions only
           if type == "/" or type == "?" then
-            return { "current_buffer" }
+            return { "current_buffer_search" }
           end
           -- Commands - show cmdline completions
           if type == ":" or type == "@" then
