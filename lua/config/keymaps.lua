@@ -44,9 +44,6 @@ map("t", "<C-q>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 -- leader qq to quit all
 map({ "n", "v" }, "<leader>qq", ":<C-u>qa<CR>", { desc = "Quit all", silent = true })
 
--- undo on U
-map("n", "U", "<C-r>", { desc = "Redo" })
-
 -- save with C-S
 map("n", "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file", silent = true })
 
