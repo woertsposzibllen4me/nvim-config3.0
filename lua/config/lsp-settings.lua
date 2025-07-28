@@ -15,7 +15,42 @@ vim.diagnostic.config({
   },
 })
 
+function M.setup_diagnostic_jumps()
+  if M.next_diag then
+    return M.next_diag, M.prev_diag, M.next_error, M.prev_error
+  end
+
+  -- Regular diagnostic jumps
+  local function next_diag()
+    vim.diagnostic.jump({ count = vim.v.count1, float = true })
+  end
+
+  local function prev_diag()
+    vim.diagnostic.jump({ count = -vim.v.count1, float = true })
+  end
+
+  -- Error-only diagnostic jumps
+  local function next_error()
+    vim.diagnostic.jump({ count = vim.v.count1, severity = vim.diagnostic.severity.ERROR, float = true })
+  end
+
+  local function prev_error()
+    vim.diagnostic.jump({ count = -vim.v.count1, severity = vim.diagnostic.severity.ERROR, float = true })
+  end
+
+  M.next_diag, M.prev_diag = RepeatablePairs.track_pair(next_diag, prev_diag)
+  M.next_error, M.prev_error = RepeatablePairs.track_pair(next_error, prev_error)
+
+  return M.next_diag, M.prev_diag, M.next_error, M.prev_error
+end
+
 -- LSP keymaps
+local next_diag, prev_diag, next_error, prev_error = M.setup_diagnostic_jumps()
+vim.keymap.set("n", "]d", next_diag)
+vim.keymap.set("n", "[d", prev_diag)
+vim.keymap.set("n", "]D", next_error)
+vim.keymap.set("n", "[D", prev_error)
+
 vim.keymap.set("n", "<leader>xl", function()
   vim.diagnostic.config({
     virtual_text = not vim.diagnostic.config().virtual_text,
@@ -31,22 +66,6 @@ end, { desc = "Toggle diagnostics underlines" })
 vim.keymap.set("n", "K", function()
   vim.lsp.buf.hover()
 end, { desc = "Lsp Hover Info" })
-
-vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({ count = 1, float = true })
-end)
-
-vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({ count = -1, float = true })
-end)
-
-vim.keymap.set("n", "]D", function()
-  vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR, float = true })
-end)
-
-vim.keymap.set("n", "[D", function()
-  vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR, float = true })
-end)
 
 vim.keymap.set("n", "<space>ca", function()
   vim.lsp.buf.code_action({
