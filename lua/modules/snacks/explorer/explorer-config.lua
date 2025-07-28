@@ -34,6 +34,31 @@ local launch_picker_with_return = function(picker_fn, config)
   end)
 end
 
+M.grep_for_python_imports = function(picker, item)
+  if not item or not item.file then
+    return
+  end
+
+  local filepath = item.file
+
+  local relative_path = vim.fn.fnamemodify(filepath, ":.")
+  local dotted_path = relative_path:gsub("%.py$", ""):gsub("/", ".")
+
+  local patterns = {}
+  table.insert(patterns, "from " .. dotted_path .. " import")
+  table.insert(patterns, "import " .. dotted_path)
+
+  local search_pattern = table.concat(patterns, "|")
+
+  launch_picker_with_return(Snacks.picker.grep, {
+    title = "Python imports for: " .. dotted_path,
+    search = search_pattern,
+    cwd = picker:cwd(),
+    finder = "grep", -- Use the default grep finder
+    live = false,
+  })
+end
+
 M.grep_for_filename = function(picker, item)
   if not item or not item.file then
     return
@@ -133,6 +158,7 @@ return {
     end,
     search_files_in_dir = M.search_files_in_dir,
     focus_right_win = focus_right_win,
+    grep_python_imports = M.grep_for_python_imports,
   },
   win = {
     list = {
@@ -141,6 +167,7 @@ return {
         ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
         ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
+        ["gi"] = { "grep_python_imports", desc = "Grep Python imports" },
         ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<c-j>"] = false,
         ["<c-k>"] = false,
@@ -158,6 +185,7 @@ return {
         ["gF"] = { "grep_full_filename", desc = "Grep fname + .ext" },
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
         ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
+        ["gi"] = { "grep_python_imports", desc = "Grep Python imports" },
         ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<esc>"] = {
           function()
