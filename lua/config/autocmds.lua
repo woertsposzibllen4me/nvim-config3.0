@@ -184,10 +184,17 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Quit certain buffer types with 'q'
+-- Quit certain buffer types with 'q', but not while in nvim visual multi
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "qf", "oil", "checkhealth", "help" },
+  pattern = { "qf", "oil", "checkhealth", "help", "log" },
   callback = function()
-    vim.keymap.set("n", "q", ":q<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "q", function()
+      local vm_active = (vim.g.VM_theme or vim.b.visual_multi)
+      if not vm_active then
+        vim.cmd("q")
+      else
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Plug>(VM-Skip-Region)", true, false, true), "n", false)
+      end
+    end, { buffer = true, silent = true })
   end,
 })
