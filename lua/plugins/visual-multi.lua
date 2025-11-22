@@ -17,13 +17,40 @@ return {
         pcall(vim.keymap.del, "i", "<BS>", { buffer = 0 })
         -- require("nvim-autopairs").force_detach()
         require("nvim-autopairs").disable()
+
+        vim.keymap.set("i", "<Up>", function()
+          vim.notify("test")
+          if require("blink.cmp").is_visible() then
+            require("blink.cmp").select_prev()
+            vim.notify("Selected previous completion item", vim.log.levels.INFO, {
+              title = "Blink CMP",
+            })
+          else
+            return "<Up>"
+          end
+        end, { expr = true, buffer = true })
+
+        vim.keymap.set("i", "<Down>", function()
+          vim.notify("test")
+          if require("blink.cmp").is_visible() then
+            require("blink.cmp").select_next()
+            vim.notify("Selected next completion item", vim.log.levels.INFO, {
+              title = "Blink CMP",
+            })
+          else
+            return "<Down>"
+          end
+        end, { expr = true, buffer = true })
       end,
     })
+
     vim.api.nvim_create_autocmd("User", {
       pattern = "visual_multi_exit",
       callback = function()
         require("nvim-autopairs").force_attach()
         require("nvim-autopairs").enable()
+        pcall(vim.keymap.del, "i", "<Up>", { buffer = true })
+        pcall(vim.keymap.del, "i", "<Down>", { buffer = true })
       end,
     })
 
@@ -31,7 +58,10 @@ return {
     vim.g.VM_maps = {
       ["Goto Next"] = "]v",
       ["Goto Prev"] = "[v",
+      -- Disable some mappings to allow blink.cmp navigation
       ["I Return"] = "<S-CR>",
+      ["I Up"] = "",
+      ["I Down"] = "",
     }
 
     local incsearch_hl = vim.api.nvim_get_hl(0, { name = "IncSearch" })
