@@ -7,5 +7,9 @@ return {
   keys = {
     { "<leader>O", "<cmd>Outline<CR>", desc = "Toggle outline" },
   },
-  opts = {},
+  opts = {
+    keymaps = {
+      close = { "q" },
+    },
+  },
 }
