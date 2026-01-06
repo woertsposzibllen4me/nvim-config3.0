@@ -66,7 +66,9 @@ return {
           "score",
           "sort_text",
         },
-        use_frecency = true,
+        frecency = {
+          enabled = true,
+        },
         use_proximity = true,
         max_typos = function(keyword)
           return math.floor(#keyword / 8)
