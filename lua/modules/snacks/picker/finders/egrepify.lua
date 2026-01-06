@@ -1,18 +1,21 @@
 local M = {}
 local prefixes = {
-  ["#"] = { -- filter for file suffixes
+  -- filter for file suffixes
+  ["#"] = {
     flag = "glob",
     cb = function(input)
       return string.format([[*.{%s}]], input)
     end,
   },
-  [">"] = { -- filter for (partial) folder names
+  -- filter for (partial) folder names
+  [">"] = {
     flag = "glob",
     cb = function(input)
       return string.format([[**/{%s}*/**]], input)
     end,
   },
-  ["&"] = { -- filter for (partial) file names
+  -- filter for (partial) file names
+  ["&"] = {
     flag = "glob",
     cb = function(input)
       return string.format([[*{%s}*]], input)
@@ -176,27 +179,25 @@ M.egrepify = function(opts, ctx)
   local cwd = not absolute and vim.fs.normalize(opts and opts.cwd or uv.cwd() or ".") or nil
   local cmd, args = get_cmd(opts, ctx.filter)
   return require("snacks.picker.source.proc").proc({
-    opts,
-    {
-      notify = false, -- never notify on grep errors, since it's impossible to know if the error is due to the search pattern
-      cmd = cmd,
-      args = args,
-      ---@param item snacks.picker.finder.Item
-      transform = function(item)
-        item.cwd = cwd
-        local file, line, col, text = item.text:match("^(.+):(%d+):(%d+):(.*)$")
-        if not file then
-          if not item.text:match("WARNING") then
-            error("invalid grep output: " .. item.text)
-          end
-          return false
-        else
-          item.line = text
-          item.file = file
-          item.pos = { tonumber(line), tonumber(col) - 1 }
+    notify = false, -- never notify on grep errors, since it's impossible to know if the error is due to the search pattern
+    cmd = cmd,
+    args = args,
+
+    ---@param item snacks.picker.finder.Item
+    transform = function(item)
+      item.cwd = cwd
+      local file, line, col, text = item.text:match("^(.+):(%d+):(%d+):(.*)$")
+      if not file then
+        if not item.text:match("WARNING") then
+          error("invalid grep output: " .. item.text)
         end
-      end,
-    },
+        return false
+      else
+        item.line = text
+        item.file = file
+        item.pos = { tonumber(line), tonumber(col) - 1 }
+      end
+    end,
   }, ctx)
 end
 
