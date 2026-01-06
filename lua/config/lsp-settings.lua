@@ -15,6 +15,23 @@ vim.diagnostic.config({
   },
 })
 
+-- Save after sucessful global renames to avoid issues with unsaved symbol names resetting upon sequential lsp renames
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function()
+    local original_rename_handler = vim.lsp.handlers["textDocument/rename"]
+
+    -- Override handler to save after successful rename
+    vim.lsp.handlers["textDocument/rename"] = function(err, result, ctx, config)
+      original_rename_handler(err, result, ctx, config)
+      if result and (result.changes or result.documentChanges) then
+        vim.defer_fn(function()
+          vim.cmd("silent! wa")
+        end, 10)
+      end
+    end
+  end,
+})
+
 function M.setup_diagnostic_jumps()
   if M.next_diag then
     return M.next_diag, M.prev_diag, M.next_error, M.prev_error
