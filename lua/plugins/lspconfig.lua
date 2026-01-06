@@ -152,6 +152,7 @@ return {
           client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can do it)
           client.server_capabilities.documentHighlightProvider = false
           client.server_capabilities.documentSymbolProvider = false
+          client.server_capabilities.workspaceSymbolProvider = false
           -- if client.server_capabilities.semanticTokensProvider then
           --   client.server_capabilities.semanticTokensProvider = false
           -- end
