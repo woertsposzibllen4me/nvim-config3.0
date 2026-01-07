@@ -208,6 +208,7 @@ return {
         capabilities = capabilities,
         --- @ diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
+          client.server_capabilities.semanticTokensProvider = nil -- buggy conflict with tokyyo-night ??
           vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
         end,
       })
