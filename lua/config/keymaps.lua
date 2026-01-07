@@ -233,3 +233,8 @@ end, { desc = "Open Lazygit in floating terminal" })
 map("n", "<leader>gol", function()
   require("scripts.ux.lazygit-terminal").start_lazygit({ cmd_args = "log" })
 end, { desc = "Open Lazygit logs in floating term" })
+
+-- Open multiple buffers (meant to populate diagnostics over multiple files)
+map("n", "<leader>xo", function()
+  require("scripts.ux.diagnose-multiple-buffers").open_buffers()
+end, { desc = "Open buffers from path", icon = "📂" })
