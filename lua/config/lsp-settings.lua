@@ -122,11 +122,9 @@ M.pylsp = {
   settings = {
     pylsp = {
       plugins = {
-        -- Enabled plugins
         pylint = { enabled = false },
         rope_rename = { enabled = false }, -- doesnt seem to do anything useful lmfao
-        -- Explicitly disabled plugins
-        mccabe = { enabled = false }, -- ruff does it now
+        mccabe = { enabled = false },
         jedi_completion = { enabled = false },
         jedi_hover = { enabled = false },
         jedi_references = { enabled = false },
@@ -143,9 +141,7 @@ M.pylsp = {
     },
   },
   on_attach = function(client, _)
-    -- Enable only specific capabilities
     client.server_capabilities.renameProvider = true
-    -- Disable all other capabilities
     client.server_capabilities.completionProvider = nil
     client.server_capabilities.hoverProvider = nil
     client.server_capabilities.signatureHelpProvider = nil
