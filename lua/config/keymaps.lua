@@ -165,6 +165,8 @@ map("n", "<Leader>uB", function()
   require("scripts.utils.various-utils").capture_current_buffer_info()
 end, { desc = "Capture current buffer name" })
 
+map("n", "<leader>ul", "<cmd>checkhealth vim.lsp<cr>", { desc = "Show LSP info" })
+
 -- Path quick conversion
 map("n", "<leader>\\", function()
   require("scripts.edit.edit-path-separators").convert_path_separators()
