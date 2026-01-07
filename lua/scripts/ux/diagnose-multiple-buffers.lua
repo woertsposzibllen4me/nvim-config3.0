@@ -17,6 +17,10 @@ local function trigger_edit_on_attach(buf)
   })
 end
 
+local function normalize_path(path)
+  return path:gsub("\\", "/")
+end
+
 M.open_buffers = function()
   local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
   local default_dir = git_root or vim.fn.getcwd()
@@ -42,7 +46,7 @@ M.open_buffers = function()
     dir = default_dir .. "/" .. dir
   end
 
-  dir = vim.fn.fnamemodify(dir, ":p")
+  dir = normalize_path(vim.fn.fnamemodify(dir, ":p"))
 
   -- Fix double slashes
   if vim.endswith(dir, "/") then
@@ -53,7 +57,7 @@ M.open_buffers = function()
   local git_files_raw = vim.fn.systemlist(string.format("git -C %s ls-files", vim.fn.shellescape(git_root)))
   local git_files = {}
   for _, file in ipairs(git_files_raw) do
-    local full_path = git_root .. "/" .. file
+    local full_path = normalize_path(git_root .. "/" .. file)
     git_files[full_path] = true
   end
 
@@ -65,7 +69,8 @@ M.open_buffers = function()
   local original_buf = vim.api.nvim_get_current_buf()
 
   for _, file in ipairs(files) do
-    if vim.fn.isdirectory(file) == 0 and git_files[file] then
+    local normalized_file = normalize_path(file)
+    if vim.fn.isdirectory(file) == 0 and git_files[normalized_file] then
       vim.defer_fn(function()
         vim.cmd("badd " .. vim.fn.fnameescape(file))
         vim.cmd("edit " .. vim.fn.fnameescape(file))
