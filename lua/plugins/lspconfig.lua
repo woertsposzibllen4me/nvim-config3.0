@@ -99,7 +99,7 @@ return {
         on_attach = function(client, bufnr)
           -- Disable unused variable dimming
           vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "DiagnosticUnnecessary" })
-          vim.notify("Lua LSP attached", vim.log.levels.INFO)
+          -- vim.notify("Lua LSP attached", vim.log.levels.INFO)
           custom_attach(client, bufnr)
         end,
       })
@@ -209,7 +209,7 @@ return {
         --- @ diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
           client.server_capabilities.semanticTokensProvider = nil -- buggy conflict with tokyyo-night ??
-          vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
+          -- vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
         end,
       })
 
