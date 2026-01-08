@@ -105,10 +105,11 @@ return {
       })
 
       --  #### Start of Python LSPs setup ####
-      local python_std_lib_paths = {
-        "c:/Users/*/appdata/local/programs/python/python*/lib/**",
-        "/usr/lib/python*/**",
-      }
+      -- local python_lib_paths = { -- seems to kinda work out of the box right now, not needed
+      --   "*/python*/lib/**",
+      --   "*/lib/python*/**",
+      --   "*/.venv/Lib**",
+      -- }
       -- We use Pyright for completions, hover, signatures (it's faster at interactive stuff)
       vim.lsp.config("pyright", {
         capabilities = capabilities,
@@ -135,7 +136,7 @@ return {
         settings = {
           basedpyright = {
             analysis = {
-              ignore = python_std_lib_paths,
+              -- ignore = python_lib_paths,
             },
           },
         },
@@ -148,9 +149,6 @@ return {
           client.server_capabilities.documentHighlightProvider = false
           client.server_capabilities.documentSymbolProvider = false
           client.server_capabilities.workspaceSymbolProvider = false
-          -- if client.server_capabilities.semanticTokensProvider then
-          --   client.server_capabilities.semanticTokensProvider = false
-          -- end
           client.server_capabilities.definitionProvider = nil
           client.server_capabilities.declarationProvider = nil
           client.server_capabilities.referencesProvider = nil
@@ -180,7 +178,7 @@ return {
         end,
         init_options = {
           settings = {
-            exclude = python_std_lib_paths,
+            -- exclude = python_lib_paths,
           },
         },
       })
