@@ -166,16 +166,6 @@ return {
       -- Ruff for formatting and diagnostics
       vim.lsp.config("ruff", {
         capabilities = capabilities,
-        on_attach = function(_, bufnr)
-          -- Make a fake edit to trigger diagnostics directly after attaching
-          -- (otherwise wouldn't until a change is made to the buffer)
-          vim.schedule(function()
-            if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modifiable then
-              vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, { "" })
-              vim.bo[bufnr].modified = false
-            end
-          end)
-        end,
         init_options = {
           settings = {
             -- exclude = python_lib_paths,
