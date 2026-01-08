@@ -238,3 +238,6 @@ end, { desc = "Open Lazygit logs in floating term" })
 map("n", "<leader>xo", function()
   require("scripts.ux.diagnose-multiple-buffers").open_buffers()
 end, { desc = "Open buffers from path", icon = "📂" })
+
+-- Remove trailing whitespace
+map("n", "<leader>u<space>", ":%s/\\s\\+$//e<CR>", { desc = "Remove trailing whitespace" })
