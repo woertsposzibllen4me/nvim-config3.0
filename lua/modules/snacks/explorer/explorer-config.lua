@@ -151,21 +151,27 @@ M.grug_far_rename_python_imports = function(picker, item)
     -- Directory/Package renaming - preserve submodules
     local dotted_path = relative_path:gsub("/", ".")
     local parent_path = dotted_path:match("(.+)%.[^%.]+$") or ""
-    local new_dotted_path = parent_path .. ".NEW_NAME"
+    local new_dotted_path = parent_path .. ".NEW_NAME_PLACEHOLDER"
 
     template = string.format(
       [[
 id: replace-submodule-from-import
 language: python
 rule:
-  pattern: from %s.$SUBMODULE import $IMPORTS
-fix: from %s.$SUBMODULE import $IMPORTS
+  pattern: from %s.$SUBMODULES import $IMPORTS
+fix: from %s.$SUBMODULES import $IMPORTS
 ---
 id: replace-submodule-from-import-multiline
 language: python
 rule:
-  pattern: from %s.$SUBMODULE import ($$$IMPORTS)
-fix: from %s.$SUBMODULE import ($$$IMPORTS)
+  pattern: |
+    from %s.$SUBMODULES import (
+        $$$IMPORTS
+    )
+fix: |
+    from %s.$SUBMODULES import (
+        $$$IMPORTS
+    )
 ---
 id: replace-direct-import
 language: python
@@ -177,7 +183,8 @@ id: replace-alias-import
 language: python
 rule:
   pattern: import %s as $ALIAS
-fix: import %s as $ALIAS]],
+fix: import %s as $ALIAS
+]],
       dotted_path,
       new_dotted_path,
       dotted_path,
@@ -191,7 +198,7 @@ fix: import %s as $ALIAS]],
     -- File/Module renaming - rename specific module
     local dotted_path = relative_path:gsub("%.py$", ""):gsub("/", ".")
     local module_path = dotted_path:match("(.+)%.[^%.]+$") or ""
-    local new_dotted_path = module_path .. ".NEW_NAME"
+    local new_dotted_path = module_path .. ".NEW_NAME_PLACEHOLDER"
 
     template = string.format(
       [[
@@ -204,8 +211,14 @@ fix: from %s import $IMPORTS
 id: replace-from-import-multiline
 language: python
 rule:
-  pattern: from %s import ($$$IMPORTS)
-fix: from %s import ($$$IMPORTS)
+  pattern: |
+    from %s import (
+        $$$IMPORTS
+    )
+fix: |
+    from %s import (
+        $$$IMPORTS
+    )
 ---
 id: replace-direct-import
 language: python
@@ -217,7 +230,8 @@ id: replace-alias-import
 language: python
 rule:
   pattern: import %s as $ALIAS
-fix: import %s as $ALIAS]],
+fix: import %s as $ALIAS
+]],
       dotted_path,
       new_dotted_path,
       dotted_path,
