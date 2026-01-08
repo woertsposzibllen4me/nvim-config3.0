@@ -49,7 +49,7 @@ return {
       { "<leader>q", group = "Quit/Session", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
       { "<leader>x", group = "Diagnostics" },
-      { "<leader>w", group = "Windows" },
+      { "<leader>w", group = "Window" },
       { "<leader>D", group = "DadBod UI" },
       { "<leader>d", group = "Debug", icon = { icon = "🪲" } },
       { "<leader>c", group = "QuickFix/Actions" },

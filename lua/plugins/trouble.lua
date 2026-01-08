@@ -3,6 +3,7 @@ return {
   enabled = true,
   cmd = { "Trouble" },
   opts = {
+    focus = true,
     max_items = 400,
     modes = {
       lsp = {
@@ -27,7 +28,7 @@ return {
       end
     end, { desc = "Next Trouble Item" })
 
-    vim.keymap.set("n", "<leader>xf", function()
+    vim.keymap.set("n", "<leader>wx", function()
       if require("trouble").is_open() then
         ---@ diagnostic disable-next-line: missing-parameter
         require("trouble").focus()
