@@ -15,6 +15,7 @@ end
 
 vim.opt.undofile = true
 vim.opt.clipboard = ""
+vim.opt.swapfile = false -- Annoying as fuck so testing temporary disable
 
 vim.opt.wrap = true
 vim.opt.scrolloff = 14
@@ -49,7 +50,7 @@ vim.opt.ignorecase = true
 vim.opt.smartindent = true
 vim.opt.termguicolors = true
 
--- Global settings (tab = 2 spaces)
+-- In general, tab = 2 spaces
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
