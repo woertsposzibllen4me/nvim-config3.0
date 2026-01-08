@@ -122,7 +122,7 @@ M.pylsp = {
   settings = {
     pylsp = {
       plugins = {
-        pylint = { enabled = false },
+        pylint = { enabled = true },
         rope_rename = { enabled = false }, -- doesnt seem to do anything useful lmfao
         mccabe = { enabled = false },
         jedi_completion = { enabled = false },
