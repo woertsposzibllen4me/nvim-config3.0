@@ -130,7 +130,7 @@ return {
         end,
       })
 
-      -- BasedPyright for type checking and diagnostics
+      -- BasedPyright for type checking and diagnostics (the GOAT)
       vim.lsp.config("basedpyright", {
         capabilities = capabilities,
         settings = {
@@ -156,7 +156,7 @@ return {
         end,
       })
 
-      -- pylsp for renaming (rope)
+      -- pylsp for renaming (it's the only one that can rename module symbols properly AFAIK)
       vim.lsp.config("pylsp", {
         capabilities = capabilities,
         on_attach = require("config.lsp-settings").pylsp.on_attach,
@@ -174,7 +174,7 @@ return {
       })
       -- #### End of Python LSPs setup ####
 
-      -- Windows specific LSPs
+      -- #### Start of Windows specific LSPs ####
       -- powershell LSP setup
       vim.lsp.config("powershell_es", {
         cmd = {
@@ -220,6 +220,7 @@ return {
         capabilities = capabilities,
         on_attach = custom_attach,
       })
+      -- #### End of Windows specific LSPs ####
 
       -- Enable/disable LSP servers
       local servers = {
