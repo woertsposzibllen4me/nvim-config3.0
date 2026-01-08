@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       if result and (result.changes or result.documentChanges) then
         vim.defer_fn(function()
           vim.cmd("silent! wa")
-        end, 10)
+        end, 0)
       end
     end
   end,
