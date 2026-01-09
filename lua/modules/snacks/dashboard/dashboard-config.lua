@@ -104,6 +104,19 @@ return {
         end,
       },
       {
+        icon = { "󱙋 ", hl = "constructor" },
+        key = "D",
+        desc = "Open DadBodUi",
+        action = function()
+          local lazy_config = require("lazy.core.config")
+          if not lazy_config.plugins["vim-dadbod-ui"] then
+            vim.notify("DadBodUi is not installed", vim.log.levels.ERROR)
+            return
+          end
+          require("modules.dadbodui.use-newtab").toggle_dbui_tab()
+        end,
+      },
+      {
         icon = { "󱕖 ", hl = "DevIcon3gp" },
         -- icon = "🗑",
         key = "d",
