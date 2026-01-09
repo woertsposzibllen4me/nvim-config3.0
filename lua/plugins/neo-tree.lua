@@ -10,10 +10,9 @@ return {
   lazy = true,
   event = "BufReadPost",
   init = function()
-    if false then
+    if false then -- Using snack explorer as main explorer for now
       _G.MainFileExplorer = "neo-tree"
     end
-    require("scripts.ui.open-file-explorer").open_on_startup()
   end,
 
   config = function()

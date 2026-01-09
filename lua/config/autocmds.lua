@@ -198,3 +198,19 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = true, silent = true })
   end,
 })
+
+-- Automatically open main file explorer on startup
+local explorer_group = vim.api.nvim_create_augroup("ExplorerAutoOpen", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = explorer_group,
+  callback = function()
+    local win_width = vim.api.nvim_win_get_width(0)
+    local ft = vim.bo.filetype
+    if ft ~= "qf" and ft ~= "dbui" and win_width >= 140 then
+      vim.defer_fn(function() -- defer 0 necessary to avoid visual bugs
+        vim.api.nvim_clear_autocmds({ group = explorer_group })
+        require("scripts.ui.open-file-explorer").open_main_explorer()
+      end, 0)
+    end
+  end,
+})
