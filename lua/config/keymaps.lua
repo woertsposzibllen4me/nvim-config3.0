@@ -241,3 +241,7 @@ end, { desc = "Open buffers from path", icon = "📂" })
 
 -- Remove trailing whitespace
 map("n", "<leader>u<space>", ":%s/\\s\\+$//e<CR>", { desc = "Remove trailing whitespace" })
+
+-- dbui test
+vim.keymap.set("n", "g]", "gt", { desc = "Next tab" })
+vim.keymap.set("n", "g[", "gT", { desc = "Previous tab" })
