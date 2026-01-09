@@ -3,6 +3,7 @@ return {
   "gbprod/yanky.nvim",
   enabled = true,
   lazy = true,
+  event = "VeryLazy",
   recommended = true,
   desc = "Better Yank/Paste",
   opts = {
