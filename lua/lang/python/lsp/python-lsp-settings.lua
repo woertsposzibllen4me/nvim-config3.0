@@ -55,13 +55,19 @@ M.pyright = {
   settings = {
     python = {
       analysis = {
-        ignore = { "*" }, -- basedpyright used for diagnostics
+        ignore = { "*" }, -- we use basedpyright for diagnostics
         typeCheckingMode = "off",
+        diagnosticSeverityOverrides = {
+          -- THE ONLY FKN SHIT THAT WORKS TO TURN OFF RETARDED LINTING IN LIBRARIES
+          -- WHENEVER SOME BULLSHIT SHOWS UP ANYWAYS, TURN THAT SHIT OFF HERE.
+          reportMissingImports = "none",
+          reportInvalidTypeForm = "none",
+        },
       },
     },
-    -- pyright = {
-    --   disableTaggedHints = true, -- leaving it in as fallback solution if needed
-    -- },
+    pyright = {
+      disableTaggedHints = true, -- Some cancer obscure shit, keep it disabled.
+    },
   },
   on_attach = function(client, bufnr)
     client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can)
