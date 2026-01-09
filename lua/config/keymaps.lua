@@ -142,7 +142,7 @@ map({ "n", "v" }, "<C-c>", function()
   vim.fn.feedkeys('"+y')
 end, { desc = "Yank to system clipboard" })
 
-map("n", "<leader>ya", 'ggVG"+y', { desc = "Copy file content to system clipboard" })
+map("n", "<leader>ya", 'ggVG"+y<c-o>', { desc = "Copy file content to system clipboard" })
 
 map("n", "<leader>yA", function()
   require("scripts.utils.clipboard-functions").append_file_to_system_register()

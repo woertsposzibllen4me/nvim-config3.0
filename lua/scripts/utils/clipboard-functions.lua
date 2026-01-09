@@ -1,6 +1,7 @@
 local M = {}
 M.append_file_to_system_register = function()
   vim.cmd('normal! ggVG"my')
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-o>", true, false, true), "n", false)
   local current_clipboard = vim.fn.getreg("+")
   local m_register = vim.fn.getreg("m")
   vim.fn.setreg("+", current_clipboard .. m_register)
