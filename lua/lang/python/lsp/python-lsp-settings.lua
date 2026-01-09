@@ -6,6 +6,7 @@ local python_ignore_paths = {
   "/usr/lib/python*/**",
   "/usr/local/lib/python*/**",
 }
+
 M.pylsp = {
   settings = {
     pylsp = {
@@ -51,6 +52,7 @@ M.pylsp = {
     client.server_capabilities.executeCommandProvider = nil
   end,
 }
+
 M.pyright = {
   settings = {
     python = {
@@ -73,6 +75,7 @@ M.pyright = {
     client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can)
   end,
 }
+
 M.basedpyright = {
   settings = {
     basedpyright = {
@@ -95,6 +98,7 @@ M.basedpyright = {
     client.server_capabilities.referencesProvider = nil
   end,
 }
+
 M.ruff = {
   settings = {
     exclude = python_ignore_paths,
