@@ -1,6 +1,3 @@
--- General settings for LSPs / overall diagnostics config
-local M = {}
-
 -- General diagnostic settings
 vim.diagnostic.config({
   virtual_text = true,
@@ -33,7 +30,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- Filter code actions to remove non-context specific ones (auto-fixes, etc.)
-M.code_action_filter = function(action)
+local code_action_filter = function(action)
   local title = action.title:lower()
 
   local ruff_exclusions = {
@@ -52,11 +49,7 @@ M.code_action_filter = function(action)
   return true
 end
 
-function M.setup_diagnostic_jumps()
-  if M.next_diag then
-    return M.next_diag, M.prev_diag, M.next_error, M.prev_error
-  end
-
+local function setup_diagnostic_jumps()
   -- Regular diagnostic jumps
   local function next_diag()
     vim.diagnostic.jump({ count = vim.v.count1, float = true })
@@ -75,14 +68,14 @@ function M.setup_diagnostic_jumps()
     vim.diagnostic.jump({ count = -vim.v.count1, severity = vim.diagnostic.severity.ERROR, float = true })
   end
 
-  M.next_diag, M.prev_diag = RepeatablePairs.track_pair(next_diag, prev_diag)
-  M.next_error, M.prev_error = RepeatablePairs.track_pair(next_error, prev_error)
+  local next_d, prev_d = RepeatablePairs.track_pair(next_diag, prev_diag)
+  local next_e, prev_e = RepeatablePairs.track_pair(next_error, prev_error)
 
-  return M.next_diag, M.prev_diag, M.next_error, M.prev_error
+  return next_d, prev_d, next_e, prev_e
 end
 
 -- LSP keymaps
-local next_diag, prev_diag, next_error, prev_error = M.setup_diagnostic_jumps()
+local next_diag, prev_diag, next_error, prev_error = setup_diagnostic_jumps()
 vim.keymap.set("n", "]d", next_diag)
 vim.keymap.set("n", "[d", prev_diag)
 vim.keymap.set("n", "]D", next_error)
@@ -106,9 +99,9 @@ end, { desc = "Lsp Hover Info" })
 
 vim.keymap.set("n", "<space>ca", function()
   vim.lsp.buf.code_action({
-    filter = M.code_action_filter,
+    filter = code_action_filter,
   })
-end, { desc = "code action (filtered)" })
+end, { desc = "code action (no bloat 🤡)" })
 
 vim.keymap.set("n", "<space>cA", function()
   vim.lsp.buf.code_action()
@@ -116,5 +109,3 @@ end, { desc = "code action (all)" })
 
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol under cursor" })
 vim.keymap.set("n", "go", vim.diagnostic.open_float, { desc = "Open Diagnostic Float" })
-
-return M
