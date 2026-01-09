@@ -5,6 +5,7 @@ local python_ignore_paths = {
   "*/.venv/Lib**",
   "/usr/lib/python*/**",
   "/usr/local/lib/python*/**",
+  "**nvim/mason/packages/**",
 }
 
 M.pylsp = {
