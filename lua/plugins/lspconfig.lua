@@ -104,77 +104,57 @@ return {
         end,
       })
 
-      --  #### Start of Python LSPs setup ####
-      -- local python_lib_paths = { -- seems to kinda work out of the box right now, not needed
-      --   "*/python*/lib/**",
-      --   "*/lib/python*/**",
-      --   "*/.venv/Lib**",
-      -- }
+      -- Python LSP setups
       -- We use Pyright for completions, hover, signatures (it's faster at interactive stuff)
-      vim.lsp.config("pyright", {
-        capabilities = capabilities,
-        settings = {
-          python = {
-            analysis = {
-              ignore = { "*" }, -- we use basedpyright for diagnostics
-              typeCheckingMode = "off",
-            },
-          },
-          -- pyright = {
-          --   disableTaggedHints = true, -- leaving it in as fallback solution if needed
-          -- },
-        },
-        on_attach = function(client, bufnr)
-          client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can do it)
-          custom_attach(client, bufnr)
-        end,
-      })
+      do
+        local config = require("lang.python.lsp.python-lsp-settings").pyright
+        vim.lsp.config("pyright", {
+          capabilities = capabilities,
+          settings = config.settings,
+          on_attach = function(client, bufnr)
+            config.on_attach(client, bufnr)
+            custom_attach(client, bufnr)
+          end,
+        })
+      end
 
       -- BasedPyright for type checking and diagnostics (the GOAT)
-      vim.lsp.config("basedpyright", {
-        capabilities = capabilities,
-        settings = {
-          basedpyright = {
-            analysis = {
-              -- ignore = python_lib_paths,
-            },
-          },
-        },
-        on_attach = function(client, bufnr)
-          -- Disable capabilities that pyright handles better/faster
-          client.server_capabilities.completionProvider = false
-          client.server_capabilities.hoverProvider = false
-          client.server_capabilities.signatureHelpProvider = false -- pyright has better placement for it
-          client.server_capabilities.renameProvider = false -- can't rename module symbols (pylsp can do it)
-          client.server_capabilities.documentHighlightProvider = false
-          client.server_capabilities.documentSymbolProvider = false
-          client.server_capabilities.workspaceSymbolProvider = false
-          client.server_capabilities.definitionProvider = nil
-          client.server_capabilities.declarationProvider = nil
-          client.server_capabilities.referencesProvider = nil
-          custom_attach(client, bufnr)
-        end,
-      })
+      do
+        local config = require("lang.python.lsp.python-lsp-settings").basedpyright
+        vim.lsp.config("basedpyright", {
+          capabilities = capabilities,
+          settings = config.settings,
+          on_attach = function(client, bufnr)
+            config.on_attach(client, bufnr)
+            custom_attach(client, bufnr)
+          end,
+        })
+      end
 
       -- pylsp for renaming (it's the only one that can rename module symbols properly AFAIK)
-      vim.lsp.config("pylsp", {
-        capabilities = capabilities,
-        on_attach = require("config.lsp-settings").pylsp.on_attach,
-        settings = require("config.lsp-settings").pylsp.settings,
-      })
+      do
+        local config = require("lang.python.lsp.python-lsp-settings").pylsp
+        vim.lsp.config("pylsp", {
+          capabilities = capabilities,
+          settings = config.settings,
+          on_attach = function(client, bufnr)
+            config.on_attach(client, bufnr)
+          end,
+        })
+      end
 
       -- Ruff for formatting and diagnostics
-      vim.lsp.config("ruff", {
-        capabilities = capabilities,
-        init_options = {
-          settings = {
-            -- exclude = python_lib_paths,
+      do
+        local config = require("lang.python.lsp.python-lsp-settings").ruff
+        vim.lsp.config("ruff", {
+          capabilities = capabilities,
+          init_options = {
+            settings = config.settings,
           },
-        },
-      })
-      -- #### End of Python LSPs setup ####
+        })
+      end
 
-      -- #### Start of Windows specific LSPs ####
+      -- Windows specific LSPs
       -- powershell LSP setup
       vim.lsp.config("powershell_es", {
         cmd = {
@@ -196,7 +176,7 @@ return {
         capabilities = capabilities,
         --- @ diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
-          client.server_capabilities.semanticTokensProvider = nil -- buggy conflict with tokyyo-night ??
+          client.server_capabilities.semanticTokensProvider = nil -- conflict with tokyyo-night ?
           -- vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
         end,
       })
@@ -220,7 +200,6 @@ return {
         capabilities = capabilities,
         on_attach = custom_attach,
       })
-      -- #### End of Windows specific LSPs ####
 
       -- Enable/disable LSP servers
       local servers = {

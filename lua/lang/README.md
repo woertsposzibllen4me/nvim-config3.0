@@ -1,1 +1,1 @@
-"lang" is for all language specific utilities.
+"lang" is for all language specific stuff.
