@@ -6,10 +6,12 @@ return {
       "kristijanhusak/vim-dadbod-ui",
       "kristijanhusak/vim-dadbod-completion",
     },
-    opts = {
-      db_completion = function()
-        require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
-      end,
+    opts = {},
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
     },
     keys = {
       { "<leader>Du", ":DBUIToggle<CR>", desc = "Toggle database UI" },

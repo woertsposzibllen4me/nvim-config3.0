@@ -31,7 +31,6 @@ return {
         nerd_font_variant = "mono",
       },
 
-      -- Sources configuration matching your nvim-cmp sources
       sources = {
         default = {
           "snippets",
@@ -39,8 +38,16 @@ return {
           "buffer",
           "path",
         },
+        per_filetype = {
+          sql = { "snippets", "dadbod", "buffer" },
+        },
         -- Define custom providers
         providers = {
+          -- vid-dadbord-completion plugin
+          dadbod = {
+            name = "Dadbod",
+            module = "vim_dadbod_completion.blink",
+          },
           -- Custom buffer source for current buffer only (text search)
           current_buffer_search = {
             name = "Current Buffer",
