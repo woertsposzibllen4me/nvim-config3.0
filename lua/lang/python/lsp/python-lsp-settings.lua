@@ -1,11 +1,13 @@
 local M = {}
 local python_ignore_paths = {
-  "*/python*/lib/**",
-  "*/lib/python*/**",
-  "*/.venv/Lib**",
-  "/usr/lib/python*/**",
-  "/usr/local/lib/python*/**",
-  "**nvim/mason/packages/**",
+  -- windows
+  "*:/**/Python*/Lib/**",
+  "*:/**/python*/lib/**",
+  -- linux
+  "**/nvim/mason/packages/**",
+  "**/python*/lib/**",
+  "**/lib/python*/**",
+  "**/.venv/Lib**",
 }
 
 M.pylsp = {

@@ -1,3 +1,11 @@
+local original_deprecate = vim.deprecate
+vim.deprecate = function(name, alternative, version, plugin, backtrace)
+  -- Skip deprecations from lspconfig plugin
+  if plugin == "lspconfig" or plugin == "nvim-lspconfig" then
+    return
+  end
+  original_deprecate(name, alternative, version, plugin, backtrace)
+end
 return {
   {
     "williamboman/mason.nvim",
@@ -35,6 +43,7 @@ return {
       { "ray-x/lsp_signature.nvim", enabled = true },
     },
     config = function()
+      local lspconfig = require("lspconfig")
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       -- Setup completion capabilities
@@ -53,7 +62,7 @@ return {
       local has_navic, navic = pcall(require, "nvim-navic")
       local has_navbuddy, navbuddy = pcall(require, "nvim-navbuddy")
 
-      --- @ diagnostic disable-next-line: unused-local
+      --- @diagnostic disable-next-line: unused-local
       local function custom_attach(client, bufnr)
         if client.server_capabilities.documentSymbolProvider then
           if has_navic then
@@ -119,9 +128,10 @@ return {
       end
 
       -- BasedPyright for type checking and diagnostics (the GOAT)
+      -- Using old lspconfig method cause the new shit don't work.
       do
         local config = require("lang.python.lsp.python-lsp-settings").basedpyright
-        vim.lsp.config("basedpyright", {
+        lspconfig.basedpyright.setup({
           capabilities = capabilities,
           settings = config.settings,
           on_attach = function(client, bufnr)
@@ -174,7 +184,7 @@ return {
           },
         },
         capabilities = capabilities,
-        --- @ diagnostic disable-next-line: unused-local
+        --- @diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
           client.server_capabilities.semanticTokensProvider = nil -- conflict with tokyyo-night ?
           -- vim.notify("PowerShell LSP attached", vim.log.levels.INFO)
@@ -202,10 +212,11 @@ return {
       })
 
       -- Enable/disable LSP servers
+      -- NOTE: basedpyright not in this list because it uses lspconfig.setup()
       local servers = {
         lua_ls = true,
         pyright = true,
-        basedpyright = true,
+        -- basedpyright = true,
         pylsp = true,
         ruff = true,
         ahk2 = OnWindows,
