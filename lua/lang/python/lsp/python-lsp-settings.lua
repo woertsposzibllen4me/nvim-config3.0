@@ -3,11 +3,9 @@ local python_ignore_paths = {
   -- windows (requires the drive : character)
   "*:/**/Python*/Lib/**",
   "*:/**/python*/lib/**",
-  -- linux
-  "**/nvim/mason/packages/**",
-  "**/python*/lib/**",
-  "**/lib/python*/**",
-  "**/.venv/Lib**",
+  -- linux (requires the / at the start)
+  "/**/nvim/mason/packages/**",
+  "/**/lib/python*/**",
 }
 
 M.pylsp = {
