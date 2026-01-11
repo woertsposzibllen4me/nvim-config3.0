@@ -1,6 +1,6 @@
 local M = {}
 local python_ignore_paths = {
-  -- windows
+  -- windows (requires the drive : character)
   "*:/**/Python*/Lib/**",
   "*:/**/python*/lib/**",
   -- linux
