@@ -138,30 +138,47 @@ M.search_files_in_dir = function(picker, item)
 end
 
 M.grug_far_rename_python_imports = function(picker, item)
-  local templates = require("lang.python.astgrep-rules-templates.imports")
+  local py_imports = require("lang.python.astgrep-rules-templates.imports")
   if not item or not item.file then
     return
   end
 
   local is_directory = vim.fn.isdirectory(item.file) == 1
-  local relative_path = vim.fn.fnamemodify(item.file, ":."):gsub("\\", "/")
-  local template
+  local relative_path = vim.fn.fnamemodify(item.file, ":.")
 
-  if is_directory then
-    local dotted_path = relative_path:gsub("/", ".")
-    template = templates.generate_directory_template(dotted_path)
-  else
-    local dotted_path = relative_path:gsub("%.py$", ""):gsub("/", ".")
-    template = templates.generate_file_template(dotted_path)
-  end
+  vim.cmd("tabnew")
+  local empty_buf = vim.api.nvim_get_current_buf()
 
+  -- First search: absolute imports (global scope)
+  local absolute_template = py_imports.generate_absolute_template(relative_path, is_directory)
   require("grug-far").open({
     engine = "astgrep-rules",
     prefills = {
-      rules = template,
+      rules = absolute_template,
       replacement = "",
     },
   })
+
+  -- Second search: relative imports (scoped appropriately)
+  local relative_template, search_dir = py_imports.generate_relative_template_with_scope(relative_path, is_directory)
+
+  if relative_template then
+    require("grug-far").open({
+      engine = "astgrep-rules",
+      prefills = {
+        rules = relative_template,
+        replacement = "",
+        paths = search_dir,
+      },
+    })
+  end
+
+  -- Finally, set up a cozy window layout
+  vim.api.nvim_buf_delete(empty_buf, { force = true })
+  require("scripts.ui.open-file-explorer").open_main_explorer()
+  vim.defer_fn(function()
+    vim.cmd("wincmd =")
+  end, 0)
 end
 
 local focus_right_win = function()
