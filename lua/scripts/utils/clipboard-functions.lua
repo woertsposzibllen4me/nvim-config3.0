@@ -1,14 +1,22 @@
 local M = {}
+M.copy_file_to_system_register = function()
+  local view = vim.fn.winsaveview()
+  vim.cmd('normal! ggVG"+y')
+  vim.fn.winrestview(view)
+end
+
 M.append_file_to_system_register = function()
+  local view = vim.fn.winsaveview()
   vim.cmd('normal! ggVG"my')
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-o>", true, false, true), "n", false)
+  vim.fn.winrestview(view)
+
   local current_clipboard = vim.fn.getreg("+")
   local m_register = vim.fn.getreg("m")
   vim.fn.setreg("+", current_clipboard .. m_register)
   vim.notify("Appended file content to system clipboard", vim.log.levels.INFO, { title = "Clipboard" })
 end
 
-M.append_empty_reg_to_system_reg = function()
+M.append_unnamed_reg_to_system_reg = function()
   local unnamed_register = vim.fn.getreg('"')
   local system_register = vim.fn.getreg("+")
 
