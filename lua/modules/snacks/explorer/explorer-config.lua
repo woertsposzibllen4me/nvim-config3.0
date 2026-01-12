@@ -138,109 +138,21 @@ M.search_files_in_dir = function(picker, item)
 end
 
 M.grug_far_rename_python_imports = function(picker, item)
+  local templates = require("lang.python.astgrep-rules-templates.imports")
   if not item or not item.file then
     return
   end
 
   local is_directory = vim.fn.isdirectory(item.file) == 1
-  local relative_path = vim.fn.fnamemodify(item.file, ":.")
-
+  local relative_path = vim.fn.fnamemodify(item.file, ":."):gsub("\\", "/")
   local template
 
   if is_directory then
-    -- Directory/Package renaming - preserve submodules
     local dotted_path = relative_path:gsub("/", ".")
-    local parent_path = dotted_path:match("(.+)%.[^%.]+$") or ""
-    local new_dotted_path = parent_path .. ".NEW_NAME_PLACEHOLDER"
-
-    template = string.format(
-      [[
-id: replace-submodule-from-import
-language: python
-rule:
-  pattern: from %s.$SUBMODULES import $IMPORTS
-fix: from %s.$SUBMODULES import $IMPORTS
----
-id: replace-submodule-from-import-multiline
-language: python
-rule:
-  pattern: |
-    from %s.$SUBMODULES import (
-        $$$IMPORTS
-    )
-fix: |
-    from %s.$SUBMODULES import (
-        $$$IMPORTS
-    )
----
-id: replace-direct-import
-language: python
-rule:
-  pattern: import %s
-fix: import %s
----
-id: replace-alias-import
-language: python
-rule:
-  pattern: import %s as $ALIAS
-fix: import %s as $ALIAS
-]],
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path
-    )
+    template = templates.generate_directory_template(dotted_path)
   else
-    -- File/Module renaming - rename specific module
     local dotted_path = relative_path:gsub("%.py$", ""):gsub("/", ".")
-    local module_path = dotted_path:match("(.+)%.[^%.]+$") or ""
-    local new_dotted_path = module_path .. ".NEW_NAME_PLACEHOLDER"
-
-    template = string.format(
-      [[
-id: replace-from-import
-language: python
-rule:
-  pattern: from %s import $IMPORTS
-fix: from %s import $IMPORTS
----
-id: replace-from-import-multiline
-language: python
-rule:
-  pattern: |
-    from %s import (
-        $$$IMPORTS
-    )
-fix: |
-    from %s import (
-        $$$IMPORTS
-    )
----
-id: replace-direct-import
-language: python
-rule:
-  pattern: import %s
-fix: import %s
----
-id: replace-alias-import
-language: python
-rule:
-  pattern: import %s as $ALIAS
-fix: import %s as $ALIAS
-]],
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path,
-      dotted_path,
-      new_dotted_path
-    )
+    template = templates.generate_file_template(dotted_path)
   end
 
   require("grug-far").open({
