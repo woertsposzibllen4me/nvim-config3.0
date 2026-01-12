@@ -167,6 +167,13 @@ map("n", "<Leader>uB", function()
   require("scripts.utils.various-utils").capture_current_buffer_info()
 end, { desc = "Capture current buffer name" })
 
+map("n", "<leader>ub", function()
+  local bufinfo = require("scripts.utils.various-utils").capture_current_buffer_info({ silent = true })
+  local bufname, raw_bufname = bufinfo.bufname, bufinfo.raw_bufname
+  vim.notify("path: " .. bufname .. "\n" .. "raw: " .. raw_bufname, vim.log.levels.INFO)
+  vim.fn.setreg("+", bufname .. "\n" .. raw_bufname)
+end, { desc = "Yank current buffer name to clipboard" })
+
 map("n", "<leader>ul", "<cmd>checkhealth vim.lsp<cr>", { desc = "Show LSP info" })
 
 -- Path quick conversion
