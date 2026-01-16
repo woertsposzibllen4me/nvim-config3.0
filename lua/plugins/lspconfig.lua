@@ -128,10 +128,9 @@ return {
       end
 
       -- BasedPyright for type checking and diagnostics (the GOAT)
-      -- Using old lspconfig method cause the new shit don't work.
       do
         local config = require("lang.python.lsp.python-lsp-settings").basedpyright
-        lspconfig.basedpyright.setup({
+        vim.lsp.config("basedpyright", {
           capabilities = capabilities,
           settings = config.settings,
           on_attach = function(client, bufnr)
@@ -216,7 +215,7 @@ return {
       local servers = {
         lua_ls = true,
         pyright = true,
-        -- basedpyright = true,
+        basedpyright = true,
         pylsp = true,
         ruff = true,
         ahk2 = OnWindows,

@@ -7,6 +7,10 @@ local python_ignore_paths = {
   "/**/nvim/mason/packages/**",
   "/**/lib/python*/**",
 }
+local ignore_all_paths = {
+  "*:/*",
+  "/*",
+}
 
 M.pylsp = {
   settings = {
@@ -58,14 +62,8 @@ M.pyright = {
   settings = {
     python = {
       analysis = {
-        ignore = { "*" }, -- we use basedpyright for diagnostics
+        ignore = ignore_all_paths, -- we use basedpyright for diagnostics
         typeCheckingMode = "off",
-        diagnosticSeverityOverrides = {
-          -- THE ONLY FKN SHIT THAT WORKS TO TURN OFF RETARDED LINTING IN LIBRARIES
-          -- WHENEVER SOME BULLSHIT SHOWS UP ANYWAYS, TURN THAT SHIT OFF HERE.
-          reportMissingImports = "none",
-          reportInvalidTypeForm = "none",
-        },
       },
     },
     pyright = {
