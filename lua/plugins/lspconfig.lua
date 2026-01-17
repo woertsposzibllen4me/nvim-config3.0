@@ -43,8 +43,14 @@ return {
       { "ray-x/lsp_signature.nvim", enabled = true },
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+      -- Update lsps after file renames (mainly for import resolutions)
+      capabilities.workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+        },
+      }
 
       -- Setup completion capabilities
       local has_cmp_lsp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
