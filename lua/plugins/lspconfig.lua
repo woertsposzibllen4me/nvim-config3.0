@@ -134,7 +134,6 @@ return {
           on_attach = function(client, bufnr)
             -- TODO: remove totally later ? (switching over to basedpyright.disableLanguageServices)
             -- config.on_attach(client, bufnr)
-            custom_attach(client, bufnr)
           end,
         })
       end

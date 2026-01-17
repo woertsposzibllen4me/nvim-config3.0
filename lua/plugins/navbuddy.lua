@@ -6,4 +6,7 @@ return {
     "SmiteshP/nvim-navic",
     "MunifTanjim/nui.nvim",
   },
+  keys = {
+    { "<leader>N", "<cmd>Navbuddy<cr>", desc = "Navbuddy" },
+  },
 }
