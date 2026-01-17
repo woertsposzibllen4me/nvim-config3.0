@@ -1,11 +1,3 @@
-local original_deprecate = vim.deprecate
-vim.deprecate = function(name, alternative, version, plugin, backtrace)
-  -- Skip deprecations from lspconfig plugin
-  if plugin == "lspconfig" or plugin == "nvim-lspconfig" then
-    return
-  end
-  original_deprecate(name, alternative, version, plugin, backtrace)
-end
 return {
   {
     "williamboman/mason.nvim",
@@ -218,7 +210,6 @@ return {
       })
 
       -- Enable/disable LSP servers
-      -- NOTE: basedpyright not in this list because it uses lspconfig.setup()
       local servers = {
         lua_ls = true,
         pyright = true,
