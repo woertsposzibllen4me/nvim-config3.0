@@ -132,8 +132,7 @@ return {
           capabilities = capabilities,
           settings = config.settings,
           on_attach = function(client, bufnr)
-            -- TODO: remove totally later ? (switching over to basedpyright.disableLanguageServices)
-            -- config.on_attach(client, bufnr)
+            config.on_attach(client, bufnr)
           end,
         })
       end

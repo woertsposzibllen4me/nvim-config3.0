@@ -78,7 +78,6 @@ M.pyright = {
 M.basedpyright = {
   settings = {
     basedpyright = {
-      disableLanguageServices = true, -- NOTE:: testing new builtin to use only as diagnostics provider
       analysis = {
         ignore = python_ignore_paths,
       },
