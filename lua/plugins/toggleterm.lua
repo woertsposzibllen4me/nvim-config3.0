@@ -3,8 +3,7 @@ return {
   enabled = true,
   version = "*",
   config = function()
-    local original_height = 10 -- Store the original height
-
+    local original_height = 10
     local Terminal = require("toggleterm.terminal").Terminal
     local next_terminal_id = 1
 
@@ -14,13 +13,11 @@ return {
       vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
       vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
       vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
-
       -- Resize mappings
       vim.keymap.set("t", "<C-Up>", [[<Cmd>resize +2<CR>]], opts)
       vim.keymap.set("t", "<C-Down>", [[<Cmd>resize -2<CR>]], opts)
       vim.keymap.set("t", "<C-Left>", [[<Cmd>vertical resize -2<CR>]], opts)
       vim.keymap.set("t", "<C-Right>", [[<Cmd>vertical resize +2<CR>]], opts)
-
       -- Hide terminal mapping
       vim.api.nvim_set_keymap("t", "<C-t>", [[<Cmd>ToggleTermToggleAll<CR>]], { noremap = true, silent = true })
     end
@@ -48,6 +45,16 @@ return {
       new_term:open()
     end
 
+    -- Function to toggle terminals or create one if none exist
+    function Toggle_or_create_terminal()
+      local terms = require("toggleterm.terminal").get_all()
+      if #terms == 0 then
+        Open_new_terminal()
+      else
+        vim.cmd("ToggleTermToggleAll")
+      end
+    end
+
     -- Set up keybindings for multi-terminal management
     local wk = require("which-key")
     wk.add({
@@ -56,10 +63,9 @@ return {
       desc = "Open new toggleterm",
       icon = { icon = "", color = "blue" },
     })
-
     wk.add({
       "<leader>tt",
-      "<Cmd>ToggleTermToggleAll<CR>",
+      "<Cmd>lua Toggle_or_create_terminal()<CR>",
       desc = "Toggle terminals",
       icon = { icon = "", color = "blue" },
     })
