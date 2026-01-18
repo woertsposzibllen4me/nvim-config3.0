@@ -138,7 +138,7 @@ M.search_files_in_dir = function(picker, item)
 end
 
 M.grug_far_rename_python_imports = function(picker, item)
-  local py_imports = require("lang.python.astgrep-rules-templates.imports")
+  local py_imports = require("lang.python.astgrep-rules-templates.module-imports")
   if not item or not item.file then
     return
   end
