@@ -254,3 +254,17 @@ map("n", "<leader>u<space>", "<cmd>keeppatterns %s/\\s\\+$//e<CR>", { desc = "Re
 -- dbui test
 vim.keymap.set("n", "g]", "gt", { desc = "Next tab" })
 vim.keymap.set("n", "g[", "gT", { desc = "Previous tab" })
+
+-- Generate symbol refactor template for symbol under cursor
+map("n", "<leader>rs", function()
+  local template = require("lang.python.astgrep-rules-templates.symbol-imports").generate_template_for_symbol()
+  if template then
+    require("grug-far").open({
+      engine = "astgrep-rules",
+      prefills = {
+        rules = template,
+        replacement = "",
+      },
+    })
+  end
+end, { desc = "Generate symbol refactor template" })
