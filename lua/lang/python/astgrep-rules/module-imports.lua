@@ -1,5 +1,41 @@
 local M = {}
 
+M.refactor_python_imports = function(relative_path, is_directory)
+  vim.cmd("tabnew")
+  local empty_buf = vim.api.nvim_get_current_buf()
+
+  -- First search: absolute imports (global scope)
+  local absolute_template = M.generate_absolute_template(relative_path, is_directory)
+  require("grug-far").open({
+    engine = "astgrep-rules",
+    prefills = {
+      rules = absolute_template,
+      replacement = "",
+    },
+  })
+
+  -- Second search: relative imports (scoped appropriately)
+  local relative_template, search_dir = M.generate_relative_template_with_scope(relative_path, is_directory)
+
+  if relative_template then
+    require("grug-far").open({
+      engine = "astgrep-rules",
+      prefills = {
+        rules = relative_template,
+        replacement = "",
+        paths = search_dir,
+      },
+    })
+  end
+
+  -- Finally, set up a cozy window layout
+  vim.api.nvim_buf_delete(empty_buf, { force = true })
+  require("scripts.ui.open-file-explorer").open_main_explorer()
+  vim.defer_fn(function()
+    vim.cmd("wincmd =")
+  end, 0)
+end
+
 -- Normalize path separators to forward slashes
 local function normalize_separators(path)
   return path:gsub("\\", "/")
@@ -23,93 +59,79 @@ end
 function M.generate_absolute_template(relative_path, is_directory)
   local dotted_path = normalize_path(relative_path, is_directory)
   local parent_path = dotted_path:match("(.+)%.[^%.]+$") or ""
-  local new_dotted_path = parent_path .. ".NEW_NAME_PLACEHOLDER"
-
+  local replacement_path = parent_path .. ".GRUGRENAME"
   if is_directory then
-    -- Directory template with submodules
+    local package_template = require("lang.python.astgrep-rules.templates.package")
+    -- Directory template with explicit exclusions to avoid duplicates
     return string.format(
-      [[
-id: replace-submodule-from-import
-language: python
-rule:
-  pattern: from %s.$SUBMODULES import $IMPORTS
-fix: from %s.$SUBMODULES import $IMPORTS
----
-id: replace-submodule-from-import-multiline
-language: python
-rule:
-  pattern: |
-    from %s.$SUBMODULES import (
-        $$$IMPORTS
-    )
-fix: |
-    from %s.$SUBMODULES import (
-        $$$IMPORTS
-    )
----
-id: replace-direct-import
-language: python
-rule:
-  pattern: import %s
-fix: import %s
----
-id: replace-alias-import
-language: python
-rule:
-  pattern: import %s as $ALIAS
-fix: import %s as $ALIAS
-]],
+      package_template,
+      -- id: package (pattern, not, fix)
       dotted_path,
-      new_dotted_path,
       dotted_path,
-      new_dotted_path,
+      replacement_path,
+      -- id: package-as (pattern, not, fix)
       dotted_path,
-      new_dotted_path,
       dotted_path,
-      new_dotted_path
+      replacement_path,
+      -- id: from-package (pattern, not, fix)
+      dotted_path,
+      dotted_path,
+      replacement_path,
+      -- id: from-package-as (pattern, not, fix)
+      dotted_path,
+      dotted_path,
+      replacement_path,
+      -- id: submodules (pattern, fix)
+      dotted_path,
+      replacement_path,
+      -- id: submodules-as (pattern, fix)
+      dotted_path,
+      replacement_path,
+      -- id: from-submodules (pattern, fix)
+      dotted_path,
+      replacement_path,
+      -- id: from-submodules-as (pattern, fix)
+      dotted_path,
+      replacement_path
     )
   else
+    local module_template = require("lang.python.astgrep-rules.templates.module")
+    local module_name = dotted_path:match("%.([^%.]+)$") or dotted_path
     -- File template
     return string.format(
-      [[
-id: replace-from-import
-language: python
-rule:
-  pattern: from %s import $IMPORTS
-fix: from %s import $IMPORTS
----
-id: replace-from-import-multiline
-language: python
-rule:
-  pattern: |
-    from %s import (
-        $$$IMPORTS
-    )
-fix: |
-    from %s import (
-        $$$IMPORTS
-    )
----
-id: replace-direct-import
-language: python
-rule:
-  pattern: import %s
-fix: import %s
----
-id: replace-alias-import
-language: python
-rule:
-  pattern: import %s as $ALIAS
-fix: import %s as $ALIAS
-]],
+      module_template,
+      -- id: module (pattern, not, fix)
       dotted_path,
-      new_dotted_path,
       dotted_path,
-      new_dotted_path,
+      replacement_path,
+      -- id: module-as (pattern, not, fix)
       dotted_path,
-      new_dotted_path,
       dotted_path,
-      new_dotted_path
+      replacement_path,
+      -- id: from-module (pattern, not, fix)
+      dotted_path,
+      dotted_path,
+      replacement_path,
+      -- id: from-module-as (pattern, not, fix)
+      dotted_path,
+      dotted_path,
+      replacement_path,
+      -- id: parent-import (pattern, fix)
+      parent_path,
+      module_name,
+      parent_path,
+      -- id: parent-import-as (pattern, fix)
+      parent_path,
+      module_name,
+      parent_path,
+      -- id: parent-import-as-parentheses (pattern, fix)
+      parent_path,
+      module_name,
+      parent_path,
+      -- id: parent-import-multiple (pattern, fix)
+      parent_path,
+      module_name,
+      parent_path
     )
   end
 end

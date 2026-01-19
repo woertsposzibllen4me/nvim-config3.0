@@ -137,48 +137,15 @@ M.search_files_in_dir = function(picker, item)
   })
 end
 
-M.grug_far_rename_python_imports = function(picker, item)
-  local py_imports = require("lang.python.astgrep-rules-templates.module-imports")
+M.grug_far_refactor_imports = function(picker, item)
   if not item or not item.file then
     return
   end
 
   local is_directory = vim.fn.isdirectory(item.file) == 1
   local relative_path = vim.fn.fnamemodify(item.file, ":.")
-
-  vim.cmd("tabnew")
-  local empty_buf = vim.api.nvim_get_current_buf()
-
-  -- First search: absolute imports (global scope)
-  local absolute_template = py_imports.generate_absolute_template(relative_path, is_directory)
-  require("grug-far").open({
-    engine = "astgrep-rules",
-    prefills = {
-      rules = absolute_template,
-      replacement = "",
-    },
-  })
-
-  -- Second search: relative imports (scoped appropriately)
-  local relative_template, search_dir = py_imports.generate_relative_template_with_scope(relative_path, is_directory)
-
-  if relative_template then
-    require("grug-far").open({
-      engine = "astgrep-rules",
-      prefills = {
-        rules = relative_template,
-        replacement = "",
-        paths = search_dir,
-      },
-    })
-  end
-
-  -- Finally, set up a cozy window layout
-  vim.api.nvim_buf_delete(empty_buf, { force = true })
-  require("scripts.ui.open-file-explorer").open_main_explorer()
-  vim.defer_fn(function()
-    vim.cmd("wincmd =")
-  end, 0)
+  local grug_far_astgrep = require("lang.python.astgrep-rules.module-imports")
+  grug_far_astgrep.refactor_python_imports(relative_path, is_directory)
 end
 
 local focus_right_win = function()
@@ -203,7 +170,7 @@ return {
     search_files_in_dir = M.search_files_in_dir,
     focus_right_win = focus_right_win,
     grep_python_imports = M.grep_for_python_imports,
-    grug_far_rename_python_imports = M.grug_far_rename_python_imports,
+    grug_far_refactor_python_imports = M.grug_far_refactor_imports,
   },
   win = {
     list = {
@@ -213,7 +180,7 @@ return {
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
         ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
         ["gi"] = { "grep_python_imports", desc = "Grep Python imports" },
-        ["gr"] = { "grug_far_rename_python_imports", desc = "Rename python imports" },
+        ["gr"] = { "grug_far_refactor_python_imports", desc = "Grugfar python imports" },
         ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<c-j>"] = false,
         ["<c-k>"] = false,
@@ -232,7 +199,7 @@ return {
         ["gd"] = { "grep_in_dir", desc = "Grep in dir" },
         ["gD"] = { "grep_in_dir_default", desc = "Grep in dir (default)" },
         ["gi"] = { "grep_python_imports", desc = "Grep Python imports" },
-        ["gr"] = { "grug_far_rename_python_imports", desc = "Rename python imports" },
+        ["gr"] = { "grug_far_refactor_python_imports", desc = "Grugfar python imports" },
         ["fd"] = { "search_files_in_dir", desc = "Search files in dir" },
         ["<esc>"] = {
           function()

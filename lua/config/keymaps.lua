@@ -259,7 +259,7 @@ vim.keymap.set("n", "g[", "gT", { desc = "Previous tab" })
 
 -- Generate symbol refactor template for symbol under cursor
 map("n", "<leader>rs", function()
-  local template = require("lang.python.astgrep-rules-templates.symbol-imports").generate_template_for_symbol()
+  local template = require("lang.python.astgrep-rules.symbol-imports").generate_template_for_symbol()
   if template then
     require("grug-far").open({
       engine = "astgrep-rules",
