@@ -54,14 +54,5 @@ return {
     grug.setup({
       headerMaxWidth = 80,
     })
-
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "grug-far",
-      callback = function()
-        vim.keymap.set("n", "q", function()
-          vim.cmd("q")
-        end, { buffer = true, silent = true })
-      end,
-    })
   end,
 }
