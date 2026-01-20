@@ -142,8 +142,10 @@ local grug_far_refactor_imports = function(picker, item)
 
   local is_directory = vim.fn.isdirectory(item.file) == 1
   local relative_path = vim.fn.fnamemodify(item.file, ":.")
-  local grug_far_astgrep = require("lang.python.astgrep-rules.refactor-imports")
-  grug_far_astgrep.refactor_python_imports(relative_path, is_directory)
+  local grug_far_astgrep = require("lang.python.grugfar-refactor.imports.init")
+  --TODO:WIP
+
+  grug_far_astgrep.refactor_python_imports_absolute_elect(relative_path, is_directory)
 end
 
 local focus_right_win = function()
