@@ -132,7 +132,8 @@ return {
           capabilities = capabilities,
           settings = config.settings,
           on_attach = function(client, bufnr)
-            config.on_attach(client, bufnr)
+            -- config.on_attach(client, bufnr)
+            custom_attach(client, bufnr)
           end,
         })
       end
@@ -210,7 +211,7 @@ return {
       -- Enable/disable LSP servers
       local servers = {
         lua_ls = true,
-        pyright = true,
+        pyright = false,
         basedpyright = true,
         pylsp = true,
         ruff = true,
