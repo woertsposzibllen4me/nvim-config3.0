@@ -2,7 +2,6 @@ return {
   "lewis6991/gitsigns.nvim",
   enabled = true,
   event = { "BufReadPost", "BufNewFile" },
-  -- commit = "3c76f7fabac723aa682365ef782f88a83ccdb4ac", -- was locked for Windows issues  TODO: Test for a while if needs revert
 
   opts = {
     -- Define signs for unstaged changes
