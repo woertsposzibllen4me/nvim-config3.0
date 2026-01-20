@@ -52,7 +52,7 @@ return {
         {
           function()
             return navic.get_location() .. " " -- White space string to make winbar always appear on
-            -- main window
+            -- main window and avoid jitter due to it appearing/disappearing
           end,
           cond = function()
             return navic.is_available()
