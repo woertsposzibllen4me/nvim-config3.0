@@ -36,7 +36,7 @@ return {
             local win_config = vim.api.nvim_win_get_config(0)
             if win_config.zindex == 33 then -- Snack explorer is on same zindex as main window
               vim.cmd("wincmd l")
-              Logger.info("triggered wincmd l in snack explorer list", "smart-splits")
+              Logger.debug("triggered wincmd l in snack explorer list", "smart-splits")
             end
           else
             require("smart-splits").move_cursor_right()
