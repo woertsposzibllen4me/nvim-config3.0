@@ -144,7 +144,7 @@ M.grug_far_refactor_imports = function(picker, item)
 
   local is_directory = vim.fn.isdirectory(item.file) == 1
   local relative_path = vim.fn.fnamemodify(item.file, ":.")
-  local grug_far_astgrep = require("lang.python.astgrep-rules.module-imports")
+  local grug_far_astgrep = require("lang.python.astgrep-rules.refactor-imports")
   grug_far_astgrep.refactor_python_imports(relative_path, is_directory)
 end
 
