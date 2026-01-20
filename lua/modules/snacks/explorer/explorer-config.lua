@@ -1,5 +1,3 @@
-local M = {}
-
 local create_return_action = function(current_win, cursor_pos)
   return function(picker)
     picker:close()
@@ -34,7 +32,7 @@ local launch_picker_with_return = function(picker_fn, config)
   end)
 end
 
-M.grep_for_python_imports = function(picker, item)
+local grep_for_python_imports = function(picker, item)
   if not item or not item.file then
     return
   end
@@ -59,7 +57,7 @@ M.grep_for_python_imports = function(picker, item)
   })
 end
 
-M.grep_for_filename = function(picker, item)
+local grep_for_filename = function(picker, item)
   if not item or not item.file then
     return
   end
@@ -73,7 +71,7 @@ M.grep_for_filename = function(picker, item)
   })
 end
 
-M.grep_for_filename_with_ext = function(picker, item)
+local grep_for_filename_with_ext = function(picker, item)
   if not item or not item.file then
     return
   end
@@ -86,7 +84,7 @@ M.grep_for_filename_with_ext = function(picker, item)
   })
 end
 
-M.grep_in_dir = function(picker, item, opts)
+local grep_in_dir = function(picker, item, opts)
   if not item or not item.file then
     return
   end
@@ -118,7 +116,7 @@ M.grep_in_dir = function(picker, item, opts)
   launch_picker_with_return(Snacks.picker.grep, config)
 end
 
-M.search_files_in_dir = function(picker, item)
+local search_files_in_dir = function(picker, item)
   if not item or not item.file then
     return
   end
@@ -137,7 +135,7 @@ M.search_files_in_dir = function(picker, item)
   })
 end
 
-M.grug_far_refactor_imports = function(picker, item)
+local grug_far_refactor_imports = function(picker, item)
   if not item or not item.file then
     return
   end
@@ -161,16 +159,16 @@ end
 
 return {
   actions = {
-    grep_filename = M.grep_for_filename,
-    grep_full_filename = M.grep_for_filename_with_ext,
-    grep_in_dir = M.grep_in_dir,
+    grep_filename = grep_for_filename,
+    grep_full_filename = grep_for_filename_with_ext,
+    grep_in_dir = grep_in_dir,
     grep_in_dir_default = function(picker, item)
-      return M.grep_in_dir(picker, item, { default_grep = true })
+      return grep_in_dir(picker, item, { default_grep = true })
     end,
-    search_files_in_dir = M.search_files_in_dir,
+    search_files_in_dir = search_files_in_dir,
     focus_right_win = focus_right_win,
-    grep_python_imports = M.grep_for_python_imports,
-    grug_far_refactor_python_imports = M.grug_far_refactor_imports,
+    grep_python_imports = grep_for_python_imports,
+    grug_far_refactor_python_imports = grug_far_refactor_imports,
   },
   win = {
     list = {
