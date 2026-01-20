@@ -1,4 +1,4 @@
--- this doesnt work at all right now xd
+-- NOTE: this doesnt work at all right now xd
 local ts_utils = require("nvim-treesitter.ts_utils")
 
 local function is_method_call(node)
