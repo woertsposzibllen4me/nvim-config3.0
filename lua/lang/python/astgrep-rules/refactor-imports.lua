@@ -29,32 +29,32 @@ local function generate_absolute_template(relative_path, is_directory)
     -- Directory template with explicit exclusions to avoid duplicates
     return string.format(
       package_template,
-      -- id: package (pattern, not, fix)
+      -- id: package
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: package-as (pattern, not, fix)
+      -- id: package-as
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: from-package (pattern, not, fix)
+      -- id: from-package
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: from-package-as (pattern, not, fix)
+      -- id: from-package-as
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: submodules (pattern, fix)
+      -- id: submodules
       dotted_path,
       replacement_path,
-      -- id: submodules-as (pattern, fix)
+      -- id: submodules-as
       dotted_path,
       replacement_path,
-      -- id: from-submodules (pattern, fix)
+      -- id: from-submodules
       dotted_path,
       replacement_path,
-      -- id: from-submodules-as (pattern, fix)
+      -- id: from-submodules-as
       dotted_path,
       replacement_path
     )
@@ -64,35 +64,35 @@ local function generate_absolute_template(relative_path, is_directory)
     -- File template
     return string.format(
       module_template,
-      -- id: module (pattern, not, fix)
+      -- id: module
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: module-as (pattern, not, fix)
+      -- id: module-as
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: from-module (pattern, not, fix)
+      -- id: from-module
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: from-module-as (pattern, not, fix)
+      -- id: from-module-as
       dotted_path,
       dotted_path,
       replacement_path,
-      -- id: parent-import (pattern, fix)
+      -- id: parent-import
       parent_path,
       module_name,
       parent_path,
-      -- id: parent-import-as (pattern, fix)
+      -- id: parent-import-as
       parent_path,
       module_name,
       parent_path,
-      -- id: parent-import-as-parentheses (pattern, fix)
+      -- id: parent-import-as-parentheses
       parent_path,
       module_name,
       parent_path,
-      -- id: parent-import-multiple (pattern, fix)
+      -- id: parent-import-multiple
       parent_path,
       module_name,
       parent_path
