@@ -1,41 +1,5 @@
 local M = {}
 
-M.refactor_python_imports = function(relative_path, is_directory)
-  vim.cmd("tabnew")
-  local empty_buf = vim.api.nvim_get_current_buf()
-
-  -- First search: absolute imports (global scope)
-  local absolute_template = M.generate_absolute_template(relative_path, is_directory)
-  require("grug-far").open({
-    engine = "astgrep-rules",
-    prefills = {
-      rules = absolute_template,
-      replacement = "",
-    },
-  })
-
-  -- Second search: relative imports (scoped appropriately)
-  local relative_template, search_dir = M.generate_relative_template_with_scope(relative_path, is_directory)
-
-  if relative_template then
-    require("grug-far").open({
-      engine = "astgrep-rules",
-      prefills = {
-        rules = relative_template,
-        replacement = "",
-        paths = search_dir,
-      },
-    })
-  end
-
-  -- Finally, set up a cozy window layout
-  vim.api.nvim_buf_delete(empty_buf, { force = true })
-  require("scripts.ui.open-file-explorer").open_main_explorer()
-  vim.defer_fn(function()
-    vim.cmd("wincmd =")
-  end, 0)
-end
-
 -- Normalize path separators to forward slashes
 local function normalize_separators(path)
   return path:gsub("\\", "/")
@@ -56,7 +20,7 @@ local function normalize_path(relative_path, is_directory)
   end
 end
 
-function M.generate_absolute_template(relative_path, is_directory)
+local function generate_absolute_template(relative_path, is_directory)
   local dotted_path = normalize_path(relative_path, is_directory)
   local parent_path = dotted_path:match("(.+)%.[^%.]+$") or ""
   local replacement_path = parent_path .. ".GRUGRENAME"
@@ -136,33 +100,14 @@ function M.generate_absolute_template(relative_path, is_directory)
   end
 end
 
-function M.generate_relative_template_with_scope(relative_path, is_directory)
+local function generate_relative_template_with_scope(relative_path, is_directory)
   if is_directory then
-    local dir_name = vim.fn.fnamemodify(relative_path, ":t") -- e.g., "core"
-    local parent_dir = vim.fn.fnamemodify(relative_path, ":h") -- e.g., "src/apps/shopwatcher"
-
+    local dir_name = vim.fn.fnamemodify(relative_path, ":t")
+    local parent_dir = vim.fn.fnamemodify(relative_path, ":h")
+    local relative_package_template = require("lang.python.astgrep-rules.templates.rel-package")
     return string.format(
-      [[
-id: replace-relative-dir-submodule
-language: python
-rule:
-  pattern: from .%s.$SUBMODULES import $IMPORTS
-fix: from .NEW_NAME_PLACEHOLDER.$SUBMODULES import $IMPORTS
----
-id: replace-relative-dir-submodule-multiline
-language: python
-rule:
-  pattern: |
-    from .%s.$SUBMODULES import (
-        $$$IMPORTS
-    )
-fix: |
-    from .NEW_NAME_PLACEHOLDER.$SUBMODULES import (
-        $$$IMPORTS
-    )
-]],
-      dir_name,
-      dir_name,
+      relative_package_template,
+      -- id: rel-from-submodule
       dir_name,
       dir_name
     ),
@@ -171,86 +116,68 @@ fix: |
     local dotted_path = normalize_path(relative_path, false)
     local module_name = dotted_path:match("%.([^%.]+)$") or dotted_path
     local parent_module = dotted_path:match("%.([^%.]+)%.[^%.]+$")
-
     local parent_dir = vim.fn.fnamemodify(relative_path, ":h")
     local grandparent_dir = vim.fn.fnamemodify(parent_dir, ":h")
 
     if parent_module then
+      local relative_module_template = require("lang.python.astgrep-rules.templates.rel-module")
       return string.format(
-        [[
-id: replace-relative-from-parent
-language: python
-rule:
-  pattern: from .%s.%s import $IMPORTS
-fix: from .%s.NEW_NAME_PLACEHOLDER import $IMPORTS
----
-id: replace-relative-from-parent-multiline
-language: python
-rule:
-  pattern: |
-    from .%s.%s import (
-        $$$IMPORTS
-    )
-fix: |
-    from .%s.NEW_NAME_PLACEHOLDER import (
-        $$$IMPORTS
-    )
----
-id: replace-relative-direct-sibling
-language: python
-rule:
-  pattern: from .%s import $IMPORTS
-fix: from .NEW_NAME_PLACEHOLDER import $IMPORTS
----
-id: replace-relative-direct-sibling-multiline
-language: python
-rule:
-  pattern: |
-    from .%s import (
-        $$$IMPORTS
-    )
-fix: |
-    from .NEW_NAME_PLACEHOLDER import (
-        $$$IMPORTS
-    )
-]],
+        relative_module_template,
+        -- id: rel-from
+        module_name,
+        -- id: rel-from-parent
         parent_module,
         module_name,
-        parent_module,
-        parent_module,
-        module_name,
-        parent_module,
-        module_name,
-        module_name
+        parent_module
       ),
         grandparent_dir
     else
+      local relative_module_noparent_template = require("lang.python.astgrep-rules.templates.rel-module-noparent")
       return string.format(
-        [[
-id: replace-relative-direct-sibling
-language: python
-rule:
-  pattern: from .%s import $IMPORTS
-fix: from .NEW_NAME_PLACEHOLDER import $IMPORTS
----
-id: replace-relative-direct-sibling-multiline
-language: python
-rule:
-  pattern: |
-    from .%s import (
-        $$$IMPORTS
-    )
-fix: |
-    from .NEW_NAME_PLACEHOLDER import (
-        $$$IMPORTS
-    )
-]],
+        relative_module_noparent_template,
+        -- id: rel-from
         module_name,
         module_name
       ),
         parent_dir
     end
   end
+end
+
+M.refactor_python_imports = function(relative_path, is_directory)
+  vim.cmd("tabnew")
+  local empty_buf = vim.api.nvim_get_current_buf()
+
+  -- First search: absolute imports (global scope)
+  local absolute_template = generate_absolute_template(relative_path, is_directory)
+  require("grug-far").open({
+    engine = "astgrep-rules",
+    prefills = {
+      rules = absolute_template,
+      replacement = "",
+    },
+  })
+
+  -- Second search: relative imports (scoped appropriately)
+  local relative_template, search_dir = generate_relative_template_with_scope(relative_path, is_directory)
+
+  if relative_template then
+    require("grug-far").open({
+      engine = "astgrep-rules",
+      prefills = {
+        rules = relative_template,
+        replacement = "",
+        paths = search_dir,
+      },
+    })
+  end
+
+  -- Finally, set up a cozy window layout
+  vim.api.nvim_buf_delete(empty_buf, { force = true })
+  require("scripts.ui.open-file-explorer").open_main_explorer()
+  vim.defer_fn(function()
+    vim.cmd("wincmd =")
+  end, 0)
 end
 
 return M
