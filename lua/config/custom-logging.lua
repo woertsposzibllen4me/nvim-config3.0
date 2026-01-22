@@ -28,16 +28,26 @@ local function _rotate_if_needed()
   end
 end
 
+M.open_log_file = function()
+  local logfile = M.get_log_file()
+  if not logfile or logfile == "" then
+    vim.notify("Logger has no log file configured", vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd("tabnew " .. vim.fn.fnameescape(logfile))
+end
+
 function M.init()
   local log_dir = vim.fn.fnamemodify(M.config.file, ":h")
   vim.fn.mkdir(log_dir, "p")
-  _rotate_if_needed()
 end
 
 ---@param message string
 ---@param level? string
 ---@param context? string
 function M.log(message, level, context)
+  _rotate_if_needed()
   level = level or "INFO"
   local level_num = M.config.levels[level] or M.config.levels.INFO
   if level_num < M.config.min_level then
@@ -83,8 +93,11 @@ end
 
 ---@param level string
 function M.set_level(level)
-  if M.config.levels[level] then
-    M.config.min_level = M.config.levels[level]
+  local lvl = M.config.levels[level]
+  if lvl then
+    M.config.min_level = lvl
+  else
+    vim.notify("Logger: invalid level " .. tostring(level), vim.log.levels.WARN)
   end
 end
 

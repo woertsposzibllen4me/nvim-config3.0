@@ -41,7 +41,7 @@ return {
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
       { "<leader>l", group = "Line diffs", icon = { icon = "󰈙", color = "blue" } },
-      { "<leader>b", group = "Bring Open..", icon = { icon = "", color = "yellow" } },
+      { "<leader>o", group = "Open..", icon = { icon = "", color = "yellow" } },
       { "<leader>q", group = "Quit/Session", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
       { "<leader>x", group = "Diagnostics" },

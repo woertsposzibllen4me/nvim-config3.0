@@ -98,7 +98,7 @@ map("c", "<C-p>", "<C-Up>", { desc = "Navigate cmd history (previous)" })
 map("x", "<leader>/", "<Esc>/\\%V", { desc = "Search within selection" })
 
 -- Open file in PyCharm at current line
-map("n", "<leader>bp", function()
+map("n", "<leader>oP", function()
   local path = vim.api.nvim_buf_get_name(0)
   local row = unpack(vim.api.nvim_win_get_cursor(0))
   local command = ("pycharm --line " .. row .. " " .. path .. "")
@@ -270,3 +270,8 @@ map("n", "<leader>rs", function()
     })
   end
 end, { desc = "Generate symbol refactor template" })
+
+-- Open custom log file in new tab
+map("n", "<leader>ol", function()
+  require("config.custom-logging").open_log_file()
+end, { desc = "Open custom log file", icon = "📄" })
