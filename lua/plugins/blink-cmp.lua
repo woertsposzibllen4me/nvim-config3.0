@@ -15,7 +15,6 @@ return {
   config = function()
     local has_luasnip, _ = pcall(require, "luasnip")
     require("blink.cmp").setup({
-      -- Keymap configuration matching your nvim-cmp setup
       keymap = {
         preset = "none",
         ["<Up>"] = { "select_prev", "fallback" },
