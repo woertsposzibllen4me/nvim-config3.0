@@ -17,11 +17,24 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = "*",
   callback = function()
-    -- Allow quitting cmdline window with q
-    vim.api.nvim_buf_set_keymap(0, "n", "q", ":q<CR>", { noremap = true })
-
-    -- Configure window to be floating
+    -- plugin cmp wont work here and cause errors
+    vim.b.completion = false
+    local buf = vim.api.nvim_get_current_buf()
     local win_id = vim.api.nvim_get_current_win()
+
+    -- quit with q
+    vim.keymap.set("n", "q", "<cmd>q<cr>", { buffer = buf, silent = true })
+
+    -- Backspace: close cmdwin but keep its current input in the cmdline
+    vim.keymap.set("n", "<BS>", function()
+      local line = vim.api.nvim_get_current_line() or ""
+      vim.cmd("q")
+      -- feedkeys wants termcodes; also escape any special key notation
+      local keys = ":" .. vim.fn.escape(line, [[\]])
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", true)
+    end, { buffer = buf, silent = true })
+
+    -- float config
     local width = 90
     vim.api.nvim_win_set_config(win_id, {
       relative = "editor",
