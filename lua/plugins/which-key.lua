@@ -23,10 +23,6 @@ return {
       { "<leader>s", group = "Snacks", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
       { "<leader>sg", group = "Git", icon = { icon = "󱥰", hl = "SnacksDashboardKey" } },
 
-      -- Portal
-      { "<leader>o", desc = "Portal Jump Backward", icon = { icon = "󰩈", color = "azure" } },
-      { "<leader>i", desc = "Portal Jump Forward", icon = { icon = "󰩈", color = "azure" } },
-
       -- ] and [ keybinds Alternatives
       { "]'", group = "Alternative next", icon = { icon = "⏭️" } },
       { "['", group = "Alternative previous", icon = { icon = "⏮️" } },
