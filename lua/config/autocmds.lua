@@ -66,6 +66,17 @@ vim.api.nvim_create_autocmd("WinEnter", {
 -- Needs some extra considerations to avoid bugging out with snacks buffer-grep
 _G.processed_help_buffers = _G.processed_help_buffers or {}
 
+local function is_no_neck_pain_active(tabpage)
+  tabpage = tabpage or 0
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tabpage)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == "no-neck-pain" then
+      return true
+    end
+  end
+  return false
+end
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.txt", "*.md" },
   callback = function(args)
@@ -73,7 +84,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
     -- Only process help buffers we haven't seen before (avoid auto-repositioning the buffer when
     -- re-entering it after we moved it manually)
     if vim.bo[bufnr].buftype == "help" and not _G.processed_help_buffers[bufnr] then
-      vim.cmd("wincmd L")
+      -- Dont move if no-neck-pain is active in this tab
+      if not is_no_neck_pain_active() then
+        vim.cmd("wincmd L")
+      end
       -- Mark this buffer as processed
       _G.processed_help_buffers[bufnr] = true
 
