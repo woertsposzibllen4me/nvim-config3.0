@@ -40,7 +40,6 @@ return {
       -- Standalone groups
       { "<leader>f", group = "Telescope" },
       { "<leader>t", group = "Terminal", icon = { icon = "", color = "blue" } },
-      { "<leader>l", group = "Line diffs", icon = { icon = "󰈙", color = "blue" } },
       { "<leader>o", group = "Open..", icon = { icon = "", color = "yellow" } },
       { "<leader>q", group = "Quit/Session", mode = { "n", "v" } },
       { "<leader>n", group = "Notifications" },
@@ -53,7 +52,34 @@ return {
       { "gH", group = "Peek Definitions", icon = { icon = "👁️" } },
       { "gm", group = "Marks", icon = { icon = "✅" } },
 
-      -- Standalone descs
+      -- hierarchical groups
+      { "<leader>l", group = "Line diffs/LSP", icon = { icon = "󰈙 󰒒", color = "blue" } },
+      -- Linediff
+      {
+        "<leader>la",
+        icon = { icon = "󰈙", color = "blue" },
+      },
+      {
+        "<leader>ld",
+        icon = { icon = "󰈙", color = "blue" },
+      },
+      {
+        "<leader>ls",
+        icon = { icon = "󰈙", color = "blue" },
+      },
+      {
+        "<leader>ll",
+        icon = { icon = "󰈙", color = "blue" },
+      },
+      -- LSP
+      {
+        "<leader>lr",
+        icon = { icon = "󰒒", color = "blue" },
+      },
+      {
+        "<leader>li",
+        icon = { icon = "󰒒", color = "blue" },
+      },
 
       -- Unused but considered:
       -- { "<leader>N", desc = "Toggle No Neck Pain", icon = { icon = "☕", color = "blue" } },
