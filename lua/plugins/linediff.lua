@@ -22,7 +22,14 @@ return {
       silent = true,
       nowait = true,
     },
-    { "<leader>ls", ":LinediffShow<cr>", mode = { "v", "n" }, desc = "LinediffShow", noremap = true, silent = true },
+    {
+      "<leader>ls",
+      ":LinediffShow<cr>",
+      mode = { "v", "n" },
+      desc = "LinediffShow",
+      noremap = true,
+      silent = true,
+    },
     {
       "<leader>ll",
       ":LinediffLast<cr>",
