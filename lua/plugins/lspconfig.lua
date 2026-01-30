@@ -202,7 +202,7 @@ return {
         },
         init_options = {
           locale = "en-us",
-          InterpreterPath = "C:/Program Files/AutoHotkey/v2/AutoHotkey.exe",
+          InterpreterPath = "C:/Users/ville/scoop/shims/autohotkey.exe",
         },
         capabilities = capabilities,
         on_attach = custom_attach,
