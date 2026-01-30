@@ -275,3 +275,6 @@ end, { desc = "Generate symbol refactor template" })
 map("n", "<leader>ol", function()
   require("config.custom-logging").open_log_file()
 end, { desc = "Open custom log file", icon = "📄" })
+
+-- Open new tab
+map("n", "<leader>ot", "<cmd>tabnew<cr>", { desc = "new tab" })
