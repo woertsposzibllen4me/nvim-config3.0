@@ -83,7 +83,7 @@ return {
       },
 
       enabled = function()
-        return not vim.list_contains({ "DressingInput", "oil" }, vim.bo.filetype)
+        return not vim.list_contains({ "DressingInput", "oil", "gitcommit" }, vim.bo.filetype)
           and vim.bo.buftype ~= "prompt"
           and vim.b.completion ~= false
       end,
