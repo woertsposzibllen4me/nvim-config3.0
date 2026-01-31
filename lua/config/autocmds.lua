@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = "*",
   callback = function()
-    -- plugin cmp wont work here and cause errors
+    -- cmp wont work or cause visual glitches
     vim.b.completion = false
     local buf = vim.api.nvim_get_current_buf()
     local win_id = vim.api.nvim_get_current_win()
