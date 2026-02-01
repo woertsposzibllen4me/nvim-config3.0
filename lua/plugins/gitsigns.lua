@@ -51,7 +51,7 @@ return {
         local diff_tab_nr = vim.api.nvim_tabpage_get_number(new_tab)
 
         map("n", "q", function()
-          vim.cmd("tabclose")
+          vim.cmd("TabcloseBetter")
         end)
 
         -- close diff tab and jump to current change position
@@ -59,7 +59,7 @@ return {
           local cursor_pos = vim.api.nvim_win_get_cursor(0)
           local current_file = vim.api.nvim_buf_get_name(0)
 
-          vim.cmd("tabclose")
+          vim.cmd("TabcloseBetter")
 
           -- Jump to the same position in the previous tab if it's the same file
           vim.schedule(function()
