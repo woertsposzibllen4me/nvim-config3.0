@@ -20,6 +20,13 @@ return {
       desc = "Push",
     },
     {
+      "<leader>gP",
+      function()
+        require("tinygit").push({ forceWithLease = true })
+      end,
+      desc = "Push (force with lease)",
+    },
+    {
       "<leader>ga",
       "<cmd>Tinygit amendOnlyMsg<cr>",
       desc = "Amend last commit message",
