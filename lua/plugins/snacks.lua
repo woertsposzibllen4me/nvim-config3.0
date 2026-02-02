@@ -91,6 +91,17 @@ return {
       end,
       desc = "Grep Quickfix Files",
     },
+    {
+      "<leader>gm",
+      function()
+        Snacks.picker.git_branches({
+          on_show = function(picker)
+            picker.input:set("branch:")
+          end,
+        })
+      end,
+      desc = "Checkout Branch",
+    },
    -- stylua: ignore start
 
     -- Default grepping (without the finder overriden by egrepify)
@@ -111,7 +122,7 @@ return {
     { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Pick Log Line" },
     { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Pick Log File" },
     { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Pick Log (All)" },
-    { "<leader>gm", function() Snacks.picker.git_branches() end, desc = "Pick Branches" },
+    { "<leader>gM", function() Snacks.picker.git_branches() end, desc = "Pick Branches " },
     { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Pick Status" },
     { "<leader>gt", function() Snacks.picker.git_stash() end, desc = "Pick Stash" },
     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Pick Diff (Hunks)" },
