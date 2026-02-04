@@ -1,5 +1,7 @@
 local M = {}
 local prefixes = {
+  -- TODO: try to add !prefix for negation
+
   -- filter for file suffixes
   ["#"] = {
     flag = "glob",
