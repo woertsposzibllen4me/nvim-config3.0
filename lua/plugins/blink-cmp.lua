@@ -107,7 +107,7 @@ return {
           end
           -- Commands - show cmdline completions
           if type == ":" or type == "@" then
-            return { "cmdline" }
+            return { "cmdline" } -- NOTE: this doesn't seem customizable
           end
           return {}
         end,
