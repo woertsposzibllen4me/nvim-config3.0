@@ -189,6 +189,7 @@ return {
       })
 
       -- AutoHotkey v2 LSP setup
+      -- TODO: set linelenght to 88
       vim.lsp.config("ahk2", {
         cmd = {
           "node",
